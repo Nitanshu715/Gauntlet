@@ -1000,8 +1000,8 @@
         <span class="brand-logo-text">GAUNTLET</span>
       </button>
       <div class="brand-pill">High-Density Telemetry Engine</div>
-      <div class="live-node-badge">
-        <span class="pulsing-dot"></span> Cluster Online (127.0.0.1:8080)
+      <div class="live-node-badge" id="cluster-node-badge">
+        <span class="pulsing-dot"></span> Cluster Online
       </div>
     </div>
     <div class="header-right">
@@ -1200,11 +1200,11 @@
             <span class="badge LOW">Autonomous Agent Ready</span>
           </div>
           <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
-            Enter any local server (e.g. <code style="font-weight: bold; color: var(--brand);">http://127.0.0.1:3000</code> for Aura Botanica Café) or external URL. GAUNTLET’s autonomous agent will fetch, ingest into binary WAL, build Bloom filters, parse AST telemetry, measure drift, and diagnose anomalies.
+            Enter any live web application (e.g. <code style="font-weight: bold; color: var(--brand);">https://swaskiee.github.io/Gauntlet/</code> for Aura Botanica Café) or external URL. GAUNTLET’s autonomous agent will fetch, ingest into binary WAL, build Bloom filters, parse AST telemetry, measure drift, and diagnose anomalies.
           </p>
 
           <div style="display: flex; gap: 0.6rem; margin-bottom: 0.75rem;">
-            <input type="text" id="agentic-url-input" value="http://127.0.0.1:3000" placeholder="https://example.com or http://127.0.0.1:3000" style="margin-bottom: 0;" />
+            <input type="text" id="agentic-url-input" value="https://swaskiee.github.io/Gauntlet/" placeholder="https://swaskiee.github.io/Gauntlet/ or https://example.com" style="margin-bottom: 0;" />
             <button class="btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap;" onclick="executeAgenticCrawl()">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
               Run 6-Phase Agentic Pipeline
@@ -1213,10 +1213,12 @@
 
           <div class="chip-group" style="margin-bottom: 0.75rem;">
             <span style="font-size: 0.74rem; color: var(--text-muted); align-self: center; font-weight: 600;">Quick Probes:</span>
-            <span class="chip" onclick="document.getElementById('agentic-url-input').value='http://127.0.0.1:3000'; executeAgenticCrawl();">Aura Botanica Café (127.0.0.1:3000)</span>
-            <span class="chip" onclick="document.getElementById('agentic-url-input').value='http://127.0.0.1:8080'; executeAgenticCrawl();">Gauntlet API (127.0.0.1:8080)</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://swaskiee.github.io/Gauntlet/'; executeAgenticCrawl();">Aura Botanica (Live)</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://gauntlet-gules.vercel.app'; executeAgenticCrawl();">Gauntlet Vercel</span>
             <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://news.ycombinator.com'; executeAgenticCrawl();">Hacker News</span>
             <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://github.com'; executeAgenticCrawl();">GitHub</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://en.wikipedia.org'; executeAgenticCrawl();">Wikipedia</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://web.whatsapp.com'; executeAgenticCrawl();">WhatsApp Web</span>
           </div>
 
           <!-- AGENTIC PIPELINE STATUS STRIP -->
