@@ -2120,36 +2120,44 @@
         document.getElementById('pipe-p5-val').textContent = `${p.phase_5_time.timeline_count} History Total`;
         document.getElementById('pipe-p6-val').textContent = `${p.phase_6_soul.anomalies_detected} Anomalies Flagged`;
 
+        const contentTypeClean = (data.content_type || 'text/html').toString().split(';')[0];
+        const serverTechClean = data.server_tech || 'Standard Host';
+        const h1Clean = data.h1 || 'No primary heading';
+        const descClean = data.description || 'No meta description defined.';
+        const protoClean = (p.phase_1_power && p.phase_1_power.protocol) || 'HTTP';
+        const statusClean = (p.phase_1_power && p.phase_1_power.status_code) || 200;
+        const hstsClean = (p.phase_1_power && p.phase_1_power.hsts_secure) ? 'YES' : 'NO';
+
         let detailHtml = `
           <div style="background: white; border: 1px solid var(--border); border-radius: 8px; padding: 1.25rem; margin-bottom: 0.75rem;">
             <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 0.8rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
               <div>
-                <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;">${data.title}</div>
-                <div style="font-size: 0.76rem; color: var(--text-muted);">${data.description}</div>
+                <div style="font-size: 1.05rem; font-weight: 800; color: var(--text-main); margin-bottom: 0.25rem;">${data.title || data.entity}</div>
+                <div style="font-size: 0.76rem; color: var(--text-muted);">${descClean}</div>
               </div>
-              <span class="badge LOW" style="font-size: 0.74rem;">${p.phase_1_power.protocol} &bull; HTTP ${p.phase_1_power.status_code}</span>
+              <span class="badge LOW" style="font-size: 0.74rem;">${protoClean} &bull; HTTP ${statusClean}</span>
             </div>
 
             <div class="grid-3" style="margin-bottom: 0.8rem; gap: 0.75rem;">
               <div style="background: var(--surface-subtle); padding: 0.6rem 0.8rem; border-radius: 6px;">
                 <div style="font-size: 0.68rem; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Host & Server Tech</div>
-                <div style="font-family: JetBrains Mono; font-size: 0.82rem; font-weight: 700; color: var(--text-main);">${data.server_tech}</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.82rem; font-weight: 700; color: var(--text-main);">${serverTechClean}</div>
               </div>
               <div style="background: var(--surface-subtle); padding: 0.6rem 0.8rem; border-radius: 6px;">
                 <div style="font-size: 0.68rem; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Primary Heading (H1)</div>
-                <div style="font-size: 0.82rem; font-weight: 700; color: var(--brand); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${data.h1}">${data.h1}</div>
+                <div style="font-size: 0.82rem; font-weight: 700; color: var(--brand); white-space: nowrap; overflow: hidden; text-overflow: ellipsis;" title="${h1Clean}">${h1Clean}</div>
               </div>
               <div style="background: var(--surface-subtle); padding: 0.6rem 0.8rem; border-radius: 6px;">
                 <div style="font-size: 0.68rem; font-weight: 700; color: var(--text-light); text-transform: uppercase;">Payload & MIME</div>
-                <div style="font-family: JetBrains Mono; font-size: 0.82rem; font-weight: 700; color: var(--emerald);">${data.page_size_kb} KB (${data.content_type.split(';')[0]})</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.82rem; font-weight: 700; color: var(--emerald);">${data.page_size_kb || 0} KB (${contentTypeClean})</div>
               </div>
             </div>
 
             <div style="display: flex; gap: 1.5rem; font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 0.6rem;">
-              <span>Links: <strong>${data.links_count}</strong></span>
-              <span>Scripts: <strong>${data.scripts_count}</strong></span>
-              <span>Images: <strong>${data.images_count}</strong></span>
-              <span>HSTS Protected: <strong>${p.phase_1_power.hsts_secure ? 'YES' : 'NO'}</strong></span>
+              <span>Links: <strong>${data.links_count || 0}</strong></span>
+              <span>Scripts: <strong>${data.scripts_count || 0}</strong></span>
+              <span>Images: <strong>${data.images_count || 0}</strong></span>
+              <span>HSTS Protected: <strong>${hstsClean}</strong></span>
               <span>Sample URLs: ${(data.sample_links || []).slice(0, 3).join(', ') || 'Root'}</span>
             </div>
           </div>
