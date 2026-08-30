@@ -180,26 +180,39 @@ class GauntletHTTPHandler(BaseHTTPRequestHandler):
 
             try:
                 start_time = time.perf_counter()
+                import ssl
+                ctx = ssl.create_default_context()
+                ctx.check_hostname = False
+                ctx.verify_mode = ssl.CERT_NONE
+
                 req = urllib.request.Request(
                     url,
-                    headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) GAUNTLET-AgenticCrawler"}
+                    headers={
+                        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36 GAUNTLET-Crawler",
+                        "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+                    }
                 )
                 
                 status_code = 200
                 html_text = ""
+                headers_dict = {}
                 try:
-                    with urllib.request.urlopen(req, timeout=5) as response:
+                    with urllib.request.urlopen(req, timeout=8, context=ctx) as response:
                         status_code = response.getcode()
-                        html_bytes = response.read(100000) # read first 100kb
+                        html_bytes = response.read(150000) # read first 150kb
                         html_text = html_bytes.decode('utf-8', errors='ignore')
                         headers_dict = dict(response.info())
                 except urllib.error.HTTPError as e:
                     status_code = e.code
                     html_text = e.read().decode('utf-8', errors='ignore')
                     headers_dict = dict(e.headers)
+                except urllib.error.URLError as ue:
+                    status_code = 502
+                    html_text = f"Connection refused or unreachable: {str(ue.reason)}"
+                    headers_dict = {}
                 except Exception as ex:
                     status_code = 504
-                    html_text = f"Connection failed: {str(ex)}"
+                    html_text = f"Gateway connection error: {str(ex)}"
                     headers_dict = {}
 
                 latency_ms = round((time.perf_counter() - start_time) * 1000, 2)
