@@ -570,11 +570,12 @@
     }
 
     .table-wrap {
-      overflow-x: auto;
+      overflow-x: hidden;
       border: 1px solid var(--border);
       border-radius: 8px;
       max-height: 480px;
       overflow-y: auto;
+      width: 100%;
     }
 
     canvas.telemetry-chart {
@@ -585,28 +586,39 @@
 
     table {
       width: 100%;
+      table-layout: fixed;
       border-collapse: collapse;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       text-align: left;
     }
 
     th, td {
-      padding: 0.85rem 1.1rem;
+      padding: 0.75rem 0.75rem;
       border-bottom: 1px solid var(--border);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
     th {
       background: var(--surface-subtle);
       color: var(--text-muted);
       font-weight: 700;
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
       position: sticky;
       top: 0;
       z-index: 10;
     }
+
+    /* Column widths for perfect 100% fitting without horizontal scroll */
+    th:nth-child(1), td:nth-child(1) { width: 22%; }
+    th:nth-child(2), td:nth-child(2) { width: 20%; }
+    th:nth-child(3), td:nth-child(3) { width: 20%; }
+    th:nth-child(4), td:nth-child(4) { width: 18%; }
+    th:nth-child(5), td:nth-child(5) { width: 20%; }
 
     tbody tr:last-child td { border-bottom: none; }
     tbody tr:hover { background: #f8fafc; }
@@ -1267,18 +1279,18 @@
           
           let valBadge = '';
           if (type === 'deployment') {
-            valBadge = `<span class="badge" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">${val}</span>`;
+            valBadge = `<span class="badge" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val}</span>`;
           } else if (type === 'errors') {
-            valBadge = Number(val) > 10 ? `<span class="badge HIGH">${val} err</span>` : `<span class="badge LOW">${val} err</span>`;
+            valBadge = Number(val) > 10 ? `<span class="badge HIGH" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val} err</span>` : `<span class="badge LOW" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val} err</span>`;
           } else if (type === 'cpu') {
-            valBadge = Number(val) > 80 ? `<span class="badge CRITICAL">${val}%</span>` : `<span style="font-weight: 700; color: var(--text-main);">${val}%</span>`;
+            valBadge = Number(val) > 80 ? `<span class="badge CRITICAL" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val}%</span>` : `<span style="font-weight: 700; color: var(--text-main);">${val}%</span>`;
           } else if (type === 'memory') {
-            valBadge = Number(val) > 75 ? `<span class="badge MEDIUM">${val}%</span>` : `<span style="font-weight: 700; color: var(--text-main);">${val}%</span>`;
+            valBadge = Number(val) > 75 ? `<span class="badge MEDIUM" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val}%</span>` : `<span style="font-weight: 700; color: var(--text-main);">${val}%</span>`;
           } else {
             valBadge = `<span style="font-weight: 700; color: var(--text-main);">${val}</span>`;
           }
           
-          html += `<tr><td style="color: var(--text-muted); font-size: 0.78rem;">${ts}</td><td><span class="badge" style="background: var(--surface-subtle); color: var(--text-main); border: 1px solid var(--border);">${entity}</span></td><td><strong style="color: var(--text-muted); text-transform: uppercase; font-size: 0.72rem;">${type}</strong></td><td>${valBadge}</td><td style="color: var(--text-light); font-size: 0.72rem; font-family: 'JetBrains Mono', monospace;">${eid.substring(0, 12)}...</td></tr>`;
+          html += `<tr><td style="color: var(--text-muted); font-size: 0.76rem;">${ts}</td><td><span class="badge" style="background: var(--surface-subtle); color: var(--text-main); border: 1px solid var(--border); font-size: 0.68rem; padding: 0.15rem 0.35rem;">${entity}</span></td><td><strong style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem;">${type}</strong></td><td>${valBadge}</td><td style="color: var(--text-light); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;" title="${eid}">${eid.substring(0, 8)}...</td></tr>`;
           if (type === currentTimelineMetric && !isNaN(Number(val))) {
             chartPoints.push({ t: Number(ts), v: Number(val) });
           }
