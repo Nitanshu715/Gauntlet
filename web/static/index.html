@@ -374,14 +374,16 @@
     }
 
     .telemetry-label {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.06em;
+      letter-spacing: 0.05em;
       margin-bottom: 0.5rem;
       display: flex;
       justify-content: space-between;
+      align-items: center;
+      white-space: nowrap;
     }
 
     .telemetry-val {
@@ -396,7 +398,8 @@
       font-size: 0.72rem;
       color: var(--text-light);
       margin-top: 0.35rem;
-      font-family: 'JetBrains Mono', monospace;
+      font-family: 'Inter', sans-serif;
+      white-space: nowrap;
     }
 
     /* CARDS & CONTAINERS */
@@ -1008,29 +1011,29 @@
       <!-- KPI TELEMETRY STRIP -->
       <div class="telemetry-row">
         <div class="telemetry-card">
-          <div class="telemetry-label"><span>System Health</span><span style="color: var(--emerald);">CRC32 OK</span></div>
+          <div class="telemetry-label"><span>System Health</span><span style="color: var(--emerald);">CRC32 PASS</span></div>
           <div class="telemetry-val" id="stat-health" style="color: var(--emerald);">HEALTHY</div>
           <div class="telemetry-sub">Zero Corruptions</div>
         </div>
         <div class="telemetry-card">
-          <div class="telemetry-label"><span>Total Events</span><span>DISK + WAL</span></div>
+          <div class="telemetry-label"><span>Total Events</span><span style="color: var(--brand);">DISK+WAL</span></div>
           <div class="telemetry-val" id="stat-records">0</div>
-          <div class="telemetry-sub">Authoritative Count</div>
+          <div class="telemetry-sub">Authoritative Total</div>
         </div>
         <div class="telemetry-card">
-          <div class="telemetry-label"><span>Segments (.gt)</span><span>IMMUTABLE</span></div>
+          <div class="telemetry-label"><span>Segments (.gt)</span><span style="color: var(--cyan);">IMMUTABLE</span></div>
           <div class="telemetry-val" id="stat-segments">0</div>
           <div class="telemetry-sub">Persistent Files</div>
         </div>
         <div class="telemetry-card">
-          <div class="telemetry-label"><span>Memtable Size</span><span>IN-MEMORY</span></div>
+          <div class="telemetry-label"><span>Memtable Size</span><span style="color: var(--amber);">ACTIVE</span></div>
           <div class="telemetry-val" id="stat-memtable">0</div>
-          <div class="telemetry-sub">Write Buffer</div>
+          <div class="telemetry-sub">In-Memory Buffer</div>
         </div>
         <div class="telemetry-card">
-          <div class="telemetry-label"><span>WAL Size</span><span>APPEND-ONLY</span></div>
+          <div class="telemetry-label"><span>WAL Size</span><span style="color: var(--rose);">APPEND-ONLY</span></div>
           <div class="telemetry-val" id="stat-wal">0 B</div>
-          <div class="telemetry-sub">Write Ahead Log</div>
+          <div class="telemetry-sub">Write-Ahead Log</div>
         </div>
       </div>
 
