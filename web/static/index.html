@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GAUNTLET — Enterprise Temporal Analytics & Data Engine</title>
+  <title>GAUNTLET — Enterprise Temporal Analytics & Storage Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --bg: #f8fafc;
@@ -54,13 +54,13 @@
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 0.85rem 2rem;
+      padding: 0.85rem 2.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
-      z-index: 50;
+      z-index: 100;
       box-shadow: var(--shadow-sm);
     }
 
@@ -78,6 +78,7 @@
       font-weight: 800;
       letter-spacing: -0.02em;
       color: var(--brand-primary);
+      text-decoration: none;
     }
 
     .brand-pill {
@@ -94,16 +95,16 @@
 
     .nav-tabs {
       display: flex;
-      gap: 0.25rem;
+      gap: 0.35rem;
       background: var(--surface-subtle);
-      padding: 0.25rem;
+      padding: 0.3rem;
       border-radius: 8px;
       border: 1px solid var(--border);
     }
 
     .nav-item {
-      padding: 0.45rem 1rem;
-      font-size: 0.82rem;
+      padding: 0.5rem 1.1rem;
+      font-size: 0.84rem;
       font-weight: 600;
       color: var(--text-muted);
       border-radius: 6px;
@@ -113,20 +114,20 @@
       transition: all 0.15s ease;
       display: flex;
       align-items: center;
-      gap: 0.4rem;
+      gap: 0.5rem;
     }
 
-    .nav-item:hover { color: var(--text-main); }
+    .nav-item:hover { color: var(--text-main); background: rgba(0,0,0,0.03); }
     .nav-item.active {
-      background: var(--surface);
-      color: var(--brand-primary);
+      background: var(--surface) !important;
+      color: var(--brand-primary) !important;
       box-shadow: var(--shadow-sm);
       font-weight: 700;
     }
 
     .dot-indicator {
-      width: 6px;
-      height: 6px;
+      width: 8px;
+      height: 8px;
       border-radius: 50%;
     }
 
@@ -139,13 +140,13 @@
 
     main {
       flex: 1;
-      padding: 2rem 2.5rem;
+      padding: 2rem 3rem;
       max-width: 1600px;
       margin: 0 auto;
       width: 100%;
     }
 
-    /* STATS STRIP */
+    /* KPI METRIC STRIP */
     .kpi-row {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -162,16 +163,16 @@
     }
 
     .kpi-title {
-      font-size: 0.78rem;
-      font-weight: 600;
+      font-size: 0.76rem;
+      font-weight: 700;
       color: var(--text-muted);
       text-transform: uppercase;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.05em;
       margin-bottom: 0.4rem;
     }
 
     .kpi-val {
-      font-size: 1.75rem;
+      font-size: 1.85rem;
       font-weight: 800;
       font-family: 'JetBrains Mono', monospace;
       color: var(--text-main);
@@ -206,18 +207,18 @@
     }
 
     .panel-title {
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       font-weight: 700;
       color: var(--text-main);
       display: flex;
       align-items: center;
-      gap: 0.5rem;
+      gap: 0.6rem;
     }
 
     .panel-badge {
       font-size: 0.75rem;
       font-weight: 600;
-      padding: 0.2rem 0.5rem;
+      padding: 0.25rem 0.6rem;
       border-radius: 4px;
       background: var(--surface-subtle);
       color: var(--text-muted);
@@ -246,6 +247,7 @@
       display: flex;
       gap: 0.75rem;
       align-items: center;
+      flex-wrap: wrap;
     }
 
     button.btn-primary {
@@ -276,6 +278,31 @@
     }
 
     button.btn-secondary:hover { background: var(--surface-subtle); }
+
+    .query-presets {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1.25rem;
+      flex-wrap: wrap;
+    }
+
+    .preset-pill {
+      font-size: 0.76rem;
+      font-family: 'JetBrains Mono', monospace;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.75rem;
+      border-radius: 6px;
+      cursor: pointer;
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+    }
+
+    .preset-pill:hover {
+      background: #e0e7ff;
+      color: var(--brand-primary);
+      border-color: #c7d2fe;
+    }
 
     /* CHARTS */
     .chart-box {
@@ -308,7 +335,7 @@
     }
 
     th, td {
-      padding: 0.85rem 1.25rem;
+      padding: 0.9rem 1.25rem;
       border-bottom: 1px solid var(--border);
     }
 
@@ -367,6 +394,7 @@
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem;
       color: var(--text-muted);
+      flex-wrap: wrap;
     }
   </style>
 </head>
@@ -417,9 +445,19 @@
           <div class="panel-title">Phase I: Ingestion & Validation Pipeline</div>
           <span class="panel-badge">Append-Only Binary WAL</span>
         </div>
+        
+        <div class="query-presets">
+          <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center; font-weight: 600;">Sample Templates:</span>
+          <span class="preset-pill" onclick="setIngestSample('cpu')">CPU Metric Event</span>
+          <span class="preset-pill" onclick="setIngestSample('memory')">Memory Metric Event</span>
+          <span class="preset-pill" onclick="setIngestSample('deployment')">Deployment Mutation</span>
+          <span class="preset-pill" onclick="setIngestSample('errors')">Error Spike Event</span>
+        </div>
+
         <textarea id="ingest-json" rows="4" placeholder='{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 94.2, "attributes": {"region": "us-east"}}'></textarea>
+        
         <div class="btn-group">
-          <button class="btn-primary" onclick="submitEvent()">Ingest Event</button>
+          <button class="btn-primary" onclick="submitEvent()">Ingest Single Event</button>
           <button class="btn-secondary" onclick="loadSampleData()">Load Flagship Dataset (13 Events)</button>
         </div>
         <div id="ingest-feedback" style="margin-top: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;"></div>
@@ -460,6 +498,15 @@
           <div class="panel-title">Phase IV: Mind Query Planner & DSL Console</div>
           <span id="query-stats" style="font-size: 0.82rem; font-family: 'JetBrains Mono', monospace; color: var(--brand-primary); font-weight: 600;"></span>
         </div>
+
+        <div class="query-presets">
+          <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center; font-weight: 600;">Quick Query Presets:</span>
+          <span class="preset-pill" onclick="setQuery('FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC')">CPU > 50</span>
+          <span class="preset-pill" onclick="setQuery('FIND memory FROM server-42 WHERE value >= 48 ORDER BY timestamp DESC')">Memory >= 48</span>
+          <span class="preset-pill" onclick="setQuery('FIND errors FROM server-42 WHERE value > 0 ORDER BY timestamp ASC')">Errors > 0</span>
+          <span class="preset-pill" onclick="setQuery('FIND deployment FROM server-42 ORDER BY timestamp ASC')">Deployments</span>
+        </div>
+
         <input type="text" id="query-string" value='FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC' />
         <button class="btn-primary" onclick="runQuery()">Execute Query Plan</button>
         <div class="table-container" id="query-results-table" style="margin-top: 1.5rem;"></div>
@@ -498,14 +545,38 @@
     function switchTab(stone) {
       document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(d => d.classList.remove('active'));
-      document.querySelector(`.nav-item.${stone}`).classList.add('active');
-      document.getElementById(`tab-${stone}`).classList.add('active');
+      
+      const targetNav = document.querySelector(`.nav-item.${stone}`);
+      const targetContent = document.getElementById(`tab-${stone}`);
+      
+      if (targetNav) targetNav.classList.add('active');
+      if (targetContent) targetContent.classList.add('active');
 
       if (stone === 'space') loadStats();
       if (stone === 'reality') loadRealityInfo();
       if (stone === 'mind') runQuery();
       if (stone === 'time') loadTimeline();
       if (stone === 'soul') runDiagnostics('server-42');
+    }
+
+    function setQuery(queryText) {
+      document.getElementById('query-string').value = queryText;
+      runQuery();
+    }
+
+    function setIngestSample(type) {
+      const ts = Math.floor(Date.now() / 1000);
+      let payload = {};
+      if (type === 'cpu') {
+        payload = { entity: "server-42", timestamp: ts, type: "cpu", value: 92.5, attributes: { host: "prod-node-1" } };
+      } else if (type === 'memory') {
+        payload = { entity: "server-42", timestamp: ts, type: "memory", value: 84.1, attributes: { host: "prod-node-1" } };
+      } else if (type === 'deployment') {
+        payload = { entity: "server-42", timestamp: ts, type: "deployment", value: "v2.9.0-hotfix", attributes: { author: "releng" } };
+      } else if (type === 'errors') {
+        payload = { entity: "server-42", timestamp: ts, type: "errors", value: 38, attributes: { host: "prod-node-1" } };
+      }
+      document.getElementById('ingest-json').value = JSON.stringify(payload, null, 2);
     }
 
     async function loadStats() {
@@ -725,3 +796,4 @@
   </script>
 </body>
 </html>
+
