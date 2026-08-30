@@ -182,7 +182,7 @@ class GauntletHTTPHandler(BaseHTTPRequestHandler):
                 start_time = time.perf_counter()
                 req = urllib.request.Request(
                     url,
-                    headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) GAUNTLET/2.0-AgenticCrawler"}
+                    headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) GAUNTLET-AgenticCrawler"}
                 )
                 
                 status_code = 200
