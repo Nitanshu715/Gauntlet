@@ -208,15 +208,32 @@ class GauntletHTTPHandler(BaseHTTPRequestHandler):
                 title_match = re.search(r'<title>(.*?)</title>', html_text, re.IGNORECASE | re.DOTALL)
                 site_title = title_match.group(1).strip() if title_match else "Unknown Domain"
 
-                # Parse domain entity name
+                # Extract Meta Description & Headings
+                meta_desc_match = re.search(r'<meta[^>]*name=[\'"]description[\'"][^>]*content=[\'"](.*?)[\'"]', html_text, re.IGNORECASE)
+                site_description = meta_desc_match.group(1).strip() if meta_desc_match else "No meta description defined."
+
+                h1_match = re.search(r'<h1[^>]*>(.*?)</h1>', html_text, re.IGNORECASE | re.DOTALL)
+                site_h1 = re.sub(r'<[^>]+>', '', h1_match.group(1)).strip() if h1_match else "No primary heading"
+
+                # Parse domain entity name and protocol
                 parsed_url = urllib.parse.urlparse(url)
                 entity_name = parsed_url.netloc or "web-target"
+                protocol = parsed_url.scheme.upper()
 
-                # Extract Links count, script count, DOM size
-                links_count = len(re.findall(r'href=[\'"]?([^\'" >]+)', html_text, re.IGNORECASE))
+                # Extract Links, Scripts, Images, and Forms
+                all_links = re.findall(r'href=[\'"]?([^\'" >]+)', html_text, re.IGNORECASE)
+                sample_links = [l for l in all_links if l.startswith(('http', '/'))][:5]
+                links_count = len(all_links)
                 scripts_count = len(re.findall(r'<script', html_text, re.IGNORECASE))
                 images_count = len(re.findall(r'<img', html_text, re.IGNORECASE))
+                forms_count = len(re.findall(r'<form', html_text, re.IGNORECASE))
                 page_size_kb = round(len(html_text.encode('utf-8')) / 1024, 2)
+
+                # Extract Real Headers
+                server_tech = headers_dict.get('Server', headers_dict.get('server', 'Standard HTTP Host'))
+                content_type = headers_dict.get('Content-Type', headers_dict.get('content-type', 'text/html'))
+                encoding = headers_dict.get('Content-Encoding', headers_dict.get('content-encoding', 'none'))
+                security_hsts = 'Strict-Transport-Security' in headers_dict or 'strict-transport-security' in headers_dict
 
                 # Deep Live Web Probe: Perform 4 real consecutive HTTP measurements to form realistic temporal baseline
                 bench_samples = []
@@ -306,8 +323,13 @@ class GauntletHTTPHandler(BaseHTTPRequestHandler):
                         "name": "Phase I: Power (Ingest & Fetch)",
                         "status": "COMPLETED",
                         "target_url": url,
+                        "protocol": protocol,
                         "status_code": status_code,
                         "latency_ms": latency_ms,
+                        "server_tech": server_tech,
+                        "content_type": content_type,
+                        "encoding": encoding,
+                        "hsts_secure": security_hsts,
                         "timestamp": now_ts
                     },
                     "phase_2_space": {
@@ -322,9 +344,13 @@ class GauntletHTTPHandler(BaseHTTPRequestHandler):
                         "status": "INDEXED",
                         "entity": entity_name,
                         "title": site_title,
+                        "description": site_description,
+                        "primary_heading": site_h1,
                         "links_found": links_count,
                         "scripts_found": scripts_count,
-                        "images_found": images_count
+                        "images_found": images_count,
+                        "forms_found": forms_count,
+                        "sample_links": sample_links
                     },
                     "phase_4_mind": {
                         "name": "Phase IV: Mind (DSL AST & Filtering)",
@@ -335,7 +361,7 @@ class GauntletHTTPHandler(BaseHTTPRequestHandler):
                     "phase_5_time": {
                         "name": "Phase V: Time (Temporal Drift & Windows)",
                         "status": "ANALYZED",
-                        "window_span": f"{now_ts} -> {now_ts + 5}",
+                        "window_span": f"{now_ts - 45} -> {now_ts + 3}",
                         "timeline_count": len(all_entity_events)
                     },
                     "phase_6_soul": {
@@ -351,6 +377,15 @@ class GauntletHTTPHandler(BaseHTTPRequestHandler):
                     "entity": entity_name,
                     "url": url,
                     "title": site_title,
+                    "description": site_description,
+                    "h1": site_h1,
+                    "server_tech": server_tech,
+                    "content_type": content_type,
+                    "page_size_kb": page_size_kb,
+                    "links_count": links_count,
+                    "scripts_count": scripts_count,
+                    "images_count": images_count,
+                    "sample_links": sample_links,
                     "pipeline": pipeline_trace,
                     "events_count": len(events_to_ingest)
                 })
