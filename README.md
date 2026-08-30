@@ -1,9 +1,6 @@
-# Gauntlet
 <p align="center">
-  <img src="Logo.png" alt="GAUNTLET Logo" width="260"/>
+  <img src="Logo.png" alt="GAUNTLET Logo" width="280"/>
 </p>
-
-<h1 align="center">GAUNTLET</h1>
 
 <p align="center">
   <strong>Temporal Data & Analytics Engine</strong><br/>
