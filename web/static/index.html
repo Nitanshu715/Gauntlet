@@ -110,17 +110,36 @@
       border-radius: 20px;
     }
 
-    .pulsing-dot {
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background: var(--emerald);
-      animation: pulseGlow 1.5s infinite;
+    /* ADVANCED ANIMATIONS & MICRO-INTERACTIONS */
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 1; box-shadow: 0 0 0 0 rgba(5, 150, 105, 0.4); }
+      50% { transform: scale(1.15); opacity: 0.8; box-shadow: 0 0 8px 3px rgba(5, 150, 105, 0.3); }
     }
 
-    @keyframes pulseGlow {
-      0%, 100% { transform: scale(1); opacity: 1; }
-      50% { transform: scale(1.4); opacity: 0.6; }
+    @keyframes shimmerBar {
+      0% { background-position: -200% 0; }
+      100% { background-position: 200% 0; }
+    }
+
+    @keyframes livePipGlow {
+      0%, 100% { box-shadow: 0 0 0 rgba(37, 99, 235, 0); }
+      50% { box-shadow: 0 0 12px rgba(37, 99, 235, 0.45); }
+    }
+
+    @keyframes activePhaseBounce {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-4px); }
+    }
+
+    .pipeline-shimmer-running {
+      background: linear-gradient(90deg, #eff6ff 0%, #dbeafe 50%, #eff6ff 100%);
+      background-size: 200% 100%;
+      animation: shimmerBar 1.5s infinite;
+    }
+
+    .stat-card.active-phase {
+      animation: activePhaseBounce 1s ease infinite, livePipGlow 1.5s infinite;
+      border-color: var(--brand) !important;
     }
 
     .header-right {
