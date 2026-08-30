@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GAUNTLET — Enterprise Temporal Analytics Platform</title>
+  <title>GAUNTLET — Enterprise Temporal Intelligence & High-Frequency Telemetry Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -12,33 +12,33 @@
       --bg: #f8fafc;
       --surface: #ffffff;
       --surface-subtle: #f1f5f9;
+      --surface-muted: #e2e8f0;
       --border: #e2e8f0;
+      --border-dark: #cbd5e1;
       --border-focus: #2563eb;
       
       --text-main: #0f172a;
-      --text-muted: #64748b;
+      --text-muted: #475569;
       --text-light: #94a3b8;
 
-      --brand-primary: #2563eb;
-      --brand-primary-hover: #1d4ed8;
+      --brand: #2563eb;
+      --brand-hover: #1d4ed8;
+      --brand-subtle: #eff6ff;
 
-      --stone-power: #7c3aed;
-      --stone-space: #2563eb;
-      --stone-reality: #dc2626;
-      --stone-mind: #d97706;
-      --stone-time: #059669;
-      --stone-soul: #ea580c;
+      --emerald: #059669;
+      --emerald-subtle: #ecfdf5;
+      --rose: #e11d48;
+      --rose-subtle: #fff1f2;
+      --amber: #d97706;
+      --amber-subtle: #fffbeb;
+      --violet: #7c3aed;
+      --violet-subtle: #f5f3ff;
+      --cyan: #0891b2;
 
-      --success-bg: #ecfdf5;
-      --success-text: #047857;
-      --danger-bg: #fef2f2;
-      --danger-text: #b91c1c;
-      --warning-bg: #fffbeb;
-      --warning-text: #b45309;
-
-      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
-      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-xs: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.08);
+      --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.08), 0 2px 4px -2px rgba(0, 0, 0, 0.04);
+      --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -4px rgba(0, 0, 0, 0.04);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -49,136 +49,144 @@
       min-height: 100vh;
       display: flex;
       flex-direction: column;
+      font-size: 13px;
     }
 
-    /* TOP HEADER */
+    /* TOP NAVIGATION */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
-      padding: 0.75rem 2rem;
+      padding: 0.6rem 1.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
       position: sticky;
       top: 0;
       z-index: 100;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-xs);
     }
 
     .header-left {
       display: flex;
       align-items: center;
-      gap: 1.5rem;
+      gap: 1.25rem;
     }
 
     .brand-logo {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
-      font-size: 1.25rem;
+      gap: 0.5rem;
+      font-size: 1.15rem;
       font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--brand-primary);
+      letter-spacing: -0.03em;
+      color: var(--text-main);
       text-decoration: none;
     }
 
+    .brand-logo svg { color: var(--brand); }
+
     .brand-pill {
-      font-size: 0.72rem;
+      font-size: 0.7rem;
       font-weight: 700;
       color: var(--text-muted);
       background: var(--surface-subtle);
       border: 1px solid var(--border);
-      padding: 0.2rem 0.6rem;
-      border-radius: 6px;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
       text-transform: uppercase;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
+    }
+
+    .live-node-badge {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.72rem;
+      font-weight: 600;
+      color: var(--emerald);
+      background: var(--emerald-subtle);
+      border: 1px solid #a7f3d0;
+      padding: 0.2rem 0.55rem;
+      border-radius: 20px;
+    }
+
+    .pulsing-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--emerald);
+      animation: pulseGlow 1.5s infinite;
+    }
+
+    @keyframes pulseGlow {
+      0%, 100% { transform: scale(1); opacity: 1; }
+      50% { transform: scale(1.4); opacity: 0.6; }
     }
 
     .header-right {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
-    .user-profile-badge {
-      display: flex;
-      align-items: center;
-      gap: 0.65rem;
+    .cluster-status-pill {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      color: var(--text-muted);
       background: var(--surface-subtle);
       border: 1px solid var(--border);
-      padding: 0.35rem 0.85rem;
-      border-radius: 20px;
-      cursor: pointer;
-      font-size: 0.82rem;
-      font-weight: 600;
-      color: var(--text-main);
-      transition: all 0.15s ease;
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
     }
 
-    .user-profile-badge:hover {
-      background: #e2e8f0;
-    }
-
-    .user-avatar {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      background: var(--brand-primary);
-      color: white;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 0.75rem;
-      font-weight: 700;
-    }
-
-    /* APP LAYOUT WITH SIDEBAR */
-    .app-container {
+    /* MAIN APP WORKSPACE */
+    .app-workspace {
       display: flex;
       flex: 1;
-      min-height: calc(100vh - 61px);
+      min-height: calc(100vh - 49px);
     }
 
     /* SIDEBAR */
     aside.sidebar {
-      width: 260px;
+      width: 240px;
       background: var(--surface);
       border-right: 1px solid var(--border);
-      padding: 1.5rem 1rem;
+      padding: 1.25rem 0.75rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
+      flex-shrink: 0;
     }
 
     .sidebar-section {
-      margin-bottom: 1.75rem;
+      margin-bottom: 1.5rem;
     }
 
     .sidebar-heading {
-      font-size: 0.72rem;
+      font-size: 0.68rem;
       font-weight: 700;
       color: var(--text-light);
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      padding: 0 0.75rem 0.6rem;
+      padding: 0 0.6rem 0.5rem;
     }
 
     .sidebar-menu {
       display: flex;
       flex-direction: column;
-      gap: 0.25rem;
+      gap: 0.2rem;
     }
 
     .sidebar-btn {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      padding: 0.6rem 0.85rem;
-      border-radius: 8px;
+      justify-content: space-between;
+      padding: 0.5rem 0.75rem;
+      border-radius: 6px;
       border: none;
       background: transparent;
       color: var(--text-muted);
-      font-size: 0.86rem;
+      font-size: 0.82rem;
       font-weight: 600;
       cursor: pointer;
       text-align: left;
@@ -192,233 +200,275 @@
     }
 
     .sidebar-btn.active {
-      background: #eff6ff;
-      color: var(--brand-primary);
+      background: var(--brand-subtle);
+      color: var(--brand);
       font-weight: 700;
     }
 
-    .dot-indicator {
-      width: 8px;
-      height: 8px;
-      border-radius: 50%;
-    }
-
-    .sidebar-btn.power .dot-indicator { background: var(--stone-power); }
-    .sidebar-btn.space .dot-indicator { background: var(--stone-space); }
-    .sidebar-btn.reality .dot-indicator { background: var(--stone-reality); }
-    .sidebar-btn.mind .dot-indicator { background: var(--stone-mind); }
-    .sidebar-btn.time .dot-indicator { background: var(--stone-time); }
-    .sidebar-btn.soul .dot-indicator { background: var(--stone-soul); }
-    .sidebar-btn.simulator .dot-indicator { background: #ea580c; }
-    .sidebar-btn.hex .dot-indicator { background: #0284c7; }
-    .sidebar-btn.profile .dot-indicator { background: #64748b; }
-
-    /* MAIN CONTENT VIEW */
-    main.content-view {
-      flex: 1;
-      padding: 2rem 2.5rem;
-      max-width: 1500px;
-      overflow-y: auto;
-    }
-
-    /* KPI METRIC STRIP */
-    .kpi-row {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
-      margin-bottom: 2rem;
-    }
-
-    .kpi-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.25rem 1.5rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .kpi-title {
-      font-size: 0.76rem;
-      font-weight: 700;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      margin-bottom: 0.4rem;
-    }
-
-    .kpi-val {
-      font-size: 1.85rem;
-      font-weight: 800;
-      font-family: 'JetBrains Mono', monospace;
-      color: var(--text-main);
-      letter-spacing: -0.02em;
-    }
-
-    /* CARD PANELS */
-    .tab-content { display: none; }
-    .tab-content.active { display: block; animation: fadeIn 0.2s ease-in-out; }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(4px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    .card-panel {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.75rem 2rem;
-      margin-bottom: 1.75rem;
-      box-shadow: var(--shadow-sm);
-    }
-
-    .panel-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .panel-title {
-      font-size: 1.15rem;
-      font-weight: 700;
-      color: var(--text-main);
+    .sidebar-btn-left {
       display: flex;
       align-items: center;
       gap: 0.6rem;
     }
 
-    .panel-badge {
-      font-size: 0.75rem;
-      font-weight: 600;
-      padding: 0.25rem 0.6rem;
+    .dot-tag {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+    }
+
+    .sidebar-badge {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.68rem;
+      padding: 0.1rem 0.35rem;
       border-radius: 4px;
       background: var(--surface-subtle);
       color: var(--text-muted);
+      font-weight: 600;
     }
 
-    textarea, input {
-      width: 100%;
+    .sidebar-btn.active .sidebar-badge {
+      background: #dbeafe;
+      color: var(--brand);
+    }
+
+    /* MAIN VIEWPORT */
+    main.viewport {
+      flex: 1;
+      padding: 1.5rem 2rem;
+      overflow-y: auto;
+      max-width: 1600px;
+    }
+
+    /* TOP METRICS TELEMETRY BAR */
+    .telemetry-row {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .telemetry-card {
       background: var(--surface);
       border: 1px solid var(--border);
       border-radius: 8px;
-      padding: 0.85rem 1.1rem;
+      padding: 0.9rem 1.1rem;
+      box-shadow: var(--shadow-xs);
+      position: relative;
+    }
+
+    .telemetry-label {
+      font-size: 0.7rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      margin-bottom: 0.3rem;
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .telemetry-val {
+      font-size: 1.5rem;
+      font-weight: 800;
+      font-family: 'JetBrains Mono', monospace;
+      color: var(--text-main);
+      letter-spacing: -0.03em;
+    }
+
+    .telemetry-sub {
+      font-size: 0.7rem;
+      color: var(--text-light);
+      margin-top: 0.2rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* CARDS & CONTAINERS */
+    .view-panel { display: none; }
+    .view-panel.active { display: block; animation: fadeIn 0.15s ease-in-out; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(3px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .content-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.4rem;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .box-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.85rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .box-title {
+      font-size: 0.98rem;
+      font-weight: 700;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .box-meta {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* CONTROLS */
+    textarea, input, select {
+      width: 100%;
+      background: var(--surface);
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      padding: 0.65rem 0.9rem;
       color: var(--text-main);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.88rem;
-      margin-bottom: 1.25rem;
+      font-size: 0.84rem;
+      margin-bottom: 1rem;
       transition: all 0.15s ease;
     }
 
-    textarea:focus, input:focus {
+    textarea:focus, input:focus, select:focus {
       outline: none;
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
     }
 
-    .btn-group {
+    .btn-row {
       display: flex;
-      gap: 0.75rem;
+      gap: 0.6rem;
       align-items: center;
       flex-wrap: wrap;
     }
 
     button.btn-primary {
-      background: var(--brand-primary);
+      background: var(--brand);
       color: white;
       font-weight: 600;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       border: none;
-      padding: 0.75rem 1.5rem;
-      border-radius: 8px;
+      padding: 0.6rem 1.1rem;
+      border-radius: 6px;
       cursor: pointer;
       transition: all 0.15s ease;
-      box-shadow: var(--shadow-sm);
+      box-shadow: var(--shadow-xs);
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
-    button.btn-primary:hover { background: var(--brand-primary-hover); }
+    button.btn-primary:hover { background: var(--brand-hover); }
 
     button.btn-secondary {
       background: var(--surface);
       color: var(--text-main);
       font-weight: 600;
-      font-size: 0.85rem;
-      border: 1px solid var(--border);
-      padding: 0.75rem 1.35rem;
-      border-radius: 8px;
+      font-size: 0.8rem;
+      border: 1px solid var(--border-dark);
+      padding: 0.6rem 1rem;
+      border-radius: 6px;
       cursor: pointer;
       transition: all 0.15s ease;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
     }
 
     button.btn-secondary:hover { background: var(--surface-subtle); }
 
-    .query-presets {
+    .chip-group {
       display: flex;
-      gap: 0.5rem;
-      margin-bottom: 1.25rem;
+      gap: 0.4rem;
+      margin-bottom: 1rem;
       flex-wrap: wrap;
     }
 
-    .preset-pill {
-      font-size: 0.76rem;
+    .chip {
+      font-size: 0.74rem;
       font-family: 'JetBrains Mono', monospace;
       background: var(--surface-subtle);
       border: 1px solid var(--border);
-      padding: 0.35rem 0.75rem;
-      border-radius: 6px;
+      padding: 0.25rem 0.6rem;
+      border-radius: 5px;
       cursor: pointer;
       color: var(--text-muted);
-      transition: all 0.15s ease;
+      transition: all 0.12s ease;
     }
 
-    .preset-pill:hover, .preset-pill.active {
-      background: #e0e7ff;
-      color: var(--brand-primary);
-      border-color: #c7d2fe;
+    .chip:hover, .chip.active {
+      background: var(--brand-subtle);
+      color: var(--brand);
+      border-color: #bfdbfe;
+      font-weight: 600;
+    }
+
+    /* MULTI-PANE GRID */
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .grid-3 {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.25rem;
     }
 
     /* CHARTS */
-    .chart-box {
+    .chart-container {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 10px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
+      border-radius: 8px;
+      padding: 1.1rem;
+      margin-bottom: 1.25rem;
     }
 
-    canvas.timeseries-chart {
+    canvas.telemetry-chart {
       width: 100%;
       height: 240px;
       display: block;
     }
 
-    /* DATA TABLES */
-    .table-container {
+    /* TABLES */
+    .table-wrap {
       overflow-x: auto;
       border: 1px solid var(--border);
-      border-radius: 8px;
+      border-radius: 6px;
     }
 
     table {
       width: 100%;
       border-collapse: collapse;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
+      font-size: 0.78rem;
       text-align: left;
     }
 
     th, td {
-      padding: 0.9rem 1.25rem;
+      padding: 0.75rem 1rem;
       border-bottom: 1px solid var(--border);
     }
 
     th {
       background: var(--surface-subtle);
       color: var(--text-muted);
-      font-weight: 600;
-      font-size: 0.75rem;
+      font-weight: 700;
+      font-size: 0.7rem;
       text-transform: uppercase;
       letter-spacing: 0.05em;
     }
@@ -429,71 +479,88 @@
     /* STATUS BADGES */
     .badge {
       display: inline-block;
-      padding: 0.2rem 0.6rem;
+      padding: 0.15rem 0.5rem;
       border-radius: 4px;
-      font-size: 0.75rem;
+      font-size: 0.7rem;
       font-weight: 700;
       letter-spacing: 0.03em;
     }
 
-    .badge.CRITICAL, .badge.HIGH { background: var(--danger-bg); color: var(--danger-text); border: 1px solid #fecaca; }
-    .badge.MEDIUM { background: var(--warning-bg); color: var(--warning-text); border: 1px solid #fde68a; }
-    .badge.LOW { background: var(--success-bg); color: var(--success-text); border: 1px solid #a7f3d0; }
+    .badge.CRITICAL, .badge.HIGH { background: var(--rose-subtle); color: var(--rose); border: 1px solid #fecdd3; }
+    .badge.MEDIUM { background: var(--amber-subtle); color: var(--amber); border: 1px solid #fde68a; }
+    .badge.LOW { background: var(--emerald-subtle); color: var(--emerald); border: 1px solid #a7f3d0; }
 
-    .grid-layout {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 1.5rem;
-    }
-
-    .sub-card {
+    /* STAT CARDS */
+    .stat-card {
       background: var(--surface);
       border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 1.25rem;
-      margin-bottom: 1rem;
+      border-radius: 6px;
+      padding: 1rem;
+      margin-bottom: 0.8rem;
     }
 
-    .sub-card-title {
-      font-size: 0.88rem;
+    .stat-card-title {
+      font-size: 0.82rem;
       font-weight: 700;
       color: var(--text-main);
-      margin-bottom: 0.5rem;
+      margin-bottom: 0.4rem;
       display: flex;
       justify-content: space-between;
+      align-items: center;
     }
 
-    .metric-pills {
+    .stat-pills {
       display: flex;
-      gap: 1.25rem;
+      gap: 1rem;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.8rem;
+      font-size: 0.76rem;
       color: var(--text-muted);
       flex-wrap: wrap;
     }
 
-    /* MODAL */
-    .modal-overlay {
-      position: fixed;
-      top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(15, 23, 42, 0.6);
-      display: none;
+    /* SYSTEM TOPOLOGY NODE MAP */
+    .topology-map {
+      display: flex;
+      gap: 1rem;
       align-items: center;
-      justify-content: center;
-      z-index: 1000;
-      backdrop-filter: blur(4px);
+      justify-content: space-between;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1.5rem;
+      overflow-x: auto;
     }
 
-    .modal-overlay.active { display: flex; }
-
-    .modal-box {
+    .topo-node {
       background: var(--surface);
-      border-radius: 12px;
-      padding: 2.25rem;
-      width: 440px;
-      max-width: 90vw;
-      box-shadow: var(--shadow-lg);
-      border: 1px solid var(--border);
+      border: 1px solid var(--border-dark);
+      border-radius: 6px;
+      padding: 0.75rem 1rem;
+      text-align: center;
+      min-width: 140px;
+      box-shadow: var(--shadow-xs);
+    }
+
+    .topo-node-title {
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      margin-bottom: 0.2rem;
+    }
+
+    .topo-node-val {
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.95rem;
+      font-weight: 800;
+      color: var(--brand);
+    }
+
+    .topo-arrow {
+      color: var(--text-light);
+      font-weight: bold;
+      font-size: 1.1rem;
     }
   </style>
 </head>
@@ -502,219 +569,314 @@
   <header>
     <div class="header-left">
       <div class="brand-logo">
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
         GAUNTLET
       </div>
-      <div class="brand-pill">Enterprise Temporal Platform v2.0</div>
+      <div class="brand-pill">High-Density Telemetry Engine</div>
+      <div class="live-node-badge">
+        <span class="pulsing-dot"></span> Cluster Online (127.0.0.1:8080)
+      </div>
     </div>
     <div class="header-right">
-      <div class="user-profile-badge" onclick="switchTab('profile')">
-        <div class="user-avatar" id="nav-user-initial">N</div>
-        <span id="nav-user-name">Nitanshu (Admin)</span>
-      </div>
-      <button class="btn-secondary" style="padding: 0.4rem 0.85rem; font-size: 0.8rem;" onclick="openAuthModal()">Switch User</button>
+      <div class="cluster-status-pill" id="storage-status-pill">STORAGE: VERIFIED CRC-32</div>
+      <div class="cluster-status-pill">PYTHON 3.13 (ZERO-DEPENDENCY)</div>
     </div>
   </header>
 
-  <div class="app-container">
+  <!-- WORKSPACE -->
+  <div class="app-workspace">
     <!-- SIDEBAR -->
     <aside class="sidebar">
       <div>
         <div class="sidebar-section">
-          <div class="sidebar-heading">Infinity Engine Subsystems</div>
+          <div class="sidebar-heading">Observability Hub</div>
           <div class="sidebar-menu">
-            <button class="sidebar-btn power active" onclick="switchTab('power')"><span class="dot-indicator"></span>Power (Ingestion)</button>
-            <button class="sidebar-btn space" onclick="switchTab('space')"><span class="dot-indicator"></span>Space (Storage & WAL)</button>
-            <button class="sidebar-btn reality" onclick="switchTab('reality')"><span class="dot-indicator"></span>Reality (Indexes & Bloom)</button>
-            <button class="sidebar-btn mind" onclick="switchTab('mind')"><span class="dot-indicator"></span>Mind (Query DSL IDE)</button>
-            <button class="sidebar-btn time" onclick="switchTab('time')"><span class="dot-indicator"></span>Time (Historical Analysis)</button>
-            <button class="sidebar-btn soul" onclick="switchTab('soul')"><span class="dot-indicator"></span>Soul (Anomaly Engine)</button>
+            <button class="sidebar-btn overview active" onclick="switchView('overview')">
+              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--brand);"></span>Live Topology & Hub</span>
+              <span class="sidebar-badge">CORE</span>
+            </button>
+            <button class="sidebar-btn time" onclick="switchView('time')">
+              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--emerald);"></span>Temporal Waveforms</span>
+              <span class="sidebar-badge">PHASE 5</span>
+            </button>
+            <button class="sidebar-btn soul" onclick="switchView('soul')">
+              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--amber);"></span>Anomalies & Baselines</span>
+              <span class="sidebar-badge">PHASE 6</span>
+            </button>
+            <button class="sidebar-btn mind" onclick="switchView('mind')">
+              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--violet);"></span>Query Planner IDE</span>
+              <span class="sidebar-badge">PHASE 4</span>
+            </button>
           </div>
         </div>
 
         <div class="sidebar-section">
-          <div class="sidebar-heading">Advanced Tools</div>
+          <div class="sidebar-heading">Storage & Ingestion</div>
           <div class="sidebar-menu">
-            <button class="sidebar-btn simulator" onclick="switchTab('simulator')"><span class="dot-indicator"></span>Incident Chaos Simulator</button>
-            <button class="sidebar-btn hex" onclick="switchTab('hex')"><span class="dot-indicator"></span>Segment Hex Inspector</button>
-            <button class="sidebar-btn profile" onclick="switchTab('profile')"><span class="dot-indicator"></span>User Profile & Security</button>
+            <button class="sidebar-btn power" onclick="switchView('power')">
+              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--rose);"></span>Ingestion Pipeline</span>
+              <span class="sidebar-badge">WAL</span>
+            </button>
+            <button class="sidebar-btn space" onclick="switchView('space')">
+              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--cyan);"></span>Segment Catalog (.gt)</span>
+              <span class="sidebar-badge">DISK</span>
+            </button>
+            <button class="sidebar-btn reality" onclick="switchView('reality')">
+              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--violet);"></span>Bloom Filter Indexes</span>
+              <span class="sidebar-badge">INDEX</span>
+            </button>
+          </div>
+        </div>
+
+        <div class="sidebar-section">
+          <div class="sidebar-heading">Diagnostics & Chaos</div>
+          <div class="sidebar-menu">
+            <button class="sidebar-btn simulator" onclick="switchView('simulator')">
+              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--rose);"></span>Incident Chaos Lab</span>
+              <span class="sidebar-badge">LAB</span>
+            </button>
+            <button class="sidebar-btn hex" onclick="switchView('hex')">
+              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--text-muted);"></span>Binary Hex Inspector</span>
+              <span class="sidebar-badge">BYTE</span>
+            </button>
           </div>
         </div>
       </div>
 
-      <div style="font-size: 0.72rem; color: var(--text-light); border-top: 1px solid var(--border); padding-top: 1rem;">
-        GAUNTLET Temporal Core<br>Zero-Dependency Python 3 Engine
+      <div style="font-size: 0.7rem; color: var(--text-light); border-top: 1px solid var(--border); padding-top: 0.8rem;">
+        GAUNTLET Temporal Engine<br>Authoritative Storage Standard
       </div>
     </aside>
 
-    <!-- MAIN VIEW -->
-    <main class="content-view">
-      <!-- TOP KPI ROW -->
-      <div class="kpi-row">
-        <div class="kpi-card">
-          <div class="kpi-title">Storage Health</div>
-          <div class="kpi-val" id="stat-health" style="color: var(--stone-time);">HEALTHY</div>
+    <!-- VIEWPORT -->
+    <main class="viewport">
+      <!-- KPI TELEMETRY STRIP -->
+      <div class="telemetry-row">
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>System Health</span><span style="color: var(--emerald);">CRC32 OK</span></div>
+          <div class="telemetry-val" id="stat-health" style="color: var(--emerald);">HEALTHY</div>
+          <div class="telemetry-sub">Zero Corruptions</div>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-title">Total Records</div>
-          <div class="kpi-val" id="stat-records">0</div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>Total Events</span><span>DISK + WAL</span></div>
+          <div class="telemetry-val" id="stat-records">0</div>
+          <div class="telemetry-sub">Authoritative Count</div>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-title">Persistent Segments</div>
-          <div class="kpi-val" id="stat-segments">0</div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>Segments (.gt)</span><span>IMMUTABLE</span></div>
+          <div class="telemetry-val" id="stat-segments">0</div>
+          <div class="telemetry-sub">Persistent Files</div>
         </div>
-        <div class="kpi-card">
-          <div class="kpi-title">Memtable Size</div>
-          <div class="kpi-val" id="stat-memtable">0</div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>Memtable Size</span><span>IN-MEMORY</span></div>
+          <div class="telemetry-val" id="stat-memtable">0</div>
+          <div class="telemetry-sub">Write Buffer</div>
         </div>
-      </div>
-
-      <!-- PHASE 1: POWER -->
-      <div id="tab-power" class="tab-content active">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title">Phase I: Ingestion & Validation Pipeline</div>
-            <span class="panel-badge">Append-Only Binary WAL</span>
-          </div>
-          
-          <div class="query-presets">
-            <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center; font-weight: 600;">Sample Templates:</span>
-            <span class="preset-pill" onclick="setIngestSample('cpu')">CPU Metric Event</span>
-            <span class="preset-pill" onclick="setIngestSample('memory')">Memory Metric Event</span>
-            <span class="preset-pill" onclick="setIngestSample('deployment')">Deployment Mutation</span>
-            <span class="preset-pill" onclick="setIngestSample('errors')">Error Spike Event</span>
-          </div>
-
-          <textarea id="ingest-json" rows="4" placeholder='{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 94.2, "attributes": {"region": "us-east"}}'></textarea>
-          
-          <div class="btn-group">
-            <button class="btn-primary" onclick="submitEvent()">Ingest Single Event</button>
-            <button class="btn-secondary" onclick="loadSampleData()">Load Flagship Dataset (13 Events)</button>
-          </div>
-          <div id="ingest-feedback" style="margin-top: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;"></div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>WAL Size</span><span>APPEND-ONLY</span></div>
+          <div class="telemetry-val" id="stat-wal">0 B</div>
+          <div class="telemetry-sub">Write Ahead Log</div>
         </div>
       </div>
 
-      <!-- PHASE 2: SPACE -->
-      <div id="tab-space" class="tab-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title">Phase II: Persistent Storage & Segment Catalog</div>
-            <div class="btn-group">
-              <button class="btn-secondary" onclick="flushMemtable()">Flush Memtable</button>
-              <button class="btn-secondary" onclick="compactSegments()">Compact Segments</button>
+      <!-- VIEW: OVERVIEW & TOPOLOGY -->
+      <div id="view-overview" class="view-panel active">
+        <!-- SYSTEM TOPOLOGY -->
+        <div class="topology-map">
+          <div class="topo-node">
+            <div class="topo-node-title">Ingest Buffer</div>
+            <div class="topo-node-val">SHA-256 Pipeline</div>
+          </div>
+          <div class="topo-arrow">&rarr;</div>
+          <div class="topo-node">
+            <div class="topo-node-title">Write-Ahead Log</div>
+            <div class="topo-node-val">wal.gtwl (CRC-32)</div>
+          </div>
+          <div class="topo-arrow">&rarr;</div>
+          <div class="topo-node">
+            <div class="topo-node-title">Memtable</div>
+            <div class="topo-node-val" id="topo-memtable">0 Records</div>
+          </div>
+          <div class="topo-arrow">&rarr;</div>
+          <div class="topo-node">
+            <div class="topo-node-title">Immutable Segments</div>
+            <div class="topo-node-val" id="topo-segments">0 .gt Files</div>
+          </div>
+          <div class="topo-arrow">&rarr;</div>
+          <div class="topo-node">
+            <div class="topo-node-title">Analytics Query Engine</div>
+            <div class="topo-node-val">AST & Z-Score</div>
+          </div>
+        </div>
+
+        <div class="grid-2">
+          <!-- LIVE INCIDENT STREAM -->
+          <div class="content-box">
+            <div class="box-header">
+              <div class="box-title">Live Telemetry Stream (server-42)</div>
+              <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;" onclick="loadTimeline()">Refresh</button>
             </div>
+            <div class="table-wrap" id="overview-stream-table">Loading telemetry stream...</div>
           </div>
-          <div class="table-container" id="segment-table">Loading segment catalog...</div>
+
+          <!-- DIAGNOSTIC QUICK SUMMARY -->
+          <div class="content-box">
+            <div class="box-header">
+              <div class="box-title">Statistical Baseline Highlights</div>
+              <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;" onclick="runDiagnostics('server-42')">Recalculate</button>
+            </div>
+            <div id="overview-diagnostics-summary">Loading diagnostics...</div>
+          </div>
         </div>
       </div>
 
-      <!-- PHASE 3: REALITY -->
-      <div id="tab-reality" class="tab-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title">Phase III: Spatial-Temporal & Bloom Filter Indexes</div>
-          </div>
-          <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.5rem; line-height: 1.6;">
-            Binary segment files are indexed via multi-hash Bloom filters and sparse timestamp range headers to reject non-candidate segments before performing disk read operations.
-          </p>
-          <div id="reality-details"></div>
-        </div>
-      </div>
-
-      <!-- PHASE 4: MIND -->
-      <div id="tab-mind" class="tab-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title">Phase IV: Mind Query Planner & DSL Console</div>
-            <span id="query-stats" style="font-size: 0.82rem; font-family: 'JetBrains Mono', monospace; color: var(--brand-primary); font-weight: 600;"></span>
-          </div>
-
-          <div class="query-presets">
-            <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center; font-weight: 600;">Quick Query Presets:</span>
-            <span class="preset-pill" onclick="setQuery('FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC')">CPU > 50</span>
-            <span class="preset-pill" onclick="setQuery('FIND memory FROM server-42 WHERE value >= 48 ORDER BY timestamp DESC')">Memory >= 48</span>
-            <span class="preset-pill" onclick="setQuery('FIND errors FROM server-42 WHERE value > 0 ORDER BY timestamp ASC')">Errors > 0</span>
-            <span class="preset-pill" onclick="setQuery('FIND deployment FROM server-42 ORDER BY timestamp ASC')">Deployments</span>
-            <span class="preset-pill" onclick="setQuery('FIND * FROM server-42 ORDER BY timestamp ASC')">All server-42 Events</span>
-          </div>
-
-          <input type="text" id="query-string" value='FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC' />
-          <button class="btn-primary" onclick="runQuery()">Execute Query Plan</button>
-          <div class="table-container" id="query-results-table" style="margin-top: 1.5rem;"></div>
-        </div>
-      </div>
-
-      <!-- PHASE 5: TIME -->
-      <div id="tab-time" class="tab-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title">Phase V: Temporal Historical Analysis & Diffing</div>
-            <div class="btn-group">
+      <!-- VIEW: TEMPORAL WAVEFORMS (PHASE 5) -->
+      <div id="view-time" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase V: Temporal Historical Analysis & Diffing</div>
+            <div class="btn-row">
               <button class="btn-secondary" onclick="calculateTemporalDelta('server-42', 'cpu')">Compute Temporal Diff (1788098000 &rarr; 1788098660)</button>
               <button class="btn-primary" onclick="loadTimeline()">Refresh Timeline & Chart</button>
             </div>
           </div>
-          <div id="temporal-diff-box" style="margin-bottom: 1.5rem;"></div>
-          <div class="chart-box">
-            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-              <div class="query-presets" style="margin-bottom: 0;">
-                <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center; font-weight: 600;">Plot Metric:</span>
-                <span class="preset-pill active" id="pill-cpu" onclick="switchTimelineMetric('cpu')">CPU</span>
-                <span class="preset-pill" id="pill-memory" onclick="switchTimelineMetric('memory')">Memory</span>
-                <span class="preset-pill" id="pill-errors" onclick="switchTimelineMetric('errors')">Errors</span>
+          <div id="temporal-diff-box" style="margin-bottom: 1.25rem;"></div>
+          <div class="chart-container">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <div class="chip-group" style="margin-bottom: 0;">
+                <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center; font-weight: 600;">Plot Metric:</span>
+                <span class="chip active" id="pill-cpu" onclick="switchTimelineMetric('cpu')">CPU</span>
+                <span class="chip" id="pill-memory" onclick="switchTimelineMetric('memory')">Memory</span>
+                <span class="chip" id="pill-errors" onclick="switchTimelineMetric('errors')">Errors</span>
+                <span class="chip" id="pill-latency" onclick="switchTimelineMetric('latency')">Latency</span>
               </div>
-              <div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--brand-primary);" id="chart-legend">● CPU (%)</div>
+              <div style="font-size: 0.75rem; font-family: JetBrains Mono; color: var(--brand);" id="chart-legend">● CPU (%)</div>
             </div>
-            <canvas id="timeline-chart" class="timeseries-chart"></canvas>
+            <canvas id="timeline-chart" class="telemetry-chart"></canvas>
           </div>
-          <div class="table-container" id="timeline-table">Loading chronological history...</div>
+          <div class="table-wrap" id="timeline-table">Loading chronological history...</div>
         </div>
       </div>
 
-      <!-- PHASE 6: SOUL -->
-      <div id="tab-soul" class="tab-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title">Phase VI: Statistical Baselines & Anomaly Intelligence</div>
+      <!-- VIEW: SOUL & ANOMALIES (PHASE 6) -->
+      <div id="view-soul" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase VI: Statistical Baselines & Anomaly Intelligence</div>
             <button class="btn-primary" onclick="runDiagnostics('server-42')">Run Diagnostic on server-42</button>
           </div>
           <div id="diagnostics-view"></div>
         </div>
       </div>
 
-      <!-- TOOL: INCIDENT SIMULATOR -->
-      <div id="tab-simulator" class="tab-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title">Incident Replay & Chaos Simulator</div>
-            <span class="panel-badge">Interactive Ingestion Stream</span>
+      <!-- VIEW: MIND & QUERY DSL (PHASE 4) -->
+      <div id="view-mind" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase IV: Mind Query Planner & DSL Console</div>
+            <span id="query-stats" style="font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: var(--brand); font-weight: 600;"></span>
           </div>
-          <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.5rem;">
-            Trigger real-time scenarios to simulate production workload surges, software deployment rollouts, and cascading memory/CPU outages.
+
+          <div class="chip-group">
+            <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center; font-weight: 600;">Presets:</span>
+            <span class="chip" onclick="setQuery('FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC')">CPU > 50</span>
+            <span class="chip" onclick="setQuery('FIND memory FROM server-42 WHERE value >= 48 ORDER BY timestamp DESC')">Memory >= 48</span>
+            <span class="chip" onclick="setQuery('FIND errors FROM server-42 WHERE value > 0 ORDER BY timestamp ASC')">Errors > 0</span>
+            <span class="chip" onclick="setQuery('FIND deployment FROM server-42 ORDER BY timestamp ASC')">Deployments</span>
+            <span class="chip" onclick="setQuery('FIND * FROM server-42 ORDER BY timestamp ASC')">All server-42 Events</span>
+          </div>
+
+          <input type="text" id="query-string" value='FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC' />
+          <button class="btn-primary" onclick="runQuery()">Execute Query Plan</button>
+          <div class="table-wrap" id="query-results-table" style="margin-top: 1.25rem;"></div>
+        </div>
+      </div>
+
+      <!-- VIEW: POWER & INGESTION (PHASE 1) -->
+      <div id="view-power" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase I: Ingestion & Validation Pipeline</div>
+            <span class="badge LOW">Append-Only WAL Active</span>
+          </div>
+          
+          <div class="chip-group">
+            <span style="font-size: 0.75rem; color: var(--text-muted); align-self: center; font-weight: 600;">Event Templates:</span>
+            <span class="chip" onclick="setIngestSample('cpu')">CPU Metric Event</span>
+            <span class="chip" onclick="setIngestSample('memory')">Memory Metric Event</span>
+            <span class="chip" onclick="setIngestSample('deployment')">Deployment Mutation</span>
+            <span class="chip" onclick="setIngestSample('errors')">Error Spike Event</span>
+          </div>
+
+          <textarea id="ingest-json" rows="4" placeholder='{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 94.2, "attributes": {"region": "us-east"}}'></textarea>
+          
+          <div class="btn-row">
+            <button class="btn-primary" onclick="submitEvent()">Ingest Single Event</button>
+            <button class="btn-secondary" onclick="loadSampleData()">Load Flagship Dataset (13 Events)</button>
+          </div>
+          <div id="ingest-feedback" style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem;"></div>
+        </div>
+      </div>
+
+      <!-- VIEW: SPACE & STORAGE (PHASE 2) -->
+      <div id="view-space" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase II: Persistent Storage & Segment Catalog</div>
+            <div class="btn-row">
+              <button class="btn-secondary" onclick="flushMemtable()">Flush Memtable</button>
+              <button class="btn-secondary" onclick="compactSegments()">Compact Segments</button>
+            </div>
+          </div>
+          <div class="table-wrap" id="segment-table">Loading segment catalog...</div>
+        </div>
+      </div>
+
+      <!-- VIEW: REALITY & BLOOM (PHASE 3) -->
+      <div id="view-reality" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Phase III: Spatial-Temporal & Bloom Filter Indexes</div>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem; line-height: 1.6;">
+            Binary segment files are indexed via multi-hash Bloom filters and sparse timestamp range headers to reject non-candidate segments before performing disk read operations.
           </p>
-          <div class="btn-group" style="margin-bottom: 1.5rem;">
-            <button class="btn-primary" onclick="simulateIncident('outage')">Simulate Cascading Outage (server-42)</button>
-            <button class="btn-secondary" onclick="simulateIncident('deploy')">Simulate Healthy Deployment (server-88)</button>
-            <button class="btn-secondary" onclick="simulateIncident('ddos')">Simulate Traffic Spike (edge-router-01)</button>
+          <div id="reality-details"></div>
+        </div>
+      </div>
+
+      <!-- VIEW: CHAOS LAB -->
+      <div id="view-simulator" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Incident Replay & Chaos Simulator</div>
+            <span class="badge HIGH">Live Ingestion Generator</span>
           </div>
-          <div id="simulator-log" style="background: var(--surface-subtle); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; max-height: 250px; overflow-y: auto;">
-            Ready to simulate scenarios.
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem;">
+            Trigger real-time production failure scenarios to simulate multi-node outages, canary release anomalies, and load spikes.
+          </p>
+          <div class="btn-row" style="margin-bottom: 1.25rem;">
+            <button class="btn-primary" onclick="simulateIncident('outage')">Simulate Cascading Outage (server-42)</button>
+            <button class="btn-secondary" onclick="simulateIncident('deploy')">Simulate Canary Deployment (server-88)</button>
+            <button class="btn-secondary" onclick="simulateIncident('ddos')">Simulate Traffic Surge (edge-router-01)</button>
+          </div>
+          <div id="simulator-log" style="background: var(--surface-subtle); padding: 1rem; border-radius: 6px; border: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; max-height: 220px; overflow-y: auto;">
+            Simulator ready. Click a scenario to inject dynamic events.
           </div>
         </div>
       </div>
 
-      <!-- TOOL: HEX SEGMENT INSPECTOR -->
-      <div id="tab-hex" class="tab-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title">Binary Segment Format & Hex Inspector</div>
-            <span class="panel-badge">Zero-Loss .gt Architecture</span>
+      <!-- VIEW: HEX INSPECTOR -->
+      <div id="view-hex" class="view-panel">
+        <div class="content-box">
+          <div class="box-header">
+            <div class="box-title">Binary Segment Format & Hex Inspector</div>
+            <span class="badge LOW">CRC-32 Verified</span>
           </div>
-          <p style="color: var(--text-muted); font-size: 0.92rem; margin-bottom: 1.5rem;">
+          <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 1.25rem;">
             GAUNTLET stores records in custom binary segments with length-prefixed records, sparse indexes, and CRC-32 checksum footers.
           </p>
-          <div style="background: #0f172a; color: #38bdf8; padding: 1.5rem; border-radius: 8px; font-family: 'JetBrains Mono', monospace; font-size: 0.82rem; line-height: 1.8; overflow-x: auto;">
+          <div style="background: #0f172a; color: #38bdf8; padding: 1.25rem; border-radius: 6px; font-family: 'JetBrains Mono', monospace; font-size: 0.8rem; line-height: 1.8; overflow-x: auto;">
             00000000  47 41 55 4e 54 4c 45 54  01 00 00 00 0d 00 00 00  |GAUNTLET........|<br>
             00000010  6a a7 90 6a 00 00 00 00  6a a7 90 6a 00 00 00 00  |j..j....j..j....|<br>
             00000020  73 65 72 76 65 72 2d 34  32 00 63 70 75 00 40 44  |server-42.cpu.@D|<br>
@@ -723,78 +885,36 @@
           </div>
         </div>
       </div>
-
-      <!-- TOOL: USER PROFILE -->
-      <div id="tab-profile" class="tab-content">
-        <div class="card-panel">
-          <div class="panel-header">
-            <div class="panel-title">User Profile & Access Control</div>
-            <span class="panel-badge">RBAC: Platform Administrator</span>
-          </div>
-          <div style="display: grid; grid-template-columns: 120px 1fr; gap: 2rem; align-items: center; margin-bottom: 2rem;">
-            <div style="width: 100px; height: 100px; border-radius: 50%; background: var(--brand-primary); color: white; display: flex; align-items: center; justify-content: center; font-size: 2.5rem; font-weight: 800;" id="profile-avatar-large">
-              N
-            </div>
-            <div>
-              <h3 style="font-size: 1.3rem; margin-bottom: 0.25rem;" id="profile-display-name">Nitanshu</h3>
-              <p style="color: var(--text-muted); font-size: 0.88rem; margin-bottom: 0.75rem;" id="profile-email">admin@gauntlet.internal</p>
-              <span class="badge LOW">ACTIVE SESSION</span>
-            </div>
-          </div>
-
-          <h4 style="font-size: 0.88rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">API Access Keys</h4>
-          <div style="background: var(--surface-subtle); padding: 1.25rem; border-radius: 8px; border: 1px solid var(--border); font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
-            <span>gt_live_sec_99a8b172f30048e91a0c</span>
-            <button class="btn-secondary" style="padding: 0.35rem 0.75rem; font-size: 0.78rem;" onclick="alert('API Key copied to clipboard!')">Copy Key</button>
-          </div>
-
-          <button class="btn-primary" onclick="openAuthModal()">Edit Profile / Log In As Another User</button>
-        </div>
-      </div>
     </main>
-  </div>
-
-  <!-- AUTH MODAL -->
-  <div class="modal-overlay" id="auth-modal">
-    <div class="modal-box">
-      <h3 style="font-size: 1.25rem; font-weight: 700; margin-bottom: 0.5rem;" id="auth-modal-title">Sign In / Switch Operator</h3>
-      <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">Enter your name and role to access GAUNTLET system administration.</p>
-      
-      <label style="display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.4rem; text-transform: uppercase;">Operator Name</label>
-      <input type="text" id="auth-name-input" value="Nitanshu" placeholder="e.g. Swati / RelEng" />
-
-      <label style="display: block; font-size: 0.78rem; font-weight: 700; color: var(--text-muted); margin-bottom: 0.4rem; text-transform: uppercase;">Operator Email</label>
-      <input type="text" id="auth-email-input" value="admin@gauntlet.internal" placeholder="operator@domain.com" />
-
-      <div class="btn-group" style="justify-content: flex-end; margin-top: 1rem;">
-        <button class="btn-secondary" onclick="closeAuthModal()">Cancel</button>
-        <button class="btn-primary" onclick="saveAuthUser()">Save & Enter</button>
-      </div>
-    </div>
   </div>
 
   <script>
     let currentTimelineMetric = 'cpu';
     let cachedServerEvents = [];
 
-    function switchTab(stone) {
+    function switchView(viewName) {
       document.querySelectorAll('.sidebar-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(d => d.classList.remove('active'));
+      document.querySelectorAll('.view-panel').forEach(d => d.classList.remove('active'));
       
-      const targetNav = document.querySelector(`.sidebar-btn.${stone}`);
-      const targetContent = document.getElementById(`tab-${stone}`);
+      const targetBtn = document.querySelector(`.sidebar-btn.${viewName}`);
+      const targetView = document.getElementById(`view-${viewName}`);
       
-      if (targetNav) targetNav.classList.add('active');
-      if (targetContent) targetContent.classList.add('active');
+      if (targetBtn) targetBtn.classList.add('active');
+      if (targetView) targetView.classList.add('active');
 
-      if (stone === 'space') loadStats();
-      if (stone === 'reality') loadRealityInfo();
-      if (stone === 'mind') runQuery();
-      if (stone === 'time') {
+      if (viewName === 'overview') {
+        loadStats();
+        loadTimeline();
+        runDiagnostics('server-42');
+      }
+      if (viewName === 'space') loadStats();
+      if (viewName === 'reality') loadRealityInfo();
+      if (viewName === 'mind') runQuery();
+      if (viewName === 'time') {
         setTimeout(loadTimeline, 50);
         calculateTemporalDelta('server-42', 'cpu');
       }
-      if (stone === 'soul') runDiagnostics('server-42');
+      if (viewName === 'soul') runDiagnostics('server-42');
     }
 
     function setQuery(queryText) {
@@ -819,10 +939,10 @@
 
     function switchTimelineMetric(m) {
       currentTimelineMetric = m;
-      document.querySelectorAll('#tab-time .preset-pill').forEach(p => p.classList.remove('active'));
+      document.querySelectorAll('#view-time .chip').forEach(p => p.classList.remove('active'));
       const activePill = document.getElementById(`pill-${m}`);
       if (activePill) activePill.classList.add('active');
-      document.getElementById('chart-legend').textContent = `● ${m.toUpperCase()} (%)`;
+      document.getElementById('chart-legend').textContent = `● ${m.toUpperCase()} (${m === 'errors' ? 'count' : m === 'latency' ? 'ms' : '%'})`;
       
       const points = [];
       cachedServerEvents.forEach(r => {
@@ -841,13 +961,19 @@
         document.getElementById('stat-records').textContent = d.storage.total_records;
         document.getElementById('stat-segments').textContent = d.segments.length;
         document.getElementById('stat-memtable').textContent = d.memtable_events;
+        document.getElementById('stat-wal').textContent = `${d.wal_size_bytes} B`;
+
+        if (document.getElementById('topo-memtable')) {
+          document.getElementById('topo-memtable').textContent = `${d.memtable_events} Records`;
+          document.getElementById('topo-segments').textContent = `${d.segments.length} .gt Files`;
+        }
 
         let html = '<table><thead><tr><th>Segment ID</th><th>Record Count</th><th>Min Timestamp</th><th>Max Timestamp</th><th>Entities</th></tr></thead><tbody>';
         d.segments.forEach(s => {
           html += `<tr><td><strong>${s.segment_id}</strong></td><td>${s.record_count}</td><td>${s.min_ts}</td><td>${s.max_ts}</td><td>${s.entities.join(', ')}</td></tr>`;
         });
         html += '</tbody></table>';
-        document.getElementById('segment-table').innerHTML = d.segments.length ? html : '<p style="padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">No persistent segments on disk yet (in-memory WAL active).</p>';
+        document.getElementById('segment-table').innerHTML = d.segments.length ? html : '<p style="padding: 1.25rem; color: var(--text-muted); font-size: 0.82rem;">No persistent segments on disk yet (in-memory WAL active).</p>';
       } catch (err) {}
     }
 
@@ -862,10 +988,10 @@
           body: JSON.stringify(payload)
         });
         const d = await res.json();
-        document.getElementById('ingest-feedback').innerHTML = `<span style="color: var(--success-text);">[OK] Ingested successfully. Sequence #${d.sequence_num || d.ingested_count}</span>`;
+        document.getElementById('ingest-feedback').innerHTML = `<span style="color: var(--emerald);">[OK] Ingested successfully. Sequence #${d.sequence_num || d.ingested_count}</span>`;
         loadStats();
       } catch (e) {
-        document.getElementById('ingest-feedback').innerHTML = `<span style="color: var(--danger-text);">[ERROR] ${e.message}</span>`;
+        document.getElementById('ingest-feedback').innerHTML = `<span style="color: var(--rose);">[ERROR] ${e.message}</span>`;
       }
     }
 
@@ -890,7 +1016,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(sample)
       });
-      document.getElementById('ingest-feedback').innerHTML = '<span style="color: var(--success-text);">[OK] Ingested 13 sample records for server-42.</span>';
+      document.getElementById('ingest-feedback').innerHTML = '<span style="color: var(--emerald);">[OK] Ingested 13 sample records for server-42.</span>';
       loadStats();
     }
 
@@ -904,7 +1030,7 @@
         });
         const data = await res.json();
         if (data.error) {
-          document.getElementById('query-results-table').innerHTML = `<p style="padding: 1.5rem; color: var(--danger-text); font-family: JetBrains Mono;">${data.error}</p>`;
+          document.getElementById('query-results-table').innerHTML = `<p style="padding: 1.25rem; color: var(--rose); font-family: JetBrains Mono;">${data.error}</p>`;
           return;
         }
 
@@ -923,8 +1049,8 @@
       try {
         const res = await fetch('/api/stats');
         const data = await res.json();
-        let html = '<div style="background: var(--surface-subtle); padding: 1.5rem; border-radius: 8px; border: 1px solid var(--border); font-family: JetBrains Mono; font-size: 0.85rem;">';
-        html += `<div style="margin-bottom: 0.5rem; font-weight: bold; color: var(--brand-primary);">AUTHORITATIVE MANIFEST STATUS:</div>`;
+        let html = '<div style="background: var(--surface-subtle); padding: 1.25rem; border-radius: 6px; border: 1px solid var(--border); font-family: JetBrains Mono; font-size: 0.82rem;">';
+        html += `<div style="margin-bottom: 0.5rem; font-weight: bold; color: var(--brand);">AUTHORITATIVE MANIFEST STATUS:</div>`;
         html += `<div>Indexed Disk Segments: <strong>${data.segments.length}</strong></div>`;
         html += `<div>Memtable Active Records: <strong>${data.memtable_events}</strong></div>`;
         html += `<div>WAL Size on Disk: <strong>${data.wal_size_bytes} bytes</strong></div>`;
@@ -949,15 +1075,21 @@
           const type = e.type;
           const val = e.value;
           const eid = e.event_id;
-          const valStyle = type === 'deployment' ? 'color: var(--brand-primary); font-weight: bold;' : (val > 80 ? 'color: var(--danger-text); font-weight: bold;' : '');
+          const valStyle = type === 'deployment' ? 'color: var(--brand); font-weight: bold;' : (val > 80 ? 'color: var(--rose); font-weight: bold;' : '');
           
-          html += `<tr><td>${ts}</td><td>${entity}</td><td><strong>${type}</strong></td><td style="${valStyle}">${val}</td><td style="color: var(--text-muted); font-size: 0.78rem;">${eid}</td></tr>`;
+          html += `<tr><td>${ts}</td><td>${entity}</td><td><strong>${type}</strong></td><td style="${valStyle}">${val}</td><td style="color: var(--text-muted); font-size: 0.74rem;">${eid}</td></tr>`;
           if (type === currentTimelineMetric && !isNaN(Number(val))) {
             chartPoints.push({ t: Number(ts), v: Number(val) });
           }
         });
         html += '</tbody></table>';
-        document.getElementById('timeline-table').innerHTML = events.length ? html : '<p style="padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">No historical events recorded for server-42.</p>';
+        
+        if (document.getElementById('timeline-table')) {
+          document.getElementById('timeline-table').innerHTML = events.length ? html : '<p style="padding: 1.25rem; color: var(--text-muted); font-size: 0.82rem;">No historical events recorded for server-42.</p>';
+        }
+        if (document.getElementById('overview-stream-table')) {
+          document.getElementById('overview-stream-table').innerHTML = events.length ? html : '<p style="padding: 1.25rem; color: var(--text-muted); font-size: 0.82rem;">No historical events recorded.</p>';
+        }
 
         renderChart(chartPoints.reverse());
       } catch (e) {}
@@ -967,13 +1099,13 @@
       const c = document.getElementById('timeline-chart');
       if (!c) return;
       const ctx = c.getContext('2d');
-      const w = c.width = c.parentElement.clientWidth - 48;
+      const w = c.width = c.parentElement.clientWidth - 32;
       const h = c.height = 240;
 
       ctx.clearRect(0, 0, w, h);
       if (!points.length) {
         ctx.fillStyle = '#94a3b8';
-        ctx.font = '14px Inter';
+        ctx.font = '13px Inter';
         ctx.fillText('No numeric data points available to plot.', 20, h / 2);
         return;
       }
@@ -994,7 +1126,7 @@
 
       ctx.beginPath();
       ctx.strokeStyle = '#2563eb';
-      ctx.lineWidth = 3;
+      ctx.lineWidth = 2.5;
       points.forEach((p, idx) => {
         const x = (idx / (points.length - 1 || 1)) * (w - 70) + 45;
         const y = h - 35 - ((p.v - minV) / range) * (h - 60);
@@ -1008,16 +1140,16 @@
         const y = h - 35 - ((p.v - minV) / range) * (h - 60);
         
         ctx.beginPath();
-        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.arc(x, y, 4.5, 0, Math.PI * 2);
         ctx.fillStyle = '#ffffff';
         ctx.fill();
         ctx.strokeStyle = '#2563eb';
-        ctx.lineWidth = 2.5;
+        ctx.lineWidth = 2;
         ctx.stroke();
 
         ctx.fillStyle = '#0f172a';
-        ctx.font = '11px JetBrains Mono';
-        ctx.fillText(p.v, x - 10, y - 10);
+        ctx.font = '10px JetBrains Mono';
+        ctx.fillText(p.v, x - 8, y - 8);
       });
     }
 
@@ -1025,7 +1157,7 @@
       try {
         const res = await fetch(`/api/analytics/temporal-diff?entity=${entity}&metric=${metric}&t1=1788098000&t2=1788098660`);
         const diff = await res.json();
-        let html = `<div class="sub-card" style="border-left: 4px solid var(--brand-primary);"><div class="sub-card-title"><span>TEMPORAL SHIFT: ${entity} (${metric.toUpperCase()})</span><span style="color: var(--brand-primary); font-weight: 800;">+${diff.percentage_change}% Shift</span></div><p style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.5rem;">Baseline at t1 (${diff.t1}): <strong>${diff.val1}</strong> &rarr; State at t2 (${diff.t2}): <strong>${diff.val2}</strong> (Gross Shift: +${diff.absolute_change})</p><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--text-muted);">Intervening Events: ${diff.intervening_events.join(' &bull; ')}</div></div>`;
+        let html = `<div class="stat-card" style="border-left: 4px solid var(--brand);"><div class="stat-card-title"><span>TEMPORAL SHIFT: ${entity} (${metric.toUpperCase()})</span><span style="color: var(--brand); font-weight: 800;">+${diff.percentage_change}% Shift</span></div><p style="font-size: 0.82rem; color: var(--text-main); margin-bottom: 0.4rem;">Baseline at t1 (${diff.t1}): <strong>${diff.val1}</strong> &rarr; State at t2 (${diff.t2}): <strong>${diff.val2}</strong> (Gross Shift: +${diff.absolute_change})</p><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted);">Intervening Events: ${diff.intervening_events.join(' &bull; ')}</div></div>`;
         document.getElementById('temporal-diff-box').innerHTML = html;
       } catch (e) {}
     }
@@ -1037,37 +1169,42 @@
         const p = data.profile || data;
         const correlations = data.correlations || [];
 
-        let html = '<div class="grid-layout">';
+        let html = '<div class="grid-2">';
 
         // Metric Baselines
-        html += '<div><h4 style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">Metric Baselines & Quantiles</h4>';
+        html += '<div><h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem;">Metric Baselines & Quantiles</h4>';
         const metricsMap = p.metrics || {};
         for (const [m, s] of Object.entries(metricsMap)) {
-          html += `<div class="sub-card"><div class="sub-card-title"><span>${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.75rem;">${s.count} samples</span></div><div class="metric-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>StdDev: <strong>${s.stddev}</strong></span><span>Median: <strong>${s.median}</strong></span></div></div>`;
+          html += `<div class="stat-card"><div class="stat-card-title"><span>${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.72rem;">${s.count} samples</span></div><div class="stat-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>StdDev: <strong>${s.stddev}</strong></span><span>Median: <strong>${s.median}</strong></span></div></div>`;
         }
 
         // Correlations
         if (correlations.length) {
-          html += '<h4 style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 1.5rem; margin-bottom: 1rem;">Metric Correlation Matrix</h4>';
+          html += '<h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 1.25rem; margin-bottom: 0.8rem;">Metric Correlation Matrix</h4>';
           correlations.forEach(c => {
-            html += `<div class="sub-card" style="border-left: 4px solid var(--stone-mind);"><div class="sub-card-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--brand-primary); font-weight: bold;">r = ${c.coefficient}</span></div><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--text-muted);">${c.relationship} (Sample Size: ${c.sample_size})</div></div>`;
+            html += `<div class="stat-card" style="border-left: 4px solid var(--amber);"><div class="stat-card-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--brand); font-weight: bold;">r = ${c.coefficient}</span></div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted);">${c.relationship} (Sample Size: ${c.sample_size})</div></div>`;
           });
         }
         html += '</div>';
 
         // Anomalies
-        html += '<div><h4 style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">Detected Deviations & Causal Evidence</h4>';
+        html += '<div><h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem;">Detected Deviations & Causal Evidence</h4>';
         const anomList = p.recent_anomalies || [];
         if (anomList.length) {
           anomList.forEach(a => {
-            html += `<div class="sub-card" style="border-left: 4px solid var(--danger-text);"><div class="sub-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.5rem;">${a.assessment}</p><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--text-muted); margin-bottom: 0.4rem;">Observed: <strong>${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Delta: +${a.deviation_pct}% | Z-Score: ${a.z_score}</div><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--brand-primary);">Causal Factors: ${(a.evidence || []).join(' &bull; ')}</div></div>`;
+            html += `<div class="stat-card" style="border-left: 4px solid var(--rose);"><div class="stat-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.82rem; color: var(--text-main); margin-bottom: 0.4rem;">${a.assessment}</p><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); margin-bottom: 0.3rem;">Observed: <strong>${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Delta: +${a.deviation_pct}% | Z-Score: ${a.z_score}</div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--brand);">Causal Factors: ${(a.evidence || []).join(' &bull; ')}</div></div>`;
           });
         } else {
-          html += '<p style="color: var(--text-muted); font-size: 0.85rem;">No statistically anomalous deviations detected.</p>';
+          html += '<p style="color: var(--text-muted); font-size: 0.82rem;">No statistically anomalous deviations detected.</p>';
         }
         html += '</div></div>';
 
-        document.getElementById('diagnostics-view').innerHTML = html;
+        if (document.getElementById('diagnostics-view')) {
+          document.getElementById('diagnostics-view').innerHTML = html;
+        }
+        if (document.getElementById('overview-diagnostics-summary')) {
+          document.getElementById('overview-diagnostics-summary').innerHTML = html;
+        }
       } catch (e) {}
     }
 
@@ -1099,27 +1236,9 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(events)
       });
-      document.getElementById('simulator-log').innerHTML = `[${new Date().toLocaleTimeString()}] <span style="color: var(--brand-primary); font-weight: bold;">[SIMULATOR INJECTED]</span> ${events.length} dynamic incident events streamed to disk WAL.`;
+      document.getElementById('simulator-log').innerHTML = `[${new Date().toLocaleTimeString()}] <span style="color: var(--brand); font-weight: bold;">[SIMULATOR INJECTED]</span> ${events.length} dynamic incident events streamed to disk WAL.`;
       loadStats();
-    }
-
-    function openAuthModal() {
-      document.getElementById('auth-modal').classList.add('active');
-    }
-
-    function closeAuthModal() {
-      document.getElementById('auth-modal').classList.remove('active');
-    }
-
-    function saveAuthUser() {
-      const name = document.getElementById('auth-name-input').value.trim() || 'Nitanshu';
-      const email = document.getElementById('auth-email-input').value.trim() || 'admin@gauntlet.internal';
-      document.getElementById('nav-user-name').textContent = `${name} (Admin)`;
-      document.getElementById('nav-user-initial').textContent = name.charAt(0).toUpperCase();
-      document.getElementById('profile-display-name').textContent = name;
-      document.getElementById('profile-email').textContent = email;
-      document.getElementById('profile-avatar-large').textContent = name.charAt(0).toUpperCase();
-      closeAuthModal();
+      loadTimeline();
     }
 
     async function flushMemtable() {
@@ -1133,6 +1252,8 @@
     }
 
     loadStats();
+    loadTimeline();
+    runDiagnostics('server-42');
   </script>
 </body>
 </html>
