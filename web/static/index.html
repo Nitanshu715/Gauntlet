@@ -144,11 +144,12 @@
       display: flex;
       flex: 1;
       min-height: calc(100vh - 49px);
+      position: relative;
     }
 
-    /* SIDEBAR */
+    /* STICKY & COLLAPSIBLE SIDEBAR */
     aside.sidebar {
-      width: 240px;
+      width: 250px;
       background: var(--surface);
       border-right: 1px solid var(--border);
       padding: 1.25rem 0.75rem;
@@ -156,6 +157,37 @@
       flex-direction: column;
       justify-content: space-between;
       flex-shrink: 0;
+      position: sticky;
+      top: 49px;
+      height: calc(100vh - 49px);
+      overflow-y: auto;
+      transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      z-index: 90;
+    }
+
+    aside.sidebar.collapsed {
+      width: 0px;
+      padding: 1.25rem 0;
+      overflow: hidden;
+      border-right: none;
+    }
+
+    .sidebar-toggle-btn {
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.35rem 0.6rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      transition: all 0.15s ease;
+    }
+
+    .sidebar-toggle-btn:hover {
+      background: var(--border);
+      color: var(--text-main);
     }
 
     .sidebar-section {
@@ -169,6 +201,7 @@
       text-transform: uppercase;
       letter-spacing: 0.08em;
       padding: 0 0.6rem 0.5rem;
+      white-space: nowrap;
     }
 
     .sidebar-menu {
@@ -192,6 +225,7 @@
       text-align: left;
       transition: all 0.15s ease;
       width: 100%;
+      white-space: nowrap;
     }
 
     .sidebar-btn:hover {
@@ -215,6 +249,7 @@
       width: 7px;
       height: 7px;
       border-radius: 50%;
+      flex-shrink: 0;
     }
 
     .sidebar-badge {
@@ -237,7 +272,9 @@
       flex: 1;
       padding: 1.5rem 2rem;
       overflow-y: auto;
-      max-width: 1600px;
+      width: 100%;
+      min-width: 0;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
 
     /* TOP METRICS TELEMETRY BAR */
@@ -568,6 +605,9 @@
   <!-- HEADER -->
   <header>
     <div class="header-left">
+      <button class="sidebar-toggle-btn" id="sidebarToggleBtn" onclick="toggleSidebar()" title="Toggle Sidebar (Expand/Collapse)">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg>
+      </button>
       <div class="brand-logo">
         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
         GAUNTLET
@@ -586,7 +626,7 @@
   <!-- WORKSPACE -->
   <div class="app-workspace">
     <!-- SIDEBAR -->
-    <aside class="sidebar">
+    <aside class="sidebar" id="appSidebar">
       <div>
         <div class="sidebar-section">
           <div class="sidebar-heading">Observability Hub</div>
@@ -1361,6 +1401,20 @@
       } catch (err) {
         document.getElementById('agentic-pipeline-detail').innerHTML = `<span style="color: var(--rose);">[ERROR]</span> ${err.message}`;
       }
+    }
+
+    function toggleSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      if (!sidebar) return;
+      sidebar.classList.toggle('collapsed');
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      localStorage.setItem('gauntlet_sidebar_collapsed', isCollapsed ? '1' : '0');
+    }
+
+    // Restore sidebar preference
+    if (localStorage.getItem('gauntlet_sidebar_collapsed') === '1') {
+      const sb = document.getElementById('appSidebar');
+      if (sb) sb.classList.add('collapsed');
     }
 
     async function flushMemtable() {
