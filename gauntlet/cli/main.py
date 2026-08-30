@@ -10,7 +10,7 @@ from gauntlet.models import Event, EventValidator
 from gauntlet.storage.engine import StorageEngine
 from gauntlet.index.engine import IndexEngine
 from gauntlet.query.executor import QueryExecutor
-from gauntlet.contracts.analytics import BuiltinAnalyticsEngine
+from gauntlet.analytics.engine import AnalyticsEngine
 from gauntlet.api.server import create_server
 
 
@@ -124,7 +124,7 @@ def cmd_serve(args: argparse.Namespace) -> None:
     index = IndexEngine()
     index.rebuild_from_segments(storage.segments)
     executor = QueryExecutor(storage, index)
-    analytics = BuiltinAnalyticsEngine()
+    analytics = AnalyticsEngine()
 
     server = create_server(storage, index, executor, analytics, host=args.host, port=args.port)
     print(f"🚀 GAUNTLET Server running at http://{args.host}:{args.port}")
