@@ -1243,22 +1243,60 @@
           </div>
         </div>
       </div>
-      <!-- VIEW: MULTI-METRIC GRAPHS & TELEMETRY HUB (NEW) -->
+      <!-- VIEW: MULTI-METRIC GRAPHS & TELEMETRY HUB (ENHANCED) -->
       <div id="view-metrics-hub" class="view-panel">
         <div class="content-box">
           <div class="box-header">
             <div class="box-title">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
-              Multi-Metric Telemetry Canvas & Cross-Entity Waveforms
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="var(--brand)" stroke-width="2.5"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+              Cross-Entity Observability Matrix & Advanced Telemetry Analytics
             </div>
             <div class="btn-row">
-              <button class="btn-primary" onclick="renderAllMultiCharts()">Refresh Real-Time Graphs</button>
+              <button class="btn-secondary" onclick="exportTelemetryCsv()" style="font-size: 0.76rem;">📥 Export CSV</button>
+              <button class="btn-primary" onclick="renderAllMultiCharts()">⚡ Recalculate Live Analytics</button>
             </div>
           </div>
-          <p style="color: var(--text-muted); font-size: 0.86rem; margin-bottom: 1.25rem;">
-            Real-time multi-dimensional metric telemetry rendered directly from immutable `.gt` segments and in-memory Write-Ahead Log.
-          </p>
 
+          <!-- TOP SUMMARY STRIP FOR TARGET DOMAIN -->
+          <div style="display: flex; justify-content: space-between; align-items: center; background: var(--surface-subtle); padding: 0.85rem 1.25rem; border-radius: 8px; border: 1px solid var(--border); margin-bottom: 1.5rem;">
+            <div>
+              <span style="font-size: 0.74rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">Active Analytics Focus:</span>
+              <span style="font-family: JetBrains Mono; font-size: 0.95rem; font-weight: 800; color: var(--brand); margin-left: 0.5rem;" id="hub-active-entity">server-42</span>
+            </div>
+            <div class="chip-group" style="margin-bottom: 0;">
+              <span style="font-size: 0.72rem; color: var(--text-muted); align-self: center; font-weight: 600;">Switch Target:</span>
+              <span class="chip active" onclick="switchHubEntity('server-42')">server-42</span>
+              <span class="chip" onclick="switchHubEntity('127.0.0.1:3000')">127.0.0.1:3000</span>
+              <span class="chip" onclick="switchHubEntity('127.0.0.1:8080')">127.0.0.1:8080</span>
+            </div>
+          </div>
+
+          <!-- KPI METRIC GAUGES & DISTRIBUTIONS -->
+          <div class="grid-3" style="margin-bottom: 1.75rem;">
+            <div class="stat-card" style="border-top: 3px solid #7c3aed;">
+              <div class="stat-card-title"><span>Latency Quantiles</span><span class="badge LOW" id="hub-badge-p95">P95: -</span></div>
+              <div style="font-size: 1.5rem; font-weight: 800; font-family: JetBrains Mono; color: var(--text-main);" id="hub-stat-lat-mean">-</div>
+              <div class="stat-pills" style="margin-top: 0.5rem;" id="hub-stat-lat-pills">
+                <span>Min: -</span><span>Median: -</span><span>Max: -</span>
+              </div>
+            </div>
+            <div class="stat-card" style="border-top: 3px solid #2563eb;">
+              <div class="stat-card-title"><span>CPU & Processing Variance</span><span class="badge LOW" id="hub-badge-cpu-std">Std: -</span></div>
+              <div style="font-size: 1.5rem; font-weight: 800; font-family: JetBrains Mono; color: var(--brand);" id="hub-stat-cpu-mean">-</div>
+              <div class="stat-pills" style="margin-top: 0.5rem;" id="hub-stat-cpu-pills">
+                <span>Mean: -</span><span>P90: -</span><span>Peak: -</span>
+              </div>
+            </div>
+            <div class="stat-card" style="border-top: 3px solid #059669;">
+              <div class="stat-card-title"><span>Memory Allocation & Heap</span><span class="badge LOW">V8 HEAP</span></div>
+              <div style="font-size: 1.5rem; font-weight: 800; font-family: JetBrains Mono; color: var(--emerald);" id="hub-stat-mem-mean">-</div>
+              <div class="stat-pills" style="margin-top: 0.5rem;" id="hub-stat-mem-pills">
+                <span>Median: -</span><span>StdDev: -</span><span>Samples: -</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- TIME-SERIES CANVASES -->
           <div class="grid-2" style="margin-bottom: 1.5rem;">
             <div class="chart-container">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
@@ -1269,14 +1307,14 @@
             </div>
             <div class="chart-container">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <span style="font-weight: 700; font-size: 0.84rem;">🔵 Memory Footprint (%)</span>
+                <span style="font-weight: 700; font-size: 0.84rem;">🔵 Memory Footprint Trend (%)</span>
                 <span class="badge LOW" id="hub-mem-curr">-</span>
               </div>
               <canvas id="chart-hub-mem" class="telemetry-chart"></canvas>
             </div>
           </div>
 
-          <div class="grid-2">
+          <div class="grid-2" style="margin-bottom: 1.75rem;">
             <div class="chart-container">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
                 <span style="font-weight: 700; font-size: 0.84rem;">🟢 HTTP Latency Waveform (ms)</span>
@@ -1286,10 +1324,20 @@
             </div>
             <div class="chart-container">
               <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
-                <span style="font-weight: 700; font-size: 0.84rem;">🔴 Anomaly Spike Counter (Events)</span>
+                <span style="font-weight: 700; font-size: 0.84rem;">🔴 Anomaly Spike & Drift Counter</span>
                 <span class="badge HIGH" id="hub-err-curr">-</span>
               </div>
               <canvas id="chart-hub-err" class="telemetry-chart"></canvas>
+            </div>
+          </div>
+
+          <!-- CORRELATION & COVARIANCE MATRIX DIAGRAM -->
+          <div style="background: var(--surface-subtle); border: 1px solid var(--border); border-radius: 10px; padding: 1.5rem;">
+            <h4 style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">
+              🔬 Multi-Variate Pearson Correlation Matrix ($r \in [-1, 1]$)
+            </h4>
+            <div id="hub-correlation-cards" class="grid-3">
+              <div class="stat-card">Loading cross-metric correlations...</div>
             </div>
           </div>
         </div>
@@ -2085,12 +2133,42 @@
     }
 
     // ==========================================
-    // MULTI-METRIC CANVAS RENDERERS
+    // MULTI-METRIC CANVAS RENDERERS & ADVANCED ANALYTICS
     // ==========================================
+    async function switchHubEntity(entity) {
+      currentLiveEntity = entity;
+      document.querySelectorAll('#view-metrics-hub .chip').forEach(c => c.classList.remove('active'));
+      const activeChip = Array.from(document.querySelectorAll('#view-metrics-hub .chip')).find(c => c.textContent === entity);
+      if (activeChip) activeChip.classList.add('active');
+      await renderAllMultiCharts();
+    }
+
+    async function exportTelemetryCsv() {
+      const targetEntity = currentLiveEntity || 'server-42';
+      const res = await fetch(`/api/events?entity=${encodeURIComponent(targetEntity)}`);
+      const data = await res.json();
+      const events = data.events || [];
+      
+      let csv = 'Timestamp,Entity,Type,Value,EventID\n';
+      events.forEach(e => {
+        csv += `${e.timestamp},"${e.entity}","${e.type}",${e.value},"${e.event_id}"\n`;
+      });
+
+      const blob = new Blob([csv], { type: 'text/csv' });
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `gauntlet_telemetry_${targetEntity}_${Date.now()}.csv`;
+      a.click();
+      URL.revokeObjectURL(url);
+    }
+
     async function renderAllMultiCharts() {
       try {
         const targetEntity = currentLiveEntity || 'server-42';
-        const res = await fetch(`/api/events?entity=${targetEntity}`);
+        document.getElementById('hub-active-entity').textContent = targetEntity;
+
+        const res = await fetch(`/api/events?entity=${encodeURIComponent(targetEntity)}`);
         const data = await res.json();
         const events = data.events || [];
 
@@ -2118,6 +2196,68 @@
         if (memPts.length) document.getElementById('hub-mem-curr').textContent = `${memPts[0].v}%`;
         if (latPts.length) document.getElementById('hub-lat-curr').textContent = `${latPts[0].v} ms`;
         if (errPts.length) document.getElementById('hub-err-curr').textContent = `${errPts[0].v} err`;
+
+        // Fetch deep profile and correlation matrix for target entity
+        const profRes = await fetch(`/api/analytics/profile?entity=${encodeURIComponent(targetEntity)}`);
+        const profData = await profRes.json();
+        const p = profData.profile || profData;
+        const metricsMap = p.metrics || {};
+
+        // Latency card
+        if (metricsMap.latency) {
+          const m = metricsMap.latency;
+          document.getElementById('hub-stat-lat-mean').textContent = `${m.mean} ms`;
+          document.getElementById('hub-badge-p95').textContent = `P95: ${m.p95} ms`;
+          document.getElementById('hub-stat-lat-pills').innerHTML = `<span>Min: <strong>${m.min}</strong></span><span>Median: <strong>${m.median}</strong></span><span>Max: <strong>${m.max}</strong></span>`;
+        } else {
+          document.getElementById('hub-stat-lat-mean').textContent = 'N/A';
+          document.getElementById('hub-badge-p95').textContent = 'P95: -';
+        }
+
+        // CPU card
+        if (metricsMap.cpu) {
+          const m = metricsMap.cpu;
+          document.getElementById('hub-stat-cpu-mean').textContent = `${m.mean}%`;
+          document.getElementById('hub-badge-cpu-std').textContent = `Std: ±${m.stddev}`;
+          document.getElementById('hub-stat-cpu-pills').innerHTML = `<span>P90: <strong>${m.p90 || m.p95}</strong></span><span>Peak: <strong>${m.max}%</strong></span><span>Samples: <strong>${m.count}</strong></span>`;
+        } else {
+          document.getElementById('hub-stat-cpu-mean').textContent = 'N/A';
+          document.getElementById('hub-badge-cpu-std').textContent = 'Std: -';
+        }
+
+        // Memory card
+        if (metricsMap.memory) {
+          const m = metricsMap.memory;
+          document.getElementById('hub-stat-mem-mean').textContent = `${m.mean}%`;
+          document.getElementById('hub-stat-mem-pills').innerHTML = `<span>Median: <strong>${m.median}%</strong></span><span>Std: <strong>±${m.stddev}</strong></span><span>Samples: <strong>${m.count}</strong></span>`;
+        } else {
+          document.getElementById('hub-stat-mem-mean').textContent = 'N/A';
+        }
+
+        // Render Correlation Matrix Cards
+        const corrList = profData.correlations || [];
+        let corrHtml = '';
+        if (corrList.length) {
+          corrList.forEach(c => {
+            const isPos = c.coefficient > 0.4;
+            const isNeg = c.coefficient < -0.4;
+            const badgeColor = isPos ? 'var(--brand)' : isNeg ? 'var(--rose)' : 'var(--amber)';
+            corrHtml += `
+              <div class="stat-card" style="border-left: 4px solid ${badgeColor}; background: white; margin-bottom: 0;">
+                <div class="stat-card-title">
+                  <span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span>
+                  <span style="font-family: JetBrains Mono; font-weight: bold; color: ${badgeColor};">r = ${c.coefficient}</span>
+                </div>
+                <div style="font-size: 0.76rem; color: var(--text-muted);">${c.relationship}</div>
+                <div style="font-size: 0.7rem; font-family: JetBrains Mono; color: var(--text-light); margin-top: 0.35rem;">Sample Size: ${c.sample_size} records</div>
+              </div>
+            `;
+          });
+        } else {
+          corrHtml = '<p style="color: var(--text-muted); font-size: 0.8rem;">Insufficient multi-metric pairs to compute correlation coefficients.</p>';
+        }
+        document.getElementById('hub-correlation-cards').innerHTML = corrHtml;
+
       } catch (e) {}
     }
 
