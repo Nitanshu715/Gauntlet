@@ -1338,41 +1338,70 @@
         const p = data.profile || data;
         const correlations = data.correlations || [];
 
-        let html = '<div class="grid-2">';
+        // For the Diagnostics tab (view-soul): Full 2-column view
+        let fullHtml = '<div class="grid-2">';
 
         // Metric Baselines
-        html += '<div><h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem;">Metric Baselines & Quantiles</h4>';
+        fullHtml += '<div><h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem;">Metric Baselines & Quantiles</h4>';
         const metricsMap = p.metrics || {};
         for (const [m, s] of Object.entries(metricsMap)) {
-          html += `<div class="stat-card"><div class="stat-card-title"><span>${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.72rem;">${s.count} samples</span></div><div class="stat-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>StdDev: <strong>${s.stddev}</strong></span><span>Median: <strong>${s.median}</strong></span></div></div>`;
+          fullHtml += `<div class="stat-card"><div class="stat-card-title"><span>${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.72rem;">${s.count} samples</span></div><div class="stat-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>StdDev: <strong>${s.stddev}</strong></span><span>Median: <strong>${s.median}</strong></span></div></div>`;
         }
 
         // Correlations
         if (correlations.length) {
-          html += '<h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 1.25rem; margin-bottom: 0.8rem;">Metric Correlation Matrix</h4>';
+          fullHtml += '<h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 1.25rem; margin-bottom: 0.8rem;">Metric Correlation Matrix</h4>';
           correlations.forEach(c => {
-            html += `<div class="stat-card" style="border-left: 4px solid var(--amber);"><div class="stat-card-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--brand); font-weight: bold;">r = ${c.coefficient}</span></div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted);">${c.relationship} (Sample Size: ${c.sample_size})</div></div>`;
+            fullHtml += `<div class="stat-card" style="border-left: 4px solid var(--amber);"><div class="stat-card-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--brand); font-weight: bold;">r = ${c.coefficient}</span></div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted);">${c.relationship} (Sample Size: ${c.sample_size})</div></div>`;
           });
         }
-        html += '</div>';
+        fullHtml += '</div>';
 
         // Anomalies
-        html += '<div><h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem;">Detected Deviations & Causal Evidence</h4>';
+        fullHtml += '<div><h4 style="font-size: 0.76rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.8rem;">Detected Deviations & Causal Evidence</h4>';
         const anomList = p.recent_anomalies || [];
         if (anomList.length) {
           anomList.forEach(a => {
-            html += `<div class="stat-card" style="border-left: 4px solid var(--rose);"><div class="stat-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.82rem; color: var(--text-main); margin-bottom: 0.4rem;">${a.assessment}</p><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); margin-bottom: 0.3rem;">Observed: <strong>${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Delta: +${a.deviation_pct}% | Z-Score: ${a.z_score}</div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--brand);">Causal Factors: ${(a.evidence || []).join(' &bull; ')}</div></div>`;
+            fullHtml += `<div class="stat-card" style="border-left: 4px solid var(--rose);"><div class="stat-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.82rem; color: var(--text-main); margin-bottom: 0.4rem;">${a.assessment}</p><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); margin-bottom: 0.3rem;">Observed: <strong>${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Delta: +${a.deviation_pct}% | Z-Score: ${a.z_score}</div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--brand);">Causal Factors: ${(a.evidence || []).join(' &bull; ')}</div></div>`;
           });
         } else {
-          html += '<p style="color: var(--text-muted); font-size: 0.82rem;">No statistically anomalous deviations detected.</p>';
+          fullHtml += '<p style="color: var(--text-muted); font-size: 0.82rem;">No statistically anomalous deviations detected.</p>';
         }
-        html += '</div></div>';
+        fullHtml += '</div></div>';
 
         if (document.getElementById('diagnostics-view')) {
-          document.getElementById('diagnostics-view').innerHTML = html;
+          document.getElementById('diagnostics-view').innerHTML = fullHtml;
         }
+
+        // For Overview Summary (Right Column): Clean stacked scrollable view without nested grid overflow
+        let summaryHtml = '<div style="max-height: 440px; overflow-y: auto; padding-right: 0.25rem;">';
+        
+        // Quick Anomalies
+        if (anomList.length) {
+          summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--rose); margin-bottom: 0.6rem;">🔴 Active Deviations & Anomalies</h4>';
+          anomList.forEach(a => {
+            summaryHtml += `<div class="stat-card" style="border-left: 4px solid var(--rose); margin-bottom: 0.6rem;"><div class="stat-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.8rem; color: var(--text-main); margin-bottom: 0.3rem;">${a.assessment}</p><div style="font-size: 0.72rem; font-family: JetBrains Mono; color: var(--text-muted);">Observed: <strong>${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Z: ${a.z_score}</div></div>`;
+          });
+        }
+
+        // Quick Correlations
+        if (correlations.length) {
+          summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--amber); margin-top: 1rem; margin-bottom: 0.6rem;">🟡 Correlation Highlights</h4>';
+          correlations.forEach(c => {
+            summaryHtml += `<div class="stat-card" style="border-left: 4px solid var(--amber); margin-bottom: 0.6rem;"><div class="stat-card-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--brand); font-weight: bold;">r = ${c.coefficient}</span></div><div style="font-size: 0.72rem; font-family: JetBrains Mono; color: var(--text-muted);">${c.relationship}</div></div>`;
+          });
+        }
+
+        // Quick Baselines
+        summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 1rem; margin-bottom: 0.6rem;">Metric Baselines</h4>';
+        for (const [m, s] of Object.entries(metricsMap)) {
+          summaryHtml += `<div class="stat-card" style="margin-bottom: 0.6rem;"><div class="stat-card-title"><span>${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.7rem;">${s.count} samples</span></div><div class="stat-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>Std: <strong>${s.stddev}</strong></span></div></div>`;
+        }
+
+        summaryHtml += '</div>';
+
         if (document.getElementById('overview-diagnostics-summary')) {
-          document.getElementById('overview-diagnostics-summary').innerHTML = html;
+          document.getElementById('overview-diagnostics-summary').innerHTML = summaryHtml;
         }
       } catch (e) {}
     }
