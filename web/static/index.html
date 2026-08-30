@@ -74,23 +74,45 @@
       gap: 1.25rem;
     }
 
-    .brand-logo {
+    /* SINGLE UNIFIED TRANSPARENT CLICKABLE BRAND LOGO BUTTON */
+    .brand-logo-btn {
+      background: transparent;
+      border: none;
+      padding: 0.2rem 0.4rem;
+      cursor: pointer;
       display: flex;
       align-items: center;
-      gap: 0.55rem;
-      font-size: 1.2rem;
-      font-weight: 800;
-      letter-spacing: -0.03em;
+      gap: 0.65rem;
+      border-radius: 8px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    .brand-logo-btn:hover {
+      background: rgba(37, 99, 235, 0.06);
+      transform: scale(1.03);
+    }
+
+    .brand-logo-btn:active {
+      transform: scale(0.97);
+    }
+
+    .brand-logo-img {
+      height: 38px;
+      width: auto;
+      max-width: 140px;
+      object-fit: contain;
+      display: block;
+      background: transparent !important;
+      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
+    }
+
+    .brand-logo-text {
+      font-size: 1.25rem;
+      font-weight: 900;
+      letter-spacing: -0.04em;
       color: var(--text-main);
-      text-decoration: none;
-      transition: transform 0.2s ease;
+      font-family: 'Inter', sans-serif;
     }
-
-    .brand-logo:hover {
-      transform: scale(1.02);
-    }
-
-    .brand-logo svg { color: var(--brand); filter: drop-shadow(0 2px 4px rgba(37,99,235,0.25)); }
 
     .brand-pill {
       font-size: 0.7rem;
@@ -967,13 +989,11 @@
   <!-- HEADER -->
   <header>
     <div class="header-left">
-      <button class="sidebar-toggle-btn" id="sidebarToggleBtn" onclick="toggleSidebar()" title="Toggle Sidebar (Expand/Collapse)">
-        <img src="/static/logo.png" alt="Gauntlet Logo" style="width: 22px; height: 22px; object-fit: contain; display: block; border-radius: 4px;" />
+      <!-- SINGLE UNIFIED TRANSPARENT CLICKABLE BRAND LOGO BUTTON -->
+      <button class="brand-logo-btn" onclick="toggleSidebar()" title="Toggle Navigation Sidebar">
+        <img src="/static/logo.png" alt="Gauntlet Logo" class="brand-logo-img" />
+        <span class="brand-logo-text">GAUNTLET</span>
       </button>
-      <div class="brand-logo">
-        <img src="/static/logo.png" alt="Gauntlet" style="width: 26px; height: 26px; object-fit: contain; display: block; border-radius: 6px; box-shadow: 0 2px 6px rgba(0,0,0,0.1);" />
-        <span>GAUNTLET</span>
-      </div>
       <div class="brand-pill">High-Density Telemetry Engine</div>
       <div class="live-node-badge">
         <span class="pulsing-dot"></span> Cluster Online (127.0.0.1:8080)
