@@ -729,22 +729,6 @@
     .badge.CRITICAL, .badge.HIGH { background: var(--rose-subtle); color: var(--rose); border: 1px solid #fecdd3; }
     .badge.MEDIUM { background: var(--amber-subtle); color: var(--amber); border: 1px solid #fde68a; }
     .badge.LOW { background: var(--emerald-subtle); color: var(--emerald); border: 1px solid #a7f3d0; }
-      font-weight: 700;
-      color: var(--text-main);
-      margin-bottom: 0.4rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .stat-pills {
-      display: flex;
-      gap: 1rem;
-      font-family: 'JetBrains Mono', monospace;
-      font-size: 0.76rem;
-      color: var(--text-muted);
-      flex-wrap: wrap;
-    }
 
     /* SYSTEM TOPOLOGY NODE MAP */
     .topology-map {
@@ -1366,7 +1350,7 @@
         const events = data.events || [];
         cachedServerEvents = events;
         
-        let html = '<table><thead><tr><th>Timestamp</th><th>Entity</th><th>Metric / Type</th><th>Value</th><th>Event ID</th></tr></thead><tbody>';
+        let html = '<table class="telemetry-table"><thead><tr><th>Timestamp</th><th>Entity</th><th>Metric / Type</th><th>Value</th><th>Event ID</th></tr></thead><tbody>';
         const chartPoints = [];
         
         events.forEach(e => {
@@ -1375,9 +1359,21 @@
           const type = e.type;
           const val = e.value;
           const eid = e.event_id;
-          const valStyle = type === 'deployment' ? 'color: var(--brand); font-weight: bold;' : (val > 80 ? 'color: var(--rose); font-weight: bold;' : '');
           
-          html += `<tr><td>${ts}</td><td>${entity}</td><td><strong>${type}</strong></td><td style="${valStyle}">${val}</td><td style="color: var(--text-muted); font-size: 0.74rem;">${eid}</td></tr>`;
+          let valBadge = '';
+          if (type === 'deployment') {
+            valBadge = `<span class="badge" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe;">${val}</span>`;
+          } else if (type === 'errors') {
+            valBadge = Number(val) > 10 ? `<span class="badge HIGH">${val} err</span>` : `<span class="badge LOW">${val} err</span>`;
+          } else if (type === 'cpu') {
+            valBadge = Number(val) > 80 ? `<span class="badge CRITICAL">${val}%</span>` : `<span style="font-weight: 700; color: var(--text-main);">${val}%</span>`;
+          } else if (type === 'memory') {
+            valBadge = Number(val) > 75 ? `<span class="badge MEDIUM">${val}%</span>` : `<span style="font-weight: 700; color: var(--text-main);">${val}%</span>`;
+          } else {
+            valBadge = `<span style="font-weight: 700; color: var(--text-main);">${val}</span>`;
+          }
+          
+          html += `<tr><td style="color: var(--text-muted); font-size: 0.78rem;">${ts}</td><td><span class="badge" style="background: var(--surface-subtle); color: var(--text-main); border: 1px solid var(--border);">${entity}</span></td><td><strong style="color: var(--text-muted); text-transform: uppercase; font-size: 0.72rem;">${type}</strong></td><td>${valBadge}</td><td style="color: var(--text-light); font-size: 0.72rem; font-family: 'JetBrains Mono', monospace;">${eid.substring(0, 12)}...</td></tr>`;
           if (type === currentTimelineMetric && !isNaN(Number(val))) {
             chartPoints.push({ t: Number(ts), v: Number(val) });
           }
@@ -1505,28 +1501,28 @@
         }
 
         // For Overview Summary (Right Column): Clean stacked scrollable view without nested grid overflow
-        let summaryHtml = '<div style="max-height: 440px; overflow-y: auto; padding-right: 0.25rem;">';
+        let summaryHtml = '<div style="max-height: 480px; overflow-y: auto; padding-right: 0.35rem;">';
         
         // Quick Anomalies
         if (anomList.length) {
-          summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--rose); margin-bottom: 0.6rem;">🔴 Active Deviations & Anomalies</h4>';
+          summaryHtml += '<div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem;"><h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--rose);">🔴 Active Deviations & Anomalies</h4><span class="badge HIGH">' + anomList.length + ' Spikes</span></div>';
           anomList.forEach(a => {
-            summaryHtml += `<div class="stat-card" style="border-left: 4px solid var(--rose); margin-bottom: 0.6rem;"><div class="stat-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.8rem; color: var(--text-main); margin-bottom: 0.3rem;">${a.assessment}</p><div style="font-size: 0.72rem; font-family: JetBrains Mono; color: var(--text-muted);">Observed: <strong>${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Z: ${a.z_score}</div></div>`;
+            summaryHtml += `<div class="stat-card" style="border-left: 4px solid var(--rose); margin-bottom: 0.75rem; background: #fff5f5;"><div class="stat-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.82rem; color: var(--text-main); margin-bottom: 0.4rem; font-weight: 500;">${a.assessment}</p><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); background: white; padding: 0.4rem 0.6rem; border-radius: 4px; border: 1px solid #fee2e2;">Observed: <strong style="color: var(--rose);">${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Z: ${a.z_score}</div></div>`;
           });
         }
 
         // Quick Correlations
         if (correlations.length) {
-          summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--amber); margin-top: 1rem; margin-bottom: 0.6rem;">🟡 Correlation Highlights</h4>';
+          summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--amber); margin-top: 1.25rem; margin-bottom: 0.75rem;">🟡 Correlation Highlights</h4>';
           correlations.forEach(c => {
-            summaryHtml += `<div class="stat-card" style="border-left: 4px solid var(--amber); margin-bottom: 0.6rem;"><div class="stat-card-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--brand); font-weight: bold;">r = ${c.coefficient}</span></div><div style="font-size: 0.72rem; font-family: JetBrains Mono; color: var(--text-muted);">${c.relationship}</div></div>`;
+            summaryHtml += `<div class="stat-card" style="border-left: 4px solid var(--amber); margin-bottom: 0.75rem; background: #fffdf5;"><div class="stat-card-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--brand); font-weight: bold; font-family: JetBrains Mono;">r = ${c.coefficient}</span></div><div style="font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted);">${c.relationship}</div></div>`;
           });
         }
 
         // Quick Baselines
-        summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 1rem; margin-bottom: 0.6rem;">Metric Baselines</h4>';
+        summaryHtml += '<h4 style="font-size: 0.74rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-top: 1.25rem; margin-bottom: 0.75rem;">Metric Baselines</h4>';
         for (const [m, s] of Object.entries(metricsMap)) {
-          summaryHtml += `<div class="stat-card" style="margin-bottom: 0.6rem;"><div class="stat-card-title"><span>${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.7rem;">${s.count} samples</span></div><div class="stat-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>Std: <strong>${s.stddev}</strong></span></div></div>`;
+          summaryHtml += `<div class="stat-card" style="margin-bottom: 0.75rem;"><div class="stat-card-title"><span>${m.toUpperCase()}</span><span class="badge LOW">${s.count} samples</span></div><div class="stat-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>Std: <strong>${s.stddev}</strong></span></div></div>`;
         }
 
         summaryHtml += '</div>';
