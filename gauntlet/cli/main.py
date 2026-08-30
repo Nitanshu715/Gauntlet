@@ -76,7 +76,7 @@ def cmd_query(args: argparse.Namespace) -> None:
 def cmd_analyze(args: argparse.Namespace) -> None:
     db_dir = Path(args.dir)
     storage = StorageEngine(db_dir)
-    analytics = BuiltinAnalyticsEngine()
+    analytics = AnalyticsEngine()
     events = list(storage.scan(entity=args.entity))
 
     if args.metric:
