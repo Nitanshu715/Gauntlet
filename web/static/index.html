@@ -2015,6 +2015,63 @@
       document.getElementById('prof-feedback').innerHTML = '<span style="color: var(--emerald); font-weight: bold;">✓ Profile details successfully saved!</span>';
     }
 
+    function openProfileModal() {
+      const existing = document.getElementById('user-profile-modal');
+      if (existing) { existing.remove(); return; }
+
+      const modal = document.createElement('div');
+      modal.id = 'user-profile-modal';
+      modal.style.cssText = `
+        position: fixed; top: 60px; right: 20px; width: 340px;
+        background: white; border: 1px solid var(--border); border-radius: 12px;
+        box-shadow: 0 10px 25px -5px rgba(0,0,0,0.1), 0 8px 10px -6px rgba(0,0,0,0.1);
+        padding: 1.25rem; z-index: 1000; animation: fadeIn 0.15s ease-in-out;
+      `;
+
+      const u = currentUser || { name: 'Demo Architect', email: 'demo@gauntlet.internal', role: 'Evaluation Engineer', org: 'Gauntlet Cloud Demo Lab' };
+      const initial = (u.name || 'D').charAt(0).toUpperCase();
+      const customAvatar = u.avatar || localStorage.getItem('gauntlet_custom_avatar');
+      const avatarHtml = customAvatar ? `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />` : initial;
+
+      modal.innerHTML = `
+        <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; border-bottom: 1px solid var(--border); padding-bottom: 0.75rem;">
+          <div style="display: flex; align-items: center; gap: 0.75rem;">
+            <div class="user-avatar" style="width: 38px; height: 38px; font-size: 1rem;">${avatarHtml}</div>
+            <div>
+              <div style="font-weight: 700; font-size: 0.9rem; color: var(--text-main);">${u.name}</div>
+              <div style="font-size: 0.72rem; color: var(--text-muted);">${u.role}</div>
+            </div>
+          </div>
+          <button onclick="document.getElementById('user-profile-modal').remove()" style="background: none; border: none; font-size: 1.1rem; cursor: pointer; color: var(--text-light);">&times;</button>
+        </div>
+        
+        <div style="margin-bottom: 1rem;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem;">Organization & Workspace</div>
+          <div style="background: var(--surface-subtle); padding: 0.6rem 0.75rem; border-radius: 6px; font-size: 0.8rem; font-weight: 600; display: flex; justify-content: space-between; align-items: center;">
+            <span>🏢 ${u.org || 'Production Cluster'}</span>
+            <span class="badge LOW">ENTERPRISE</span>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 1.25rem;">
+          <div style="font-size: 0.72rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.4rem;">Cluster Secret API Key</div>
+          <div style="font-family: JetBrains Mono; font-size: 0.72rem; background: #0f172a; color: #38bdf8; padding: 0.5rem 0.75rem; border-radius: 6px; word-break: break-all;">
+            gt_live_8f0923a1c984fe77b1029e0a
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 0.5rem; margin-bottom: 0.5rem;">
+          <button class="btn-primary" style="flex: 1; justify-content: center; font-size: 0.76rem;" onclick="switchView('profile'); document.getElementById('user-profile-modal').remove();">Edit Profile / Avatar</button>
+          <button class="btn-secondary" style="flex: 1; justify-content: center; font-size: 0.76rem;" onclick="alert('API Key copied to clipboard.');">Copy API Key</button>
+        </div>
+
+        <button class="btn-secondary" style="width: 100%; justify-content: center; font-size: 0.76rem; color: var(--rose); border-color: #fecdd3;" onclick="document.getElementById('user-profile-modal').remove(); logoutUser();">
+          Log Out / Switch Account
+        </button>
+      `;
+      document.body.appendChild(modal);
+    }
+
     function logoutUser() {
       localStorage.removeItem('gauntlet_user_session');
       currentUser = null;
