@@ -3,30 +3,49 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GAUNTLET — Temporal Data & Analytics Engine</title>
+  <title>GAUNTLET — Temporal Intelligence & Data Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=JetBrains+Mono:wght@300;400;500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #090a0f;
-      --card-bg: #12141e;
-      --border: #1e2235;
-      --text: #f0f3fa;
-      --text-muted: #8b949e;
+      --bg: #05070a;
+      --bg-surface: #0a0d14;
+      --card-bg: rgba(13, 17, 26, 0.85);
+      --border: #1a2233;
+      --border-bright: #2d3b55;
+      --text: #f0f4fc;
+      --text-dim: #94a3b8;
+      --text-muted: #57657a;
       
-      --power: #a855f7;
-      --space: #3b82f6;
-      --reality: #ef4444;
-      --mind: #eab308;
-      --time: #10b981;
-      --soul: #f97316;
+      --gold-primary: #f59e0b;
+      --gold-glow: rgba(245, 158, 11, 0.35);
+
+      /* The Six Infinity Stones */
+      --stone-power: #a855f7;
+      --stone-space: #3b82f6;
+      --stone-reality: #ef4444;
+      --stone-mind: #eab308;
+      --stone-time: #10b981;
+      --stone-soul: #f97316;
+
+      --power-glow: 0 0 20px rgba(168, 85, 247, 0.5);
+      --space-glow: 0 0 20px rgba(59, 130, 246, 0.5);
+      --reality-glow: 0 0 20px rgba(239, 68, 68, 0.5);
+      --mind-glow: 0 0 20px rgba(234, 179, 8, 0.5);
+      --time-glow: 0 0 20px rgba(16, 185, 129, 0.5);
+      --soul-glow: 0 0 20px rgba(249, 115, 22, 0.5);
     }
 
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--bg);
+      background-image: 
+        radial-gradient(circle at 50% -10%, rgba(245, 158, 11, 0.08) 0%, transparent 50%),
+        radial-gradient(circle at 10% 20%, rgba(168, 85, 247, 0.05) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(59, 130, 246, 0.05) 0%, transparent 40%);
       color: var(--text);
-      font-family: 'Inter', -apple-system, sans-serif;
+      font-family: 'Plus Jakarta Sans', sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -34,144 +53,242 @@
 
     header {
       border-bottom: 1px solid var(--border);
-      padding: 1rem 2rem;
+      padding: 0.9rem 2.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(18, 20, 30, 0.8);
-      backdrop-filter: blur(12px);
+      background: rgba(8, 11, 18, 0.9);
+      backdrop-filter: blur(20px);
       position: sticky;
       top: 0;
-      z-index: 100;
+      z-index: 1000;
     }
 
     .brand {
       display: flex;
       align-items: center;
-      gap: 0.75rem;
-      font-weight: 800;
-      font-size: 1.25rem;
-      letter-spacing: 0.05em;
+      gap: 1rem;
     }
 
-    .brand span {
-      background: linear-gradient(135deg, var(--power), var(--space), var(--reality), var(--mind), var(--time), var(--soul));
+    .brand-title {
+      font-family: 'Cinzel', serif;
+      font-weight: 900;
+      font-size: 1.5rem;
+      letter-spacing: 0.15em;
+      background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #b45309 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
+      text-shadow: 0 0 30px rgba(245, 158, 11, 0.4);
     }
 
-    .stones-nav {
+    .brand-tagline {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      font-weight: 600;
+      padding-left: 0.75rem;
+      border-left: 1px solid var(--border-bright);
+    }
+
+    .stones-nexus {
       display: flex;
-      gap: 0.5rem;
+      gap: 0.6rem;
+      background: rgba(13, 17, 26, 0.6);
+      padding: 0.35rem 0.5rem;
+      border-radius: 50px;
+      border: 1px solid var(--border);
     }
 
-    .stone-btn {
+    .gem-btn {
       display: flex;
       align-items: center;
-      gap: 0.4rem;
-      padding: 0.5rem 0.85rem;
-      border-radius: 8px;
-      font-size: 0.85rem;
-      font-weight: 600;
+      gap: 0.5rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 30px;
+      font-size: 0.8rem;
+      font-weight: 700;
       background: transparent;
-      border: 1px solid var(--border);
-      color: var(--text-muted);
+      border: 1px solid transparent;
+      color: var(--text-dim);
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
     }
 
-    .stone-btn:hover, .stone-btn.active {
-      color: #fff;
-      border-color: currentColor;
+    .gem-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      transition: all 0.25s ease;
     }
 
-    .stone-btn.power.active { color: var(--power); background: rgba(168, 85, 247, 0.1); }
-    .stone-btn.space.active { color: var(--space); background: rgba(59, 130, 246, 0.1); }
-    .stone-btn.reality.active { color: var(--reality); background: rgba(239, 68, 68, 0.1); }
-    .stone-btn.mind.active { color: var(--mind); background: rgba(234, 179, 8, 0.1); }
-    .stone-btn.time.active { color: var(--time); background: rgba(16, 185, 129, 0.1); }
-    .stone-btn.soul.active { color: var(--soul); background: rgba(249, 115, 22, 0.1); }
+    .gem-btn.power .gem-dot { background: var(--stone-power); }
+    .gem-btn.space .gem-dot { background: var(--stone-space); }
+    .gem-btn.reality .gem-dot { background: var(--stone-reality); }
+    .gem-btn.mind .gem-dot { background: var(--stone-mind); }
+    .gem-btn.time .gem-dot { background: var(--stone-time); }
+    .gem-btn.soul .gem-dot { background: var(--stone-soul); }
+
+    .gem-btn:hover { color: #fff; background: rgba(255, 255, 255, 0.05); }
+
+    .gem-btn.power.active { color: #fff; border-color: var(--stone-power); background: rgba(168, 85, 247, 0.15); box-shadow: var(--power-glow); }
+    .gem-btn.space.active { color: #fff; border-color: var(--stone-space); background: rgba(59, 130, 246, 0.15); box-shadow: var(--space-glow); }
+    .gem-btn.reality.active { color: #fff; border-color: var(--stone-reality); background: rgba(239, 68, 68, 0.15); box-shadow: var(--reality-glow); }
+    .gem-btn.mind.active { color: #fff; border-color: var(--stone-mind); background: rgba(234, 179, 8, 0.15); box-shadow: var(--mind-glow); }
+    .gem-btn.time.active { color: #fff; border-color: var(--stone-time); background: rgba(16, 185, 129, 0.15); box-shadow: var(--time-glow); }
+    .gem-btn.soul.active { color: #fff; border-color: var(--stone-soul); background: rgba(249, 115, 22, 0.15); box-shadow: var(--soul-glow); }
 
     main {
       flex: 1;
-      padding: 2rem;
-      max-width: 1400px;
+      padding: 2rem 2.5rem;
+      max-width: 1560px;
       margin: 0 auto;
       width: 100%;
     }
 
-    .grid-stats {
+    .telemetry-strip {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 1rem;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.25rem;
       margin-bottom: 2rem;
     }
 
-    .stat-card {
+    .telemetry-card {
       background: var(--card-bg);
       border: 1px solid var(--border);
       border-radius: 12px;
-      padding: 1.25rem;
+      padding: 1.25rem 1.5rem;
+      position: relative;
+      overflow: hidden;
     }
 
-    .stat-title {
-      font-size: 0.8rem;
+    .telemetry-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0; height: 2px;
+      background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
+      opacity: 0.4;
+    }
+
+    .telemetry-label {
+      font-size: 0.72rem;
       color: var(--text-muted);
       text-transform: uppercase;
-      font-weight: 600;
+      letter-spacing: 0.1em;
+      font-weight: 700;
       margin-bottom: 0.5rem;
     }
 
-    .stat-val {
-      font-size: 1.6rem;
-      font-weight: 700;
+    .telemetry-value {
+      font-size: 1.8rem;
+      font-weight: 800;
       font-family: 'JetBrains Mono', monospace;
+      letter-spacing: -0.02em;
     }
 
     .tab-content { display: none; }
-    .tab-content.active { display: block; }
+    .tab-content.active { display: block; animation: fadeIn 0.3s cubic-bezier(0.16, 1, 0.3, 1); }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(6px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
 
     .panel {
       background: var(--card-bg);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.5rem;
-      margin-bottom: 1.5rem;
+      border-radius: 14px;
+      padding: 1.75rem;
+      margin-bottom: 1.75rem;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
     }
 
     .panel-title {
       font-size: 1.1rem;
-      font-weight: 700;
-      margin-bottom: 1rem;
+      font-weight: 800;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
       display: flex;
       align-items: center;
-      justify-content: space-between;
+      gap: 0.75rem;
     }
 
-    textarea, input, select {
+    .panel-title.power { color: var(--stone-power); }
+    .panel-title.space { color: var(--stone-space); }
+    .panel-title.reality { color: var(--stone-reality); }
+    .panel-title.mind { color: var(--stone-mind); }
+    .panel-title.time { color: var(--stone-time); }
+    .panel-title.soul { color: var(--stone-soul); }
+
+    textarea, input {
       width: 100%;
-      background: #0d0f17;
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 0.75rem;
+      background: #07090e;
+      border: 1px solid var(--border-bright);
+      border-radius: 10px;
+      padding: 0.85rem 1.1rem;
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.9rem;
+      font-size: 0.88rem;
       margin-bottom: 1rem;
+      transition: border-color 0.2s;
     }
 
-    button.primary-btn {
-      background: linear-gradient(135deg, #3b82f6, #6366f1);
-      color: white;
-      font-weight: 600;
+    textarea:focus, input:focus {
+      outline: none;
+      border-color: var(--gold-primary);
+      box-shadow: 0 0 12px var(--gold-glow);
+    }
+
+    .action-row {
+      display: flex;
+      gap: 0.75rem;
+      align-items: center;
+    }
+
+    button.gauntlet-btn {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+      color: #000;
+      font-weight: 800;
+      font-size: 0.82rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       border: none;
-      padding: 0.75rem 1.5rem;
+      padding: 0.75rem 1.6rem;
       border-radius: 8px;
       cursor: pointer;
-      transition: opacity 0.2s;
+      transition: all 0.2s ease;
+      box-shadow: 0 4px 16px var(--gold-glow);
     }
 
-    button.primary-btn:hover { opacity: 0.9; }
+    button.gauntlet-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 6px 20px rgba(245, 158, 11, 0.5);
+    }
+
+    button.secondary-btn {
+      background: #151b28;
+      color: var(--text);
+      font-weight: 700;
+      font-size: 0.82rem;
+      border: 1px solid var(--border-bright);
+      padding: 0.75rem 1.4rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    button.secondary-btn:hover { background: #1f283b; border-color: var(--text-dim); }
 
     table {
       width: 100%;
@@ -181,145 +298,189 @@
     }
 
     th, td {
-      padding: 0.75rem 1rem;
+      padding: 0.85rem 1.1rem;
       border-bottom: 1px solid var(--border);
       text-align: left;
     }
 
     th {
       color: var(--text-muted);
-      font-weight: 600;
+      font-weight: 700;
+      font-size: 0.72rem;
       text-transform: uppercase;
-      font-size: 0.75rem;
+      letter-spacing: 0.08em;
     }
 
-    .badge {
+    tbody tr:hover { background: rgba(255, 255, 255, 0.02); }
+
+    .status-badge {
       display: inline-block;
-      padding: 0.2rem 0.5rem;
+      padding: 0.25rem 0.6rem;
       border-radius: 4px;
       font-size: 0.75rem;
-      font-weight: 600;
+      font-weight: 800;
+      letter-spacing: 0.05em;
     }
-    .badge.HIGH, .badge.CRITICAL { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
-    .badge.MEDIUM { background: rgba(234, 179, 8, 0.2); color: #eab308; }
-    .badge.LOW { background: rgba(16, 185, 129, 0.2); color: #10b981; }
 
-    .telemetry-tag {
-      font-size: 0.8rem;
-      color: var(--text-muted);
+    .status-badge.CRITICAL, .status-badge.HIGH { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
+    .status-badge.MEDIUM { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.4); }
+    .status-badge.LOW { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+
+    .grid-2col {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.5rem;
+    }
+
+    .metric-card {
+      background: #090c14;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1rem 1.25rem;
+      margin-bottom: 0.75rem;
+    }
+
+    .metric-card-title {
+      font-size: 0.85rem;
+      font-weight: 700;
+      color: var(--gold-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .metric-values {
+      display: flex;
+      gap: 1.5rem;
       font-family: 'JetBrains Mono', monospace;
+      font-size: 0.8rem;
+      color: var(--text-dim);
     }
   </style>
 </head>
 <body>
   <header>
     <div class="brand">
-      <span>🧤 GAUNTLET</span>
+      <div class="brand-title">GAUNTLET</div>
+      <div class="brand-tagline">Temporal Intelligence Engine</div>
     </div>
-    <div class="stones-nav">
-      <button class="stone-btn power active" onclick="switchTab('power')">🟣 Power</button>
-      <button class="stone-btn space" onclick="switchTab('space')">🔵 Space</button>
-      <button class="stone-btn reality" onclick="switchTab('reality')">🔴 Reality</button>
-      <button class="stone-btn mind" onclick="switchTab('mind')">🟡 Mind</button>
-      <button class="stone-btn time" onclick="switchTab('time')">🟢 Time</button>
-      <button class="stone-btn soul" onclick="switchTab('soul')">🟠 Soul</button>
+    <div class="stones-nexus">
+      <button class="gem-btn power active" onclick="switchStone('power')"><span class="gem-dot"></span>Power</button>
+      <button class="gem-btn space" onclick="switchStone('space')"><span class="gem-dot"></span>Space</button>
+      <button class="gem-btn reality" onclick="switchStone('reality')"><span class="gem-dot"></span>Reality</button>
+      <button class="gem-btn mind" onclick="switchStone('mind')"><span class="gem-dot"></span>Mind</button>
+      <button class="gem-btn time" onclick="switchStone('time')"><span class="gem-dot"></span>Time</button>
+      <button class="gem-btn soul" onclick="switchStone('soul')"><span class="gem-dot"></span>Soul</button>
     </div>
   </header>
 
   <main>
-    <div class="grid-stats">
-      <div class="stat-card">
-        <div class="stat-title">Database Status</div>
-        <div class="stat-val" id="stat-status" style="color: #10b981;">HEALTHY</div>
+    <div class="telemetry-strip">
+      <div class="telemetry-card">
+        <div class="telemetry-label">Storage Health</div>
+        <div class="telemetry-value" id="stat-status" style="color: var(--stone-time);">HEALTHY</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-title">Total Records</div>
-        <div class="stat-val" id="stat-records">0</div>
+      <div class="telemetry-card">
+        <div class="telemetry-label">Persisted Records</div>
+        <div class="telemetry-value" id="stat-records">0</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-title">Disk Segments</div>
-        <div class="stat-val" id="stat-segments">0</div>
+      <div class="telemetry-card">
+        <div class="telemetry-label">Disk Segments</div>
+        <div class="telemetry-value" id="stat-segments">0</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-title">Memtable Size</div>
-        <div class="stat-val" id="stat-memtable">0</div>
+      <div class="telemetry-card">
+        <div class="telemetry-label">Memtable Buffer</div>
+        <div class="telemetry-value" id="stat-memtable">0</div>
       </div>
     </div>
 
-    <!-- 🟣 POWER: Ingestion -->
+    <!-- POWER: Ingestion Subsystem -->
     <div id="tab-power" class="tab-content active">
       <div class="panel">
-        <div class="panel-title">🟣 Power — Ingest Raw Event Stream</div>
-        <textarea id="ingest-input" rows="5" placeholder='{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 94.2}'></textarea>
-        <button class="primary-btn" onclick="submitIngest()">Ingest Event</button>
-        <button class="primary-btn" style="background: #334155; margin-left: 0.5rem;" onclick="loadDemoStream()">Load Demo Dataset</button>
-        <div id="ingest-status" style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;"></div>
+        <div class="panel-header">
+          <div class="panel-title power">Phase I · Power / Ingestion Pipeline</div>
+          <span style="font-size: 0.8rem; color: var(--text-muted); font-family: 'JetBrains Mono', monospace;">Deterministic Sequence Assignor Active</span>
+        </div>
+        <textarea id="ingest-input" rows="5" placeholder='{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 94.2, "attributes": {"region": "us-east"}}'></textarea>
+        <div class="action-row">
+          <button class="gauntlet-btn" onclick="submitIngest()">Ingest Record</button>
+          <button class="secondary-btn" onclick="loadDemoStream()">Load Flagship Telemetry Stream</button>
+        </div>
+        <div id="ingest-status" style="margin-top: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;"></div>
       </div>
     </div>
 
-    <!-- 🔵 SPACE: Storage & WAL -->
+    <!-- SPACE: Persistent Storage & WAL -->
     <div id="tab-space" class="tab-content">
       <div class="panel">
-        <div class="panel-title">
-          <span>🔵 Space — Storage Segments & WAL Status</span>
-          <div>
-            <button class="primary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" onclick="triggerFlush()">Force Flush</button>
-            <button class="primary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background: #64748b;" onclick="triggerCompact()">Compact</button>
+        <div class="panel-header">
+          <div class="panel-title space">Phase II · Space / Storage & WAL Engine</div>
+          <div class="action-row">
+            <button class="secondary-btn" onclick="triggerFlush()">Flush Memtable</button>
+            <button class="secondary-btn" onclick="triggerCompact()">Compact Segments</button>
           </div>
         </div>
-        <div id="segments-table">Loading segment catalog...</div>
+        <div id="segments-table">Cataloging disk segments...</div>
       </div>
     </div>
 
-    <!-- 🔴 REALITY: Indexing -->
+    <!-- REALITY: Multi-dimensional Indexing -->
     <div id="tab-reality" class="tab-content">
       <div class="panel">
-        <div class="panel-title">🔴 Reality — Multi-dimensional Index Inspection</div>
-        <p style="color: var(--text-muted); margin-bottom: 1rem;">Bloom filters, time intervals, and inverted entity index active across segments.</p>
-        <div id="reality-info" style="font-family: 'JetBrains Mono', monospace;">Ready.</div>
+        <div class="panel-header">
+          <div class="panel-title reality">Phase III · Reality / Sparse & Bloom Indexing</div>
+        </div>
+        <p style="color: var(--text-dim); margin-bottom: 1.25rem; font-size: 0.9rem;">
+          In-memory spatial-temporal indexes isolate candidate segment offsets and reject non-matching queries via multi-hash Bloom filters prior to disk read operations.
+        </p>
+        <div id="reality-info" style="font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">Indexes synchronized with authoritative manifest.</div>
       </div>
     </div>
 
-    <!-- 🟡 MIND: Query Engine -->
+    <!-- MIND: Custom Query Language -->
     <div id="tab-mind" class="tab-content">
       <div class="panel">
-        <div class="panel-title">
-          <span>🟡 Mind — Custom Query Console</span>
-          <span class="telemetry-tag" id="query-telemetry"></span>
+        <div class="panel-header">
+          <div class="panel-title mind">Phase IV · Mind / Query Planner & Execution</div>
+          <span id="query-telemetry" style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);"></span>
         </div>
         <input type="text" id="query-input" value='FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC' />
-        <button class="primary-btn" onclick="runQuery()">Execute Query</button>
+        <button class="gauntlet-btn" onclick="runQuery()">Execute Query Plan</button>
         <div id="query-results" style="margin-top: 1.5rem; overflow-x: auto;"></div>
       </div>
     </div>
 
-    <!-- 🟢 TIME & 🟠 SOUL: Analytics & Anomalies -->
+    <!-- TIME: Temporal State Reconstruction & Historical Diffs -->
     <div id="tab-time" class="tab-content">
       <div class="panel">
-        <div class="panel-title">🟢 Time — Temporal Historical Replay</div>
-        <div id="time-table">Querying historical event sequence...</div>
+        <div class="panel-header">
+          <div class="panel-title time">Phase V · Time / Historical Reconstruction & Temporal Diffs</div>
+        </div>
+        <p style="color: var(--text-dim); margin-bottom: 1rem; font-size: 0.88rem;">Reconstructing continuous historical timeline and state transitions for observed entities.</p>
+        <div id="time-table"></div>
       </div>
     </div>
 
+    <!-- SOUL: Analytics, Correlations & Anomaly Intelligence -->
     <div id="tab-soul" class="tab-content">
       <div class="panel">
-        <div class="panel-title">🟠 Soul — Behavioral Baselines & Anomaly Intelligence</div>
-        <button class="primary-btn" onclick="fetchAnalyticsProfile('server-42')">Analyze server-42</button>
-        <div id="anomaly-results" style="margin-top: 1.5rem;"></div>
+        <div class="panel-header">
+          <div class="panel-title soul">Phase VI · Soul / Statistical Baseline & Anomaly Intelligence</div>
+          <button class="gauntlet-btn" onclick="fetchFullDiagnostics('server-42')">Diagnose server-42</button>
+        </div>
+        <div id="soul-diagnostics" style="margin-top: 1.5rem;"></div>
       </div>
     </div>
   </main>
 
   <script>
-    function switchTab(stone) {
-      document.querySelectorAll('.stone-btn').forEach(b => b.classList.remove('active'));
+    function switchStone(stone) {
+      document.querySelectorAll('.gem-btn').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      document.querySelector(`.stone-btn.${stone}`).classList.add('active');
+      document.querySelector(`.gem-btn.${stone}`).classList.add('active');
       document.getElementById(`tab-${stone}`).classList.add('active');
 
       if (stone === 'space') loadStats();
-      if (stone === 'time' || stone === 'mind') runQuery();
-      if (stone === 'soul') fetchAnalyticsProfile('server-42');
+      if (stone === 'mind' || stone === 'time') runQuery();
+      if (stone === 'soul') fetchFullDiagnostics('server-42');
     }
 
     async function loadStats() {
@@ -331,12 +492,12 @@
         document.getElementById('stat-segments').textContent = data.segments.length;
         document.getElementById('stat-memtable').textContent = data.memtable_events;
 
-        let html = '<table><thead><tr><th>Segment ID</th><th>Records</th><th>Min Ts</th><th>Max Ts</th><th>Entities</th></tr></thead><tbody>';
+        let html = '<table><thead><tr><th>Segment Identifier</th><th>Records</th><th>Min Timestamp</th><th>Max Timestamp</th><th>Indexed Entities</th></tr></thead><tbody>';
         data.segments.forEach(s => {
           html += `<tr><td>${s.segment_id}</td><td>${s.record_count}</td><td>${s.min_ts}</td><td>${s.max_ts}</td><td>${s.entities.join(', ')}</td></tr>`;
         });
         html += '</tbody></table>';
-        document.getElementById('segments-table').innerHTML = data.segments.length ? html : '<p style="color: var(--text-muted)">No flushed segments on disk yet (in-memory WAL active).</p>';
+        document.getElementById('segments-table').innerHTML = data.segments.length ? html : '<p style="color: var(--text-muted); font-family: JetBrains Mono;">No persistent segments on disk yet (Memtable write buffer active).</p>';
       } catch (err) {
         console.error(err);
       }
@@ -353,10 +514,10 @@
           body: JSON.stringify(payload)
         });
         const d = await res.json();
-        document.getElementById('ingest-status').innerHTML = `<span style="color: #10b981">✓ Ingestion Successful. Sequence #${d.sequence_num || d.ingested_count}</span>`;
+        document.getElementById('ingest-status').innerHTML = `<span style="color: var(--stone-time)">[OK] Event acknowledged and persisted to WAL. Sequence #${d.sequence_num || d.ingested_count}</span>`;
         loadStats();
       } catch (e) {
-        document.getElementById('ingest-status').innerHTML = `<span style="color: #ef4444">Error: ${e.message}</span>`;
+        document.getElementById('ingest-status').innerHTML = `<span style="color: var(--stone-reality)">[ERROR] Validation failure: ${e.message}</span>`;
       }
     }
 
@@ -381,7 +542,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(demo)
       });
-      document.getElementById('ingest-status').innerHTML = '<span style="color: #10b981">✓ Ingested 13 Flagship Telemetry Events for server-42.</span>';
+      document.getElementById('ingest-status').innerHTML = '<span style="color: var(--stone-time)">[OK] Flagship telemetry stream ingested into engine.</span>';
       loadStats();
     }
 
@@ -395,11 +556,11 @@
         });
         const data = await res.json();
         if (data.error) {
-          document.getElementById('query-results').innerHTML = `<p style="color: #ef4444">${data.error}</p>`;
+          document.getElementById('query-results').innerHTML = `<p style="color: var(--stone-reality); font-family: JetBrains Mono;">${data.error}</p>`;
           return;
         }
 
-        document.getElementById('query-telemetry').textContent = `${data.metadata.returned_rows} rows returned | ${data.metadata.scanned_rows} scanned | ${data.metadata.execution_time_ms} ms`;
+        document.getElementById('query-telemetry').textContent = `${data.metadata.returned_rows} rows | ${data.metadata.scanned_rows} scanned | ${data.metadata.execution_time_ms} ms | ${data.metadata.index_hits} index hits`;
 
         let html = '<table><thead><tr>' + data.columns.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
         data.rows.forEach(r => {
@@ -423,24 +584,32 @@
       loadStats();
     }
 
-    async function fetchAnalyticsProfile(entity) {
+    async function fetchFullDiagnostics(entity) {
       try {
         const res = await fetch(`/api/analytics/profile?entity=${entity}`);
         const p = await res.json();
-        let html = `<div style="margin-bottom: 1rem;"><strong>Active Span:</strong> ${p.active_span_seconds}s | <strong>Total Events:</strong> ${p.total_events}</div>`;
-
-        html += '<h4 style="margin-bottom: 0.5rem;">Detected Anomalies</h4>';
-        if (p.recent_anomalies && p.recent_anomalies.length) {
-          html += '<table><thead><tr><th>Metric</th><th>Observed</th><th>Baseline</th><th>Deviation</th><th>Z-Score</th><th>Severity</th><th>Evidence</th></tr></thead><tbody>';
-          p.recent_anomalies.forEach(a => {
-            html += `<tr><td>${a.metric}</td><td>${a.observed_value}</td><td>${a.expected_baseline}</td><td>+${a.deviation_pct}%</td><td>${a.z_score}</td><td><span class="badge ${a.severity}">${a.severity}</span></td><td>${a.evidence.join(', ')}</td></tr>`;
-          });
-          html += '</tbody></table>';
-        } else {
-          html += '<p style="color: var(--text-muted)">No anomalous deviations found.</p>';
+        
+        let html = '<div class="grid-2col" style="margin-bottom: 1.5rem;">';
+        
+        // Behavioral Metrics Profile
+        html += '<div><h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;">Metric Baselines & Distributions</h4>';
+        for (const [metric, s] of Object.entries(p.metrics || {})) {
+          html += `<div class="metric-card"><div class="metric-card-title">${metric.toUpperCase()}</div><div class="metric-values"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>StdDev: <strong>${s.stddev}</strong></span><span>Count: <strong>${s.count}</strong></span></div></div>`;
         }
+        html += '</div>';
 
-        document.getElementById('anomaly-results').innerHTML = html;
+        // Anomaly Evidence Deck
+        html += '<div><h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem;">Detected Deviations & Evidence</h4>';
+        if (p.recent_anomalies && p.recent_anomalies.length) {
+          p.recent_anomalies.forEach(a => {
+            html += `<div class="metric-card" style="border-left: 3px solid var(--stone-reality);"><div style="display: flex; justify-content: space-between; margin-bottom: 0.4rem;"><strong>${a.metric.toUpperCase()} SPIKE</strong><span class="status-badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.82rem; color: var(--text); margin-bottom: 0.4rem;">${a.assessment}</p><div style="font-size: 0.75rem; color: var(--text-muted); font-family: JetBrains Mono;">Observed: ${a.observed_value} | Baseline: ${a.expected_baseline} | Z-Score: ${a.z_score}</div><div style="font-size: 0.75rem; color: var(--gold-primary); margin-top: 0.4rem;">Nearby Evidence: ${a.evidence.join(' &bull; ')}</div></div>`;
+          });
+        } else {
+          html += '<p style="color: var(--text-muted); font-size: 0.85rem;">No statistically anomalous deviations detected.</p>';
+        }
+        html += '</div></div>';
+
+        document.getElementById('soul-diagnostics').innerHTML = html;
       } catch (e) {
         console.error(e);
       }
@@ -450,3 +619,4 @@
   </script>
 </body>
 </html>
+

@@ -132,7 +132,7 @@ class WriteAheadLog:
 
                 magic, seq, ts, op, payload_len, expected_crc = struct.unpack(WAL_HEADER_FORMAT, header_bytes)
 
-                if magic != WAL_MAGIC:
+                if magic != WAL_MAGIC or payload_len > 10 * 1024 * 1024:
                     report.corrupted_entries += 1
                     report.partial_tail_bytes = rf.seek(0, os.SEEK_END) - offset_before
                     break
