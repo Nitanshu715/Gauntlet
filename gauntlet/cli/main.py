@@ -127,7 +127,7 @@ def cmd_serve(args: argparse.Namespace) -> None:
     analytics = AnalyticsEngine()
 
     server = create_server(storage, index, executor, analytics, host=args.host, port=args.port)
-    print(f"🚀 GAUNTLET Server running at http://{args.host}:{args.port}")
+    print(f"[OK] GAUNTLET Server running at http://{args.host}:{args.port}")
     try:
         server.serve_forever()
     except KeyboardInterrupt:

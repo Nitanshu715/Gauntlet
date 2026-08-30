@@ -1,7 +1,11 @@
 """Zero-dependency HTTP Server & High-Performance REST API for GAUNTLET."""
 
 import json
+import re
+import time
 import urllib.parse
+import urllib.request
+import urllib.error
 from http.server import BaseHTTPRequestHandler, HTTPServer
 from pathlib import Path
 from typing import Any, Dict, Optional
@@ -175,10 +179,6 @@ class GauntletHTTPHandler(BaseHTTPRequestHandler):
                 url = "http://" + url
 
             try:
-                import time
-                import urllib.request
-                import re
-
                 start_time = time.perf_counter()
                 req = urllib.request.Request(
                     url,
