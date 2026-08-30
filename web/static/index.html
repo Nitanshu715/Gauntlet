@@ -681,6 +681,75 @@
 
       <!-- VIEW: OVERVIEW & TOPOLOGY -->
       <div id="view-overview" class="view-panel active">
+        <!-- AGENTIC WEB CRAWLER & PROBE BAR -->
+        <div class="content-box" style="border: 2px solid var(--brand); background: linear-gradient(180deg, #ffffff 0%, #f0f7ff 100%);">
+          <div class="box-header" style="border-bottom: 1px solid #bfdbfe;">
+            <div class="box-title" style="color: var(--brand);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg>
+              6-Phase Agentic Pipeline — Live Web & Localhost Probe
+            </div>
+            <span class="badge LOW">Autonomous Agent Ready</span>
+          </div>
+          <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 1rem;">
+            Enter any local server (e.g. <code style="font-weight: bold; color: var(--brand);">http://127.0.0.1:3000</code> for Nitanshu Kafé) or external URL. GAUNTLET’s autonomous agent will fetch, ingest into binary WAL, build Bloom filters, parse AST telemetry, measure drift, and diagnose anomalies.
+          </p>
+
+          <div style="display: flex; gap: 0.6rem; margin-bottom: 0.75rem;">
+            <input type="text" id="agentic-url-input" value="http://127.0.0.1:3000" placeholder="https://example.com or http://127.0.0.1:3000" style="margin-bottom: 0;" />
+            <button class="btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap;" onclick="executeAgenticCrawl()">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
+              Run 6-Phase Agentic Pipeline
+            </button>
+          </div>
+
+          <div class="chip-group" style="margin-bottom: 0.75rem;">
+            <span style="font-size: 0.74rem; color: var(--text-muted); align-self: center; font-weight: 600;">Quick Probes:</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='http://127.0.0.1:3000'; executeAgenticCrawl();">Nitanshu Kafé (127.0.0.1:3000)</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='http://127.0.0.1:8080'; executeAgenticCrawl();">Gauntlet API (127.0.0.1:8080)</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://news.ycombinator.com'; executeAgenticCrawl();">Hacker News</span>
+            <span class="chip" onclick="document.getElementById('agentic-url-input').value='https://github.com'; executeAgenticCrawl();">GitHub</span>
+          </div>
+
+          <!-- AGENTIC PIPELINE STATUS STRIP -->
+          <div id="agentic-pipeline-results" style="display: none; margin-top: 1.25rem;">
+            <div style="display: grid; grid-template-columns: repeat(6, 1fr); gap: 0.6rem; margin-bottom: 1.25rem;">
+              <div class="stat-card" style="border-top: 3px solid var(--rose); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;">🟣 I. POWER</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p1-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p1-sub">Fetch & HTTP</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid var(--cyan); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;">🔵 II. SPACE</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p2-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p2-sub">Binary WAL</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid var(--violet); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;">🔴 III. REALITY</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p3-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p3-sub">Bloom Index</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid var(--amber); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;">🟡 IV. MIND</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p4-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p4-sub">DSL Query</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid var(--emerald); margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;">🟢 V. TIME</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p5-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p5-sub">Waveforms</div>
+              </div>
+              <div class="stat-card" style="border-top: 3px solid #ea580c; margin-bottom: 0;">
+                <div class="stat-card-title" style="font-size: 0.74rem;">🟠 VI. SOUL</div>
+                <div style="font-family: JetBrains Mono; font-size: 0.8rem; font-weight: 700; color: var(--text-main);" id="pipe-p6-val">-</div>
+                <div style="font-size: 0.68rem; color: var(--text-muted);" id="pipe-p6-sub">Z-Score Anomalies</div>
+              </div>
+            </div>
+            
+            <div id="agentic-pipeline-detail" style="background: var(--surface); border: 1px solid var(--border); border-radius: 6px; padding: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.78rem;">
+            </div>
+          </div>
+        </div>
+
         <!-- SYSTEM TOPOLOGY -->
         <div class="topology-map">
           <div class="topo-node">
@@ -1239,6 +1308,59 @@
       document.getElementById('simulator-log').innerHTML = `[${new Date().toLocaleTimeString()}] <span style="color: var(--brand); font-weight: bold;">[SIMULATOR INJECTED]</span> ${events.length} dynamic incident events streamed to disk WAL.`;
       loadStats();
       loadTimeline();
+    }
+
+    async function executeAgenticCrawl() {
+      const url = document.getElementById('agentic-url-input').value.trim();
+      if (!url) return;
+
+      const resultsBox = document.getElementById('agentic-pipeline-results');
+      resultsBox.style.display = 'block';
+
+      document.getElementById('pipe-p1-val').textContent = 'FETCHING...';
+      document.getElementById('pipe-p2-val').textContent = 'QUEUED';
+      document.getElementById('pipe-p3-val').textContent = 'QUEUED';
+      document.getElementById('pipe-p4-val').textContent = 'QUEUED';
+      document.getElementById('pipe-p5-val').textContent = 'QUEUED';
+      document.getElementById('pipe-p6-val').textContent = 'QUEUED';
+      document.getElementById('agentic-pipeline-detail').innerHTML = `<span style="color: var(--brand);">[AGENT DISPATCHED]</span> Connecting to <strong>${url}</strong>... Initiating 6-Phase Agentic Execution...`;
+
+      try {
+        const res = await fetch('/api/agentic/crawl', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ url: url })
+        });
+        const data = await res.json();
+        if (data.error) {
+          document.getElementById('agentic-pipeline-detail').innerHTML = `<span style="color: var(--rose); font-weight: bold;">[PIPELINE FAILURE]</span> ${data.error}`;
+          return;
+        }
+
+        const p = data.pipeline;
+        document.getElementById('pipe-p1-val').textContent = `${p.phase_1_power.latency_ms}ms (${p.phase_1_power.status_code})`;
+        document.getElementById('pipe-p2-val').textContent = `${p.phase_2_space.page_size_kb} KB (WAL OK)`;
+        document.getElementById('pipe-p3-val').textContent = `${p.phase_3_reality.links_found} Links / ${p.phase_3_reality.scripts_found} Scripts`;
+        document.getElementById('pipe-p4-val').textContent = `${p.phase_4_mind.events_generated} Records Ingested`;
+        document.getElementById('pipe-p5-val').textContent = `${p.phase_5_time.timeline_count} History Total`;
+        document.getElementById('pipe-p6-val').textContent = `${p.phase_6_soul.anomalies_detected} Anomalies Flagged`;
+
+        let detailHtml = `<div style="margin-bottom: 0.5rem;"><span style="color: var(--emerald); font-weight: bold;">✓ 6-PHASE AGENTIC PIPELINE SUCCESS</span> — Target Domain: <strong>${data.entity}</strong> (${data.title})</div>`;
+        detailHtml += `<div>• <strong>Phase I (Power)</strong>: HTTP Probe returned Status ${p.phase_1_power.status_code} in ${p.phase_1_power.latency_ms} ms.</div>`;
+        detailHtml += `<div>• <strong>Phase II (Space)</strong>: Appended ${p.phase_2_space.bytes_ingested} bytes to binary WAL (wal.gtwl) with CRC-32 checksum.</div>`;
+        detailHtml += `<div>• <strong>Phase III (Reality)</strong>: Bloom filter manifested entity '${p.phase_3_reality.entity}' with ${p.phase_3_reality.scripts_found} script nodes & ${p.phase_3_reality.links_found} anchors.</div>`;
+        detailHtml += `<div>• <strong>Phase IV (Mind)</strong>: DSL AST executor indexed live metrics (latency, cpu, memory, errors).</div>`;
+        detailHtml += `<div>• <strong>Phase V (Time)</strong>: Reconstructed historical sliding window for ${data.entity}.</div>`;
+        detailHtml += `<div>• <strong>Phase VI (Soul)</strong>: Z-Score anomaly detector evaluated baseline across all metrics.</div>`;
+        
+        document.getElementById('agentic-pipeline-detail').innerHTML = detailHtml;
+
+        loadStats();
+        loadTimeline();
+        runDiagnostics(data.entity);
+      } catch (err) {
+        document.getElementById('agentic-pipeline-detail').innerHTML = `<span style="color: var(--rose);">[ERROR]</span> ${err.message}`;
+      }
     }
 
     async function flushMemtable() {
