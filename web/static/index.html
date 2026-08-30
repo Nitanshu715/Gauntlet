@@ -2164,12 +2164,16 @@
               </div>
             </div>
 
-            <div style="display: flex; gap: 1.5rem; font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 0.6rem;">
-              <span>Links: <strong>${data.links_count || 0}</strong></span>
-              <span>Scripts: <strong>${data.scripts_count || 0}</strong></span>
-              <span>Images: <strong>${data.images_count || 0}</strong></span>
-              <span>HSTS Protected: <strong>${hstsClean}</strong></span>
-              <span>Sample URLs: ${(data.sample_links || []).slice(0, 3).join(', ') || 'Root'}</span>
+            <div style="display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 0.75rem; font-size: 0.74rem; font-family: JetBrains Mono; color: var(--text-muted); border-top: 1px solid var(--border); padding-top: 0.75rem;">
+              <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+                <span>Links: <strong style="color: var(--text-main);">${data.links_count || 0}</strong></span>
+                <span>Scripts: <strong style="color: var(--text-main);">${data.scripts_count || 0}</strong></span>
+                <span>Images: <strong style="color: var(--text-main);">${data.images_count || 0}</strong></span>
+                <span>HSTS: <strong style="color: ${hstsClean === 'YES' ? 'var(--emerald)' : 'var(--text-light)'};">${hstsClean}</strong></span>
+              </div>
+              <div style="max-width: 50%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-size: 0.7rem; color: var(--text-light);" title="${(data.sample_links || []).join(' | ')}">
+                Sample URLs: <span style="color: var(--brand);">${(data.sample_links || []).map(l => l.length > 30 ? l.substring(0, 30) + '…' : l).slice(0, 2).join(', ') || 'Root'}</span>
+              </div>
             </div>
           </div>
         `;
