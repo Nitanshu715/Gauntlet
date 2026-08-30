@@ -3,23 +3,22 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GAUNTLET — Temporal Intelligence & Storage Engine</title>
+  <title>GAUNTLET — Cosmic Temporal Intelligence & Autonomous Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@700;800;900&family=JetBrains+Mono:ital,wght@0,300;0,400;0,600;0,700;0,800;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-void: #030508;
-      --bg-surface: #070a10;
-      --bg-panel: rgba(11, 15, 25, 0.75);
-      --bg-card: rgba(16, 22, 36, 0.65);
-      --border: #182236;
-      --border-accent: #2a3a5a;
+      --bg-void: #020408;
+      --bg-surface: #060911;
+      --bg-panel: rgba(10, 15, 28, 0.82);
+      --bg-card: rgba(15, 23, 42, 0.65);
+      --border: #152238;
+      --border-accent: #223555;
       
       --gold-primary: #f59e0b;
       --gold-bright: #fbbf24;
-      --gold-dark: #b45309;
-      --gold-glow: 0 0 25px rgba(245, 158, 11, 0.45);
+      --gold-glow: rgba(245, 158, 11, 0.4);
 
       --stone-power: #a855f7;
       --stone-space: #3b82f6;
@@ -28,14 +27,14 @@
       --stone-time: #10b981;
       --stone-soul: #f97316;
 
-      --power-glow: 0 0 20px rgba(168, 85, 247, 0.6);
-      --space-glow: 0 0 20px rgba(59, 130, 246, 0.6);
-      --reality-glow: 0 0 20px rgba(239, 68, 68, 0.6);
-      --mind-glow: 0 0 20px rgba(234, 179, 8, 0.6);
-      --time-glow: 0 0 20px rgba(16, 185, 129, 0.6);
-      --soul-glow: 0 0 20px rgba(249, 115, 22, 0.6);
+      --power-glow: 0 0 25px rgba(168, 85, 247, 0.7);
+      --space-glow: 0 0 25px rgba(59, 130, 246, 0.7);
+      --reality-glow: 0 0 25px rgba(239, 68, 68, 0.7);
+      --mind-glow: 0 0 25px rgba(234, 179, 8, 0.7);
+      --time-glow: 0 0 25px rgba(16, 185, 129, 0.7);
+      --soul-glow: 0 0 25px rgba(249, 115, 22, 0.7);
 
-      --text: #f1f5f9;
+      --text: #f8fafc;
       --text-dim: #94a3b8;
       --text-muted: #64748b;
     }
@@ -43,276 +42,314 @@
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
       background-color: var(--bg-void);
-      background-image: 
-        radial-gradient(circle at 50% -20%, rgba(245, 158, 11, 0.12) 0%, transparent 60%),
-        radial-gradient(circle at 10% 40%, rgba(168, 85, 247, 0.06) 0%, transparent 50%),
-        radial-gradient(circle at 90% 60%, rgba(59, 130, 246, 0.06) 0%, transparent 50%),
-        linear-gradient(to bottom, transparent, rgba(3, 5, 8, 0.95));
       color: var(--text);
       font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       overflow-x: hidden;
+      position: relative;
     }
 
-    /* TOP CYBER COMMAND BAR */
+    #cosmic-canvas {
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.65;
+    }
+
+    /* TOP COMMAND DECK */
     header {
       border-bottom: 1px solid var(--border);
-      padding: 0.85rem 3rem;
+      padding: 1rem 3.5rem;
       display: flex;
       justify-content: space-between;
       align-items: center;
-      background: rgba(7, 10, 16, 0.85);
-      backdrop-filter: blur(24px);
+      background: rgba(6, 9, 17, 0.88);
+      backdrop-filter: blur(30px);
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.8);
     }
 
     .brand-cluster {
       display: flex;
       align-items: center;
-      gap: 1.25rem;
+      gap: 1.5rem;
     }
 
     .brand-title {
       font-family: 'Cinzel', serif;
       font-weight: 900;
-      font-size: 1.65rem;
-      letter-spacing: 0.18em;
-      background: linear-gradient(135deg, #fffbeb 0%, #fbbf24 40%, #d97706 80%, #78350f 100%);
+      font-size: 1.85rem;
+      letter-spacing: 0.22em;
+      background: linear-gradient(135deg, #fffbeb 0%, #fbbf24 35%, #d97706 70%, #78350f 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
-      filter: drop-shadow(0 0 16px rgba(245, 158, 11, 0.35));
+      filter: drop-shadow(0 0 20px rgba(245, 158, 11, 0.4));
     }
 
-    .brand-sub {
+    .brand-badge {
       font-size: 0.72rem;
-      font-weight: 700;
-      letter-spacing: 0.14em;
-      color: var(--text-muted);
+      font-weight: 800;
+      letter-spacing: 0.15em;
+      color: var(--gold-bright);
+      background: rgba(245, 158, 11, 0.1);
+      border: 1px solid rgba(245, 158, 11, 0.3);
+      padding: 0.3rem 0.75rem;
+      border-radius: 20px;
       text-transform: uppercase;
-      padding-left: 1rem;
-      border-left: 1px solid var(--border-accent);
     }
 
-    /* THANOS GAUNTLET STONE SELECTOR */
-    .gauntlet-nexus {
+    /* THANOS GAUNTLET WEAPON DOCK */
+    .gauntlet-dock {
       display: flex;
-      gap: 0.65rem;
-      background: rgba(11, 15, 25, 0.8);
-      padding: 0.35rem 0.6rem;
+      gap: 0.75rem;
+      background: rgba(10, 15, 28, 0.9);
+      padding: 0.45rem 0.85rem;
       border-radius: 60px;
       border: 1px solid var(--border);
-      box-shadow: inset 0 2px 6px rgba(0, 0, 0, 0.6);
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0,0,0,0.5);
     }
 
-    .stone-node {
+    .stone-crystal {
       display: flex;
       align-items: center;
-      gap: 0.55rem;
-      padding: 0.45rem 1rem;
+      gap: 0.65rem;
+      padding: 0.55rem 1.15rem;
       border-radius: 40px;
-      font-size: 0.78rem;
+      font-size: 0.82rem;
       font-weight: 800;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
       background: transparent;
       border: 1px solid transparent;
       color: var(--text-dim);
       cursor: pointer;
       transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
     }
 
-    .stone-gem {
-      width: 9px;
-      height: 9px;
-      border-radius: 50%;
+    .gem-facet {
+      width: 11px;
+      height: 11px;
+      border-radius: 2px;
+      transform: rotate(45deg);
       transition: all 0.3s ease;
-      box-shadow: 0 0 4px currentColor;
+      box-shadow: 0 0 8px currentColor;
     }
 
-    .stone-node.power .stone-gem { background: var(--stone-power); color: var(--stone-power); }
-    .stone-node.space .stone-gem { background: var(--stone-space); color: var(--stone-space); }
-    .stone-node.reality .stone-gem { background: var(--stone-reality); color: var(--stone-reality); }
-    .stone-node.mind .stone-gem { background: var(--stone-mind); color: var(--stone-mind); }
-    .stone-node.time .stone-gem { background: var(--stone-time); color: var(--stone-time); }
-    .stone-node.soul .stone-gem { background: var(--stone-soul); color: var(--stone-soul); }
+    .stone-crystal.power .gem-facet { background: var(--stone-power); color: var(--stone-power); }
+    .stone-crystal.space .gem-facet { background: var(--stone-space); color: var(--stone-space); }
+    .stone-crystal.reality .gem-facet { background: var(--stone-reality); color: var(--stone-reality); }
+    .stone-crystal.mind .gem-facet { background: var(--stone-mind); color: var(--stone-mind); }
+    .stone-crystal.time .gem-facet { background: var(--stone-time); color: var(--stone-time); }
+    .stone-crystal.soul .gem-facet { background: var(--stone-soul); color: var(--stone-soul); }
 
-    .stone-node:hover { color: #fff; background: rgba(255, 255, 255, 0.04); }
+    .stone-crystal:hover { color: #fff; transform: translateY(-1px); }
 
-    .stone-node.power.active { color: #fff; border-color: var(--stone-power); background: rgba(168, 85, 247, 0.18); box-shadow: var(--power-glow); }
-    .stone-node.space.active { color: #fff; border-color: var(--stone-space); background: rgba(59, 130, 246, 0.18); box-shadow: var(--space-glow); }
-    .stone-node.reality.active { color: #fff; border-color: var(--stone-reality); background: rgba(239, 68, 68, 0.18); box-shadow: var(--reality-glow); }
-    .stone-node.mind.active { color: #fff; border-color: var(--stone-mind); background: rgba(234, 179, 8, 0.18); box-shadow: var(--mind-glow); }
-    .stone-node.time.active { color: #fff; border-color: var(--stone-time); background: rgba(16, 185, 129, 0.18); box-shadow: var(--time-glow); }
-    .stone-node.soul.active { color: #fff; border-color: var(--stone-soul); background: rgba(249, 115, 22, 0.18); box-shadow: var(--soul-glow); }
+    .stone-crystal.power.active { color: #fff; border-color: var(--stone-power); background: rgba(168, 85, 247, 0.22); box-shadow: var(--power-glow); }
+    .stone-crystal.space.active { color: #fff; border-color: var(--stone-space); background: rgba(59, 130, 246, 0.22); box-shadow: var(--space-glow); }
+    .stone-crystal.reality.active { color: #fff; border-color: var(--stone-reality); background: rgba(239, 68, 68, 0.22); box-shadow: var(--reality-glow); }
+    .stone-crystal.mind.active { color: #fff; border-color: var(--stone-mind); background: rgba(234, 179, 8, 0.22); box-shadow: var(--mind-glow); }
+    .stone-crystal.time.active { color: #fff; border-color: var(--stone-time); background: rgba(16, 185, 129, 0.22); box-shadow: var(--time-glow); }
+    .stone-crystal.soul.active { color: #fff; border-color: var(--stone-soul); background: rgba(249, 115, 22, 0.22); box-shadow: var(--soul-glow); }
 
     main {
       flex: 1;
-      padding: 2.25rem 3rem;
-      max-width: 1680px;
+      padding: 2.5rem 3.5rem;
+      max-width: 1720px;
       margin: 0 auto;
       width: 100%;
+      position: relative;
+      z-index: 10;
     }
 
-    /* TELEMETRY HUD */
-    .hud-strip {
+    /* TELEMETRY GAUGES */
+    .telemetry-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1.25rem;
-      margin-bottom: 2.25rem;
+      gap: 1.5rem;
+      margin-bottom: 2.5rem;
     }
 
-    .hud-card {
+    .telemetry-cell {
       background: var(--bg-card);
       border: 1px solid var(--border);
-      border-radius: 14px;
-      padding: 1.4rem 1.6rem;
+      border-radius: 16px;
+      padding: 1.5rem 1.75rem;
       position: relative;
       overflow: hidden;
-      backdrop-filter: blur(16px);
-      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(20px);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.6);
+      transition: all 0.25s ease;
     }
 
-    .hud-card::before {
+    .telemetry-cell:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-2px);
+    }
+
+    .telemetry-cell::after {
       content: '';
       position: absolute;
-      top: 0; left: 0; right: 0; height: 2px;
+      top: 0; left: 0; right: 0; height: 3px;
       background: linear-gradient(90deg, transparent, var(--gold-primary), transparent);
-      opacity: 0.5;
     }
 
-    .hud-title {
-      font-size: 0.72rem;
+    .telemetry-sub {
+      font-size: 0.75rem;
       color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      font-weight: 700;
-      margin-bottom: 0.4rem;
-    }
-
-    .hud-value {
-      font-size: 2rem;
       font-weight: 800;
+      margin-bottom: 0.5rem;
+    }
+
+    .telemetry-main {
+      font-size: 2.2rem;
+      font-weight: 900;
       font-family: 'JetBrains Mono', monospace;
-      letter-spacing: -0.03em;
+      letter-spacing: -0.04em;
     }
 
-    /* PANELS & TABS */
+    /* WAR ROOM PANELS */
     .tab-content { display: none; }
-    .tab-content.active { display: block; animation: slideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1); }
+    .tab-content.active { display: block; animation: quantumPulse 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
 
-    @keyframes slideUp {
-      from { opacity: 0; transform: translateY(8px); }
-      to { opacity: 1; transform: translateY(0); }
+    @keyframes quantumPulse {
+      from { opacity: 0; transform: translateY(12px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
     }
 
-    .gauntlet-panel {
+    .war-panel {
       background: var(--bg-panel);
       border: 1px solid var(--border);
-      border-radius: 16px;
-      padding: 2rem;
-      margin-bottom: 2rem;
-      backdrop-filter: blur(20px);
-      box-shadow: 0 12px 40px rgba(0, 0, 0, 0.6);
+      border-radius: 18px;
+      padding: 2.25rem;
+      margin-bottom: 2.25rem;
+      backdrop-filter: blur(25px);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.7);
     }
 
-    .panel-head {
+    .panel-banner {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      margin-bottom: 1.5rem;
-      padding-bottom: 1rem;
+      margin-bottom: 1.75rem;
+      padding-bottom: 1.25rem;
       border-bottom: 1px solid var(--border);
     }
 
-    .stone-label {
+    .panel-heading {
       font-family: 'Cinzel', serif;
-      font-size: 1.15rem;
-      font-weight: 800;
-      letter-spacing: 0.1em;
+      font-size: 1.35rem;
+      font-weight: 900;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
     }
 
-    .stone-label.power { color: var(--stone-power); text-shadow: var(--power-glow); }
-    .stone-label.space { color: var(--stone-space); text-shadow: var(--space-glow); }
-    .stone-label.reality { color: var(--stone-reality); text-shadow: var(--reality-glow); }
-    .stone-label.mind { color: var(--stone-mind); text-shadow: var(--mind-glow); }
-    .stone-label.time { color: var(--stone-time); text-shadow: var(--time-glow); }
-    .stone-label.soul { color: var(--stone-soul); text-shadow: var(--soul-glow); }
+    .panel-heading.power { color: var(--stone-power); text-shadow: var(--power-glow); }
+    .panel-heading.space { color: var(--stone-space); text-shadow: var(--space-glow); }
+    .panel-heading.reality { color: var(--stone-reality); text-shadow: var(--reality-glow); }
+    .panel-heading.mind { color: var(--stone-mind); text-shadow: var(--mind-glow); }
+    .panel-heading.time { color: var(--stone-time); text-shadow: var(--time-glow); }
+    .panel-heading.soul { color: var(--stone-soul); text-shadow: var(--soul-glow); }
 
+    /* FORM CONTROLS & CODE AREAS */
     textarea, input {
       width: 100%;
-      background: #05070c;
+      background: #04060a;
       border: 1px solid var(--border-accent);
-      border-radius: 10px;
-      padding: 0.95rem 1.25rem;
+      border-radius: 12px;
+      padding: 1.1rem 1.4rem;
       color: var(--text);
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.88rem;
-      margin-bottom: 1.25rem;
-      transition: all 0.2s ease;
+      font-size: 0.92rem;
+      margin-bottom: 1.5rem;
+      transition: all 0.25s ease;
+      box-shadow: inset 0 2px 6px rgba(0,0,0,0.8);
     }
 
     textarea:focus, input:focus {
       outline: none;
       border-color: var(--gold-primary);
-      box-shadow: 0 0 16px var(--gold-glow);
+      box-shadow: 0 0 20px var(--gold-glow), inset 0 2px 6px rgba(0,0,0,0.8);
     }
 
-    .btn-row {
+    .flex-actions {
       display: flex;
-      gap: 0.85rem;
+      gap: 1rem;
       align-items: center;
     }
 
-    button.gauntlet-btn {
-      background: linear-gradient(135deg, #f59e0b, #b45309);
+    button.btn-primary-gauntlet {
+      background: linear-gradient(135deg, #f59e0b 0%, #d97706 50%, #92400e 100%);
       color: #000;
-      font-weight: 800;
-      font-size: 0.82rem;
-      letter-spacing: 0.1em;
+      font-weight: 900;
+      font-size: 0.85rem;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       border: none;
-      padding: 0.85rem 1.75rem;
-      border-radius: 8px;
+      padding: 0.95rem 2rem;
+      border-radius: 10px;
       cursor: pointer;
       transition: all 0.25s ease;
-      box-shadow: var(--gold-glow);
+      box-shadow: 0 4px 20px rgba(245, 158, 11, 0.45);
     }
 
-    button.gauntlet-btn:hover {
+    button.btn-primary-gauntlet:hover {
       transform: translateY(-2px);
-      box-shadow: 0 6px 24px rgba(245, 158, 11, 0.6);
+      box-shadow: 0 8px 30px rgba(245, 158, 11, 0.7);
     }
 
-    button.sub-btn {
-      background: rgba(26, 34, 54, 0.6);
+    button.btn-sub-cyber {
+      background: rgba(21, 34, 56, 0.8);
       color: var(--text);
-      font-weight: 700;
-      font-size: 0.82rem;
-      letter-spacing: 0.05em;
+      font-weight: 800;
+      font-size: 0.85rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
       border: 1px solid var(--border-accent);
-      padding: 0.85rem 1.5rem;
-      border-radius: 8px;
+      padding: 0.95rem 1.75rem;
+      border-radius: 10px;
       cursor: pointer;
-      transition: all 0.2s ease;
+      transition: all 0.25s ease;
     }
 
-    button.sub-btn:hover { background: rgba(42, 58, 90, 0.8); border-color: var(--text-dim); }
+    button.btn-sub-cyber:hover {
+      background: rgba(34, 53, 85, 0.9);
+      border-color: var(--gold-bright);
+      transform: translateY(-1px);
+    }
 
-    /* TABLES & MATRICES */
+    /* REALTIME CHARTS */
+    .chart-container {
+      background: #030509;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    canvas.waveform-chart {
+      width: 100%;
+      height: 180px;
+      display: block;
+    }
+
+    /* MATRICES & TABLES */
     table {
       width: 100%;
       border-collapse: collapse;
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.85rem;
+      font-size: 0.88rem;
     }
 
     th, td {
-      padding: 0.95rem 1.25rem;
+      padding: 1.1rem 1.4rem;
       border-bottom: 1px solid var(--border);
       text-align: left;
     }
@@ -320,241 +357,290 @@
     th {
       color: var(--text-muted);
       font-weight: 800;
-      font-size: 0.72rem;
+      font-size: 0.74rem;
       text-transform: uppercase;
-      letter-spacing: 0.1em;
-      background: rgba(11, 15, 25, 0.4);
+      letter-spacing: 0.12em;
+      background: rgba(8, 13, 24, 0.6);
     }
 
-    tbody tr { transition: background 0.15s; }
-    tbody tr:hover { background: rgba(255, 255, 255, 0.03); }
+    tbody tr:hover { background: rgba(245, 158, 11, 0.04); }
 
-    .badge-pill {
+    .tag-badge {
       display: inline-block;
-      padding: 0.25rem 0.65rem;
-      border-radius: 4px;
-      font-size: 0.72rem;
-      font-weight: 800;
-      letter-spacing: 0.06em;
+      padding: 0.3rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
       text-transform: uppercase;
     }
 
-    .badge-pill.CRITICAL, .badge-pill.HIGH { background: rgba(239, 68, 68, 0.18); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.4); }
-    .badge-pill.MEDIUM { background: rgba(234, 179, 8, 0.18); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.4); }
-    .badge-pill.LOW { background: rgba(16, 185, 129, 0.18); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.4); }
+    .tag-badge.CRITICAL, .tag-badge.HIGH { background: rgba(239, 68, 68, 0.2); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.5); box-shadow: 0 0 12px rgba(239, 68, 68, 0.3); }
+    .tag-badge.MEDIUM { background: rgba(234, 179, 8, 0.2); color: #facc15; border: 1px solid rgba(234, 179, 8, 0.5); }
+    .tag-badge.LOW { background: rgba(16, 185, 129, 0.2); color: #34d399; border: 1px solid rgba(16, 185, 129, 0.5); }
 
-    .split-grid {
+    .dual-pane {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1.75rem;
+      gap: 2rem;
     }
 
-    .insight-card {
-      background: rgba(8, 11, 18, 0.7);
+    .cyber-card {
+      background: rgba(6, 9, 16, 0.85);
       border: 1px solid var(--border);
-      border-radius: 12px;
-      padding: 1.25rem 1.5rem;
-      margin-bottom: 1rem;
-      transition: all 0.2s ease;
+      border-radius: 14px;
+      padding: 1.4rem 1.6rem;
+      margin-bottom: 1.25rem;
+      transition: all 0.25s ease;
+      position: relative;
     }
 
-    .insight-card:hover { border-color: var(--border-accent); }
+    .cyber-card:hover { border-color: var(--border-accent); }
 
-    .insight-title {
-      font-size: 0.88rem;
-      font-weight: 800;
-      color: var(--gold-bright);
-      margin-bottom: 0.4rem;
+    .card-top {
       display: flex;
       justify-content: space-between;
       align-items: center;
-    }
-
-    .insight-body {
-      font-size: 0.82rem;
-      color: var(--text-dim);
       margin-bottom: 0.6rem;
-      line-height: 1.5;
     }
 
-    .insight-meta {
-      font-size: 0.75rem;
+    .card-label {
+      font-size: 0.92rem;
+      font-weight: 800;
+      color: var(--gold-bright);
+      letter-spacing: 0.05em;
+    }
+
+    .card-desc {
+      font-size: 0.85rem;
+      color: var(--text-dim);
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+
+    .card-stats {
+      font-size: 0.78rem;
       font-family: 'JetBrains Mono', monospace;
       color: var(--text-muted);
     }
   </style>
 </head>
 <body>
+  <canvas id="cosmic-canvas"></canvas>
+
   <header>
     <div class="brand-cluster">
       <div class="brand-title">GAUNTLET</div>
-      <div class="brand-sub">Temporal Data & Analytics Engine</div>
+      <div class="brand-badge">Autonomous Quantum Core</div>
     </div>
-    <div class="gauntlet-nexus">
-      <button class="stone-node power active" onclick="activateStone('power')"><span class="stone-gem"></span>Power</button>
-      <button class="stone-node space" onclick="activateStone('space')"><span class="stone-gem"></span>Space</button>
-      <button class="stone-node reality" onclick="activateStone('reality')"><span class="stone-gem"></span>Reality</button>
-      <button class="stone-node mind" onclick="activateStone('mind')"><span class="stone-gem"></span>Mind</button>
-      <button class="stone-node time" onclick="activateStone('time')"><span class="stone-gem"></span>Time</button>
-      <button class="stone-node soul" onclick="activateStone('soul')"><span class="stone-gem"></span>Soul</button>
+    <div class="gauntlet-dock">
+      <button class="stone-crystal power active" onclick="igniteStone('power')"><span class="gem-facet"></span>Power</button>
+      <button class="stone-crystal space" onclick="igniteStone('space')"><span class="gem-facet"></span>Space</button>
+      <button class="stone-crystal reality" onclick="igniteStone('reality')"><span class="gem-facet"></span>Reality</button>
+      <button class="stone-crystal mind" onclick="igniteStone('mind')"><span class="gem-facet"></span>Mind</button>
+      <button class="stone-crystal time" onclick="igniteStone('time')"><span class="gem-facet"></span>Time</button>
+      <button class="stone-crystal soul" onclick="igniteStone('soul')"><span class="gem-facet"></span>Soul</button>
     </div>
   </header>
 
   <main>
-    <!-- TELEMETRY HUD -->
-    <div class="hud-strip">
-      <div class="hud-card">
-        <div class="hud-title">Engine Health Status</div>
-        <div class="hud-value" id="hud-status" style="color: var(--stone-time);">HEALTHY</div>
+    <!-- TELEMETRY GAUGES -->
+    <div class="telemetry-grid">
+      <div class="telemetry-cell">
+        <div class="telemetry-sub">Subsystem Integrity</div>
+        <div class="telemetry-main" id="stat-integrity" style="color: var(--stone-time);">ACTIVE</div>
       </div>
-      <div class="hud-card">
-        <div class="hud-title">Authoritative Events</div>
-        <div class="hud-value" id="hud-records">0</div>
+      <div class="telemetry-cell">
+        <div class="telemetry-sub">Authoritative Events</div>
+        <div class="telemetry-main" id="stat-records">0</div>
       </div>
-      <div class="hud-card">
-        <div class="hud-title">Active Disk Segments</div>
-        <div class="hud-value" id="hud-segments">0</div>
+      <div class="telemetry-cell">
+        <div class="telemetry-sub">Binary Segments (.gt)</div>
+        <div class="telemetry-main" id="stat-segments">0</div>
       </div>
-      <div class="hud-card">
-        <div class="hud-title">Memtable Write Buffer</div>
-        <div class="hud-value" id="hud-memtable">0</div>
-      </div>
-    </div>
-
-    <!-- PHASE 1: POWER -->
-    <div id="tab-power" class="tab-content active">
-      <div class="gauntlet-panel">
-        <div class="panel-head">
-          <div class="stone-label power">Phase I · Power / Ingestion & Schema Normalization</div>
-          <span style="font-size: 0.78rem; font-family: 'JetBrains Mono', monospace; color: var(--text-muted);">Deterministic Sequence Generator Active</span>
-        </div>
-        <textarea id="ingest-input" rows="4" placeholder='{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 94.2, "attributes": {"region": "us-east"}}'></textarea>
-        <div class="btn-row">
-          <button class="gauntlet-btn" onclick="submitEvent()">Ingest Single Mutation</button>
-          <button class="sub-btn" onclick="loadFlagshipDataset()">Stream Demo Incident Telemetry</button>
-        </div>
-        <div id="ingest-status" style="margin-top: 1.25rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;"></div>
+      <div class="telemetry-cell">
+        <div class="telemetry-sub">Memtable Buffer</div>
+        <div class="telemetry-main" id="stat-memtable">0</div>
       </div>
     </div>
 
-    <!-- PHASE 2: SPACE -->
-    <div id="tab-space" class="tab-content">
-      <div class="gauntlet-panel">
-        <div class="panel-head">
-          <div class="stone-label space">Phase II · Space / Durable Storage & WAL Engine</div>
-          <div class="btn-row">
-            <button class="sub-btn" onclick="triggerFlush()">Force Memtable Flush</button>
-            <button class="sub-btn" onclick="triggerCompact()">Compact Persistent Segments</button>
+    <!-- PHASE 1: POWER (INGESTION) -->
+    <div id="deck-power" class="tab-content active">
+      <div class="war-panel">
+        <div class="panel-banner">
+          <div class="panel-heading power">Phase I · Power / Ingestion Pipeline & Sequence Matrix</div>
+          <span style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-bright);">Deterministic SHA-256 Engine Active</span>
+        </div>
+        <textarea id="event-input" rows="4" placeholder='{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 94.2, "attributes": {"datacenter": "zone-omega"}}'></textarea>
+        <div class="flex-actions">
+          <button class="btn-primary-gauntlet" onclick="ingestSingleEvent()">Inject Event</button>
+          <button class="btn-sub-cyber" onclick="streamFlagshipScenario()">Stream Flagship Incident Dataset</button>
+        </div>
+        <div id="ingest-telemetry" style="margin-top: 1.5rem; font-family: 'JetBrains Mono', monospace; font-size: 0.88rem;"></div>
+      </div>
+    </div>
+
+    <!-- PHASE 2: SPACE (STORAGE & WAL) -->
+    <div id="deck-space" class="tab-content">
+      <div class="war-panel">
+        <div class="panel-banner">
+          <div class="panel-heading space">Phase II · Space / Binary Segment & WAL Engine</div>
+          <div class="flex-actions">
+            <button class="btn-sub-cyber" onclick="flushMemtable()">Flush Write Buffer</button>
+            <button class="btn-sub-cyber" onclick="compactStorage()">Merge & Compact Segments</button>
           </div>
         </div>
-        <div id="segments-table">Loading disk segment manifest...</div>
+        <div id="segment-manifest">Compiling authoritative storage catalog...</div>
       </div>
     </div>
 
-    <!-- PHASE 3: REALITY -->
-    <div id="tab-reality" class="tab-content">
-      <div class="gauntlet-panel">
-        <div class="panel-head">
-          <div class="stone-label reality">Phase III · Reality / Sparse Spatial & Bloom Indexing</div>
+    <!-- PHASE 3: REALITY (INDEXING) -->
+    <div id="deck-reality" class="tab-content">
+      <div class="war-panel">
+        <div class="panel-banner">
+          <div class="panel-heading reality">Phase III · Reality / Spatial-Temporal & Multi-Hash Bloom Filters</div>
         </div>
-        <p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.92rem; line-height: 1.6;">
-          Authoritative data is persisted in immutable binary segments (<code style="color: var(--gold-bright);">.gt</code>). The Index Engine constructs in-memory multi-hash bit-array Bloom filters and sparse time-range index structures to prune non-matching segments before issuing disk read I/O operations.
+        <p style="color: var(--text-dim); margin-bottom: 1.5rem; font-size: 0.95rem; line-height: 1.7;">
+          Every binary segment (<code style="color: var(--gold-bright);">.gt</code>) contains zero-loss immutable data verified by CRC-32 footers. In-memory Bloom filters and temporal sparse indexes prune disk seek operations, achieving microsecond query responses.
         </p>
-        <div id="reality-catalog" style="font-family: 'JetBrains Mono', monospace;"></div>
+        <div id="index-stats-box"></div>
       </div>
     </div>
 
-    <!-- PHASE 4: MIND -->
-    <div id="tab-mind" class="tab-content">
-      <div class="gauntlet-panel">
-        <div class="panel-head">
-          <div class="stone-label mind">Phase IV · Mind / Query Engine & Execution Planner</div>
-          <span id="query-radar" style="font-size: 0.8rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-primary);"></span>
+    <!-- PHASE 4: MIND (DSL QUERY ENGINE) -->
+    <div id="deck-mind" class="tab-content">
+      <div class="war-panel">
+        <div class="panel-banner">
+          <div class="panel-heading mind">Phase IV · Mind / Custom Query Language IDE</div>
+          <span id="dsl-telemetry" style="font-size: 0.82rem; font-family: 'JetBrains Mono', monospace; color: var(--gold-bright);"></span>
         </div>
-        <input type="text" id="query-input" value='FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC' />
-        <button class="gauntlet-btn" onclick="executeDSLQuery()">Execute Query Plan</button>
-        <div id="query-output" style="margin-top: 1.75rem; overflow-x: auto;"></div>
+        <input type="text" id="dsl-query" value='FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC' />
+        <button class="btn-primary-gauntlet" onclick="executeMindQuery()">Execute AST Query Plan</button>
+        <div id="dsl-results" style="margin-top: 1.75rem; overflow-x: auto;"></div>
       </div>
     </div>
 
-    <!-- PHASE 5: TIME -->
-    <div id="tab-time" class="tab-content">
-      <div class="gauntlet-panel">
-        <div class="panel-head">
-          <div class="stone-label time">Phase V · Time / Historical Reconstruction & Temporal Diffs</div>
-          <div class="btn-row">
-            <button class="sub-btn" onclick="executeTemporalDiff('server-42', 'cpu')">Compute Temporal Diff (1788098000 → 1788098660)</button>
-          </div>
+    <!-- PHASE 5: TIME (TEMPORAL RECONSTRUCTION) -->
+    <div id="deck-time" class="tab-content">
+      <div class="war-panel">
+        <div class="panel-banner">
+          <div class="panel-heading time">Phase V · Time / Historical Reconstruction & Timeline Diffing</div>
+          <button class="btn-sub-cyber" onclick="computePeriodShift('server-42', 'cpu')">Compute Incident Delta (1788098000 &rarr; 1788098660)</button>
         </div>
-        <div id="diff-output" style="margin-bottom: 1.5rem;"></div>
-        <div id="timeline-output">Querying full chronological state history...</div>
+        <div id="time-delta-card" style="margin-bottom: 1.75rem;"></div>
+        <div class="chart-container">
+          <canvas id="timeline-canvas" class="waveform-chart"></canvas>
+        </div>
+        <div id="chronological-log">Reconstructing historical trajectory...</div>
       </div>
     </div>
 
-    <!-- PHASE 6: SOUL -->
-    <div id="tab-soul" class="tab-content">
-      <div class="gauntlet-panel">
-        <div class="panel-head">
-          <div class="stone-label soul">Phase VI · Soul / Statistical Baselines & Anomaly Intelligence</div>
-          <button class="gauntlet-btn" onclick="fetchDiagnosticIntelligence('server-42')">Run Intelligence Diagnostic</button>
+    <!-- PHASE 6: SOUL (STATISTICAL & ANOMALY INTELLIGENCE) -->
+    <div id="deck-soul" class="tab-content">
+      <div class="war-panel">
+        <div class="panel-banner">
+          <div class="panel-heading soul">Phase VI · Soul / Statistical Baselines & Anomaly Matrix</div>
+          <button class="btn-primary-gauntlet" onclick="runSoulDiagnostics('server-42')">Run Diagnostic Assessment</button>
         </div>
-        <div id="soul-intel"></div>
+        <div id="soul-matrix"></div>
       </div>
     </div>
   </main>
 
   <script>
-    function activateStone(stone) {
-      document.querySelectorAll('.stone-node').forEach(n => n.classList.remove('active'));
-      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
-      document.querySelector(`.stone-node.${stone}`).classList.add('active');
-      document.getElementById(`tab-${stone}`).classList.add('active');
+    // COSMIC PARTICLE CANVAS EFFECT
+    const canvas = document.getElementById('cosmic-canvas');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
-      if (stone === 'space') loadHUD();
-      if (stone === 'reality') loadRealityIndex();
-      if (stone === 'mind') executeDSLQuery();
-      if (stone === 'time') loadTimeline();
-      if (stone === 'soul') fetchDiagnosticIntelligence('server-42');
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    const particles = Array.from({ length: 45 }, () => ({
+      x: Math.random() * width,
+      y: Math.random() * height,
+      vx: (Math.random() - 0.5) * 0.4,
+      vy: (Math.random() - 0.5) * 0.4,
+      radius: Math.random() * 1.8 + 0.5,
+      color: ['#a855f7', '#3b82f6', '#ef4444', '#eab308', '#10b981', '#f97316'][Math.floor(Math.random() * 6)]
+    }));
+
+    function renderCosmicDust() {
+      ctx.clearRect(0, 0, width, height);
+      particles.forEach(p => {
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x < 0) p.x = width;
+        if (p.x > width) p.x = 0;
+        if (p.y < 0) p.y = height;
+        if (p.y > height) p.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = 10;
+        ctx.shadowColor = p.color;
+        ctx.fill();
+      });
+      requestAnimationFrame(renderCosmicDust);
+    }
+    renderCosmicDust();
+
+    // NAVIGATION LOGIC
+    function igniteStone(stone) {
+      document.querySelectorAll('.stone-crystal').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(d => d.classList.remove('active'));
+      document.querySelector(`.stone-crystal.${stone}`).classList.add('active');
+      document.getElementById(`deck-${stone}`).classList.add('active');
+
+      if (stone === 'space') refreshTelemetry();
+      if (stone === 'reality') loadRealityManifest();
+      if (stone === 'mind') executeMindQuery();
+      if (stone === 'time') loadChronologicalFeed();
+      if (stone === 'soul') runSoulDiagnostics('server-42');
     }
 
-    async function loadHUD() {
+    async function refreshTelemetry() {
       try {
         const res = await fetch('/api/stats');
-        const data = await res.json();
-        document.getElementById('hud-status').textContent = data.storage.status;
-        document.getElementById('hud-records').textContent = data.storage.total_records;
-        document.getElementById('hud-segments').textContent = data.segments.length;
-        document.getElementById('hud-memtable').textContent = data.memtable_events;
+        const d = await res.json();
+        document.getElementById('stat-integrity').textContent = d.storage.status;
+        document.getElementById('stat-records').textContent = d.storage.total_records;
+        document.getElementById('stat-segments').textContent = d.segments.length;
+        document.getElementById('stat-memtable').textContent = d.memtable_events;
 
-        let html = '<table><thead><tr><th>Segment ID</th><th>Record Count</th><th>Min Timestamp</th><th>Max Timestamp</th><th>Entities Indexed</th></tr></thead><tbody>';
-        data.segments.forEach(s => {
+        let html = '<table><thead><tr><th>Segment ID</th><th>Records</th><th>Min Timestamp</th><th>Max Timestamp</th><th>Entities Indexed</th></tr></thead><tbody>';
+        d.segments.forEach(s => {
           html += `<tr><td><strong style="color: var(--stone-space);">${s.segment_id}</strong></td><td>${s.record_count}</td><td>${s.min_ts}</td><td>${s.max_ts}</td><td>${s.entities.join(', ')}</td></tr>`;
         });
         html += '</tbody></table>';
-        document.getElementById('segments-table').innerHTML = data.segments.length ? html : '<p style="color: var(--text-muted); font-family: JetBrains Mono;">No flushed segments on disk yet (in-memory WAL buffer active).</p>';
+        document.getElementById('segment-manifest').innerHTML = d.segments.length ? html : '<p style="color: var(--text-muted); font-family: JetBrains Mono;">No disk segments written (active in-memory WAL buffer).</p>';
       } catch (err) {}
     }
 
-    async function submitEvent() {
-      const text = document.getElementById('ingest-input').value.trim();
-      if (!text) return;
+    async function ingestSingleEvent() {
+      const val = document.getElementById('event-input').value.trim();
+      if (!val) return;
       try {
-        const payload = JSON.parse(text);
+        const payload = JSON.parse(val);
         const res = await fetch('/api/ingest', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(payload)
         });
-        const d = await res.json();
-        document.getElementById('ingest-status').innerHTML = `<span style="color: var(--stone-time)">[SUCCESS] Record durably appended to WAL. Assigned Sequence #${d.sequence_num || d.ingested_count}</span>`;
-        loadHUD();
+        const r = await res.json();
+        document.getElementById('ingest-telemetry').innerHTML = `<span style="color: var(--stone-time)">[ACCEPTED] Event synced with WAL. Sequence Identifier: #${r.sequence_num || r.ingested_count}</span>`;
+        refreshTelemetry();
       } catch (e) {
-        document.getElementById('ingest-status').innerHTML = `<span style="color: var(--stone-reality)">[ERROR] Ingestion failed: ${e.message}</span>`;
+        document.getElementById('ingest-telemetry').innerHTML = `<span style="color: var(--stone-reality)">[ERROR] Parse validation rejection: ${e.message}</span>`;
       }
     }
 
-    async function loadFlagshipDataset() {
-      const demo = [
+    async function streamFlagshipScenario() {
+      const scenario = [
         {"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 41.2, "attributes": {"region": "us-east"}},
         {"entity": "server-42", "timestamp": 1788098060, "type": "memory", "value": 48.5, "attributes": {"region": "us-east"}},
         {"entity": "server-42", "timestamp": 1788098120, "type": "cpu", "value": 40.8, "attributes": {"region": "us-east"}},
@@ -572,14 +658,14 @@
       await fetch('/api/ingest', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(demo)
+        body: JSON.stringify(scenario)
       });
-      document.getElementById('ingest-status').innerHTML = '<span style="color: var(--stone-time)">[SUCCESS] Streamed 13 incident events for server-42 into engine.</span>';
-      loadHUD();
+      document.getElementById('ingest-telemetry').innerHTML = '<span style="color: var(--stone-time)">[ACCEPTED] Flagship scenario injected (13 records for server-42).</span>';
+      refreshTelemetry();
     }
 
-    async function executeDSLQuery() {
-      const q = document.getElementById('query-input').value;
+    async function executeMindQuery() {
+      const q = document.getElementById('dsl-query').value;
       try {
         const res = await fetch('/api/query', {
           method: 'POST',
@@ -588,108 +674,141 @@
         });
         const data = await res.json();
         if (data.error) {
-          document.getElementById('query-output').innerHTML = `<p style="color: var(--stone-reality); font-family: JetBrains Mono;">${data.error}</p>`;
+          document.getElementById('dsl-results').innerHTML = `<p style="color: var(--stone-reality); font-family: JetBrains Mono;">${data.error}</p>`;
           return;
         }
 
-        document.getElementById('query-radar').textContent = `Matched ${data.metadata.returned_rows} rows | Scanned ${data.metadata.scanned_rows} | Latency ${data.metadata.execution_time_ms} ms | Pruned ${data.metadata.index_hits} segments`;
+        document.getElementById('dsl-telemetry').textContent = `Returned ${data.metadata.returned_rows} rows | Scanned ${data.metadata.scanned_rows} | Latency ${data.metadata.execution_time_ms} ms | Pruned ${data.metadata.index_hits} segments`;
 
         let html = '<table><thead><tr>' + data.columns.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
         data.rows.forEach(r => {
           html += '<tr>' + r.map(v => `<td>${v}</td>`).join('') + '</tr>';
         });
         html += '</tbody></table>';
-        document.getElementById('query-output').innerHTML = html;
-      } catch (err) {}
+        document.getElementById('dsl-results').innerHTML = html;
+      } catch (e) {}
     }
 
-    async function loadRealityIndex() {
+    async function loadRealityManifest() {
       try {
         const res = await fetch('/api/stats');
         const data = await res.json();
-        let html = '<div style="background: rgba(0,0,0,0.5); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border);">';
-        html += `<div style="margin-bottom: 0.75rem; color: var(--gold-bright);"><strong>AUTHORITATIVE MANIFEST CATALOG:</strong></div>`;
-        html += `<div>Total Segments Tracked: <strong>${data.segments.length}</strong></div>`;
-        html += `<div>Memtable Unflushed Records: <strong>${data.memtable_events}</strong></div>`;
+        let html = '<div style="background: rgba(3,5,9,0.8); padding: 1.75rem; border-radius: 12px; border: 1px solid var(--border);">';
+        html += `<div style="margin-bottom: 0.75rem; color: var(--gold-bright); font-weight: 800;">REALITY INDEXING TELEMETRY</div>`;
+        html += `<div>Indexed Segments: <strong>${data.segments.length}</strong></div>`;
+        html += `<div>Memtable Active Slots: <strong>${data.memtable_events}</strong></div>`;
         html += `<div>WAL Size: <strong>${data.wal_size_bytes} bytes</strong></div>`;
         html += '</div>';
-        document.getElementById('reality-catalog').innerHTML = html;
+        document.getElementById('index-stats-box').innerHTML = html;
       } catch (e) {}
     }
 
-    async function loadTimeline() {
+    async function loadChronologicalFeed() {
       try {
         const res = await fetch('/api/timeline?entity=server-42');
         const d = await res.json();
-        let html = '<table><thead><tr><th>Timestamp</th><th>Entity</th><th>Event / Metric Type</th><th>Observed Value</th><th>Event ID</th></tr></thead><tbody>';
+        let html = '<table><thead><tr><th>Timestamp</th><th>Entity</th><th>Event / Metric Type</th><th>Observed Value</th><th>Event Identifier</th></tr></thead><tbody>';
+        
+        const chartData = [];
         d.events.forEach(e => {
-          const valStyle = e.type === 'deployment' ? 'color: var(--gold-bright); font-weight: bold;' : (e.value > 80 ? 'color: var(--stone-reality); font-weight: bold;' : '');
+          const valStyle = e.type === 'deployment' ? 'color: var(--gold-bright); font-weight: 900;' : (e.value > 80 ? 'color: var(--stone-reality); font-weight: 900;' : '');
           html += `<tr><td>${e.timestamp}</td><td>${e.entity}</td><td><strong style="color: var(--stone-time);">${e.type}</strong></td><td style="${valStyle}">${e.value}</td><td style="color: var(--text-muted); font-size: 0.75rem;">${e.event_id}</td></tr>`;
+          if (e.type === 'cpu') chartData.push({ t: e.timestamp, v: Number(e.value) });
         });
         html += '</tbody></table>';
-        document.getElementById('timeline-output').innerHTML = html;
+        document.getElementById('chronological-log').innerHTML = html;
+
+        // Render Canvas Sparkline
+        drawSparkline(chartData.reverse());
       } catch (e) {}
     }
 
-    async function executeTemporalDiff(entity, metric) {
+    function drawSparkline(points) {
+      const c = document.getElementById('timeline-canvas');
+      if (!c || !points.length) return;
+      const ctx = c.getContext('2d');
+      const w = c.width = c.clientWidth;
+      const h = c.height = c.clientHeight;
+
+      ctx.clearRect(0, 0, w, h);
+      ctx.strokeStyle = '#10b981';
+      ctx.lineWidth = 3;
+      ctx.shadowBlur = 12;
+      ctx.shadowColor = '#10b981';
+
+      const minV = Math.min(...points.map(p => p.v));
+      const maxV = Math.max(...points.map(p => p.v));
+      const range = (maxV - minV) || 1;
+
+      ctx.beginPath();
+      points.forEach((p, idx) => {
+        const x = (idx / (points.length - 1)) * (w - 40) + 20;
+        const y = h - 20 - ((p.v - minV) / range) * (h - 40);
+        if (idx === 0) ctx.moveTo(x, y);
+        else ctx.lineTo(x, y);
+      });
+      ctx.stroke();
+    }
+
+    async function computePeriodShift(entity, metric) {
       try {
         const res = await fetch(`/api/analytics/temporal-diff?entity=${entity}&metric=${metric}&t1=1788098000&t2=1788098660`);
         const diff = await res.json();
-        let html = `<div class="insight-card" style="border-left: 3px solid var(--stone-time);"><div class="insight-title"><span>TEMPORAL DIFF: ${entity} / ${metric.toUpperCase()}</span><span style="color: var(--gold-bright);">+${diff.percentage_change}% Shift</span></div><div class="insight-body">State at t1 (${diff.t1}): <strong>${diff.val1}</strong> &rarr; State at t2 (${diff.t2}): <strong>${diff.val2}</strong> (Absolute Shift: +${diff.absolute_change})</div><div class="insight-meta">Intervening Causal Events: ${diff.intervening_events.join(' &bull; ')}</div></div>`;
-        document.getElementById('diff-output').innerHTML = html;
+        let html = `<div class="cyber-card" style="border-left: 4px solid var(--stone-time);"><div class="card-top"><span class="card-label">TEMPORAL SHIFT: ${entity} (${metric.toUpperCase()})</span><span style="color: var(--gold-bright); font-weight: 800;">+${diff.percentage_change}% Delta</span></div><div class="card-desc">Initial baseline at t1 (${diff.t1}): <strong>${diff.val1}</strong> &rarr; State at t2 (${diff.t2}): <strong>${diff.val2}</strong> (Gross Shift: +${diff.absolute_change})</div><div class="card-stats">Intervening System Mutations: ${diff.intervening_events.join(' &bull; ')}</div></div>`;
+        document.getElementById('time-delta-card').innerHTML = html;
       } catch (e) {}
     }
 
-    async function fetchDiagnosticIntelligence(entity) {
+    async function runSoulDiagnostics(entity) {
       try {
         const res = await fetch(`/api/analytics/profile?entity=${entity}`);
         const data = await res.json();
         const p = data.profile || {};
         const correlations = data.correlations || [];
 
-        let html = '<div class="split-grid">';
+        let html = '<div class="dual-pane">';
 
         // Baselines
-        html += '<div><h4 style="font-size: 0.82rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem; letter-spacing: 0.08em;">Historical Metric Baselines & Distributions</h4>';
+        html += '<div><h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; letter-spacing: 0.1em; font-weight: 800;">Behavioral Baselines & Quantiles</h4>';
         for (const [m, s] of Object.entries(p.metrics || {})) {
-          html += `<div class="insight-card"><div class="insight-title"><span>${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.75rem;">${s.count} samples</span></div><div class="insight-meta" style="display: flex; gap: 1.25rem;"><span>Mean: <strong style="color: #fff;">${s.mean}</strong></span><span>P95: <strong style="color: #fff;">${s.p95}</strong></span><span>StdDev: <strong style="color: #fff;">${s.stddev}</strong></span><span>Median: <strong style="color: #fff;">${s.median}</strong></span></div></div>`;
+          html += `<div class="cyber-card"><div class="card-top"><span class="card-label">${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.78rem;">${s.count} samples</span></div><div class="card-stats" style="display: flex; gap: 1.5rem;"><span>Mean: <strong style="color: #fff;">${s.mean}</strong></span><span>P95: <strong style="color: #fff;">${s.p95}</strong></span><span>StdDev: <strong style="color: #fff;">${s.stddev}</strong></span><span>Median: <strong style="color: #fff;">${s.median}</strong></span></div></div>`;
         }
         
         // Multi-Metric Correlation Matrix
         if (correlations.length) {
-          html += '<h4 style="font-size: 0.82rem; text-transform: uppercase; color: var(--text-muted); margin-top: 1.5rem; margin-bottom: 0.75rem; letter-spacing: 0.08em;">Pearson Correlation Matrix</h4>';
+          html += '<h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-top: 1.75rem; margin-bottom: 1rem; letter-spacing: 0.1em; font-weight: 800;">Pearson Correlation Matrix</h4>';
           correlations.forEach(c => {
-            html += `<div class="insight-card" style="border-left: 3px solid var(--stone-soul);"><div class="insight-title"><span>${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--gold-bright);">r = ${c.coefficient}</span></div><div class="insight-meta">${c.relationship} (Sample Size: ${c.sample_size})</div></div>`;
+            html += `<div class="cyber-card" style="border-left: 4px solid var(--stone-soul);"><div class="card-top"><span class="card-label">${c.metric_a.toUpperCase()} &harr; ${c.metric_b.toUpperCase()}</span><span style="color: var(--gold-bright); font-weight: 800;">r = ${c.coefficient}</span></div><div class="card-stats">${c.relationship} (Sample Depth: ${c.sample_size})</div></div>`;
           });
         }
         html += '</div>';
 
-        // Anomaly Deck
-        html += '<div><h4 style="font-size: 0.82rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 0.75rem; letter-spacing: 0.08em;">Flagged Anomalies & Leading Evidence</h4>';
+        // Anomaly Evidence Deck
+        html += '<div><h4 style="font-size: 0.85rem; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem; letter-spacing: 0.1em; font-weight: 800;">Flagged Anomalies & Causal Chain</h4>';
         if (p.recent_anomalies && p.recent_anomalies.length) {
           p.recent_anomalies.forEach(a => {
-            html += `<div class="insight-card" style="border-left: 3px solid var(--stone-reality);"><div class="insight-title"><span>${a.metric.toUpperCase()} DEVIATION</span><span class="badge-pill ${a.severity}">${a.severity}</span></div><div class="insight-body">${a.assessment}</div><div class="insight-meta" style="margin-bottom: 0.5rem;">Observed: <strong>${a.observed_value}</strong> | Baseline: ${a.expected_baseline} | Deviation: +${a.deviation_pct}% | Z-Score: ${a.z_score}</div><div class="insight-meta" style="color: var(--gold-bright);">Correlating Surrounding Events: ${a.evidence.join(' &bull; ')}</div></div>`;
+            html += `<div class="cyber-card" style="border-left: 4px solid var(--stone-reality);"><div class="card-top"><span class="card-label">${a.metric.toUpperCase()} SPIKE</span><span class="tag-badge ${a.severity}">${a.severity}</span></div><div class="card-desc">${a.assessment}</div><div class="card-stats" style="margin-bottom: 0.6rem;">Observed: <strong>${a.observed_value}</strong> | Baseline: ${a.expected_baseline} | Delta: +${a.deviation_pct}% | Z-Score: ${a.z_score}</div><div class="card-stats" style="color: var(--gold-bright);">Nearby Causal Factors: ${a.evidence.join(' &bull; ')}</div></div>`;
           });
         } else {
-          html += '<p style="color: var(--text-muted); font-size: 0.85rem;">No statistically anomalous deviations detected.</p>';
+          html += '<p style="color: var(--text-muted); font-size: 0.9rem;">No statistically anomalous deviations detected.</p>';
         }
         html += '</div></div>';
 
-        document.getElementById('soul-intel').innerHTML = html;
+        document.getElementById('soul-matrix').innerHTML = html;
       } catch (e) {}
     }
 
-    async function triggerFlush() {
+    async function flushMemtable() {
       await fetch('/api/storage/flush', { method: 'POST' });
-      loadHUD();
+      refreshTelemetry();
     }
 
-    async function triggerCompact() {
+    async function compactStorage() {
       await fetch('/api/storage/compact', { method: 'POST' });
-      loadHUD();
+      refreshTelemetry();
     }
 
-    loadHUD();
+    refreshTelemetry();
   </script>
 </body>
 </html>
