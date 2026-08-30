@@ -2609,6 +2609,20 @@
       }
     };
 
+    function toggleSidebar() {
+      const sidebar = document.getElementById('appSidebar');
+      if (!sidebar) return;
+      sidebar.classList.toggle('collapsed');
+      const isCollapsed = sidebar.classList.contains('collapsed');
+      localStorage.setItem('gauntlet_sidebar_collapsed', isCollapsed ? '1' : '0');
+    }
+
+    // Restore sidebar state from localStorage on load
+    if (localStorage.getItem('gauntlet_sidebar_collapsed') === '1') {
+      const sb = document.getElementById('appSidebar');
+      if (sb) sb.classList.add('collapsed');
+    }
+
     // Check Auth on page load
     checkAuthSession();
     loadStats();
