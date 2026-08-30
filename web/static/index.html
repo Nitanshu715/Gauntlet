@@ -1873,17 +1873,28 @@
         const chartPoints = [];
         
         events.forEach(e => {
-          const ts = e.timestamp;
+          const rawTs = Number(e.timestamp);
+          let formattedTs = e.timestamp;
+          if (!isNaN(rawTs) && rawTs > 1000000000) {
+            const d = new Date(rawTs * 1000);
+            const timeStr = d.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+            formattedTs = `<span title="${d.toISOString()}">${timeStr}</span>`;
+          }
+          
           const entity = e.entity;
           const type = e.type;
           const val = e.value;
-          const eid = e.event_id;
+          const eid = e.event_id || 'evt-000';
           
           let valBadge = '';
           if (type === 'deployment') {
             valBadge = `<span class="badge" style="background: #eff6ff; color: #2563eb; border: 1px solid #bfdbfe; font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val}</span>`;
           } else if (type === 'errors') {
-            valBadge = Number(val) > 10 ? `<span class="badge HIGH" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val} err</span>` : `<span class="badge LOW" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val} err</span>`;
+            valBadge = Number(val) > 0 ? `<span class="badge HIGH" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val} err</span>` : `<span class="badge LOW" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">0 err</span>`;
+          } else if (type === 'latency') {
+            valBadge = `<span style="font-weight: 700; color: #2563eb;">${val} ms</span>`;
+          } else if (type === 'size_kb') {
+            valBadge = `<span style="font-weight: 700; color: #0891b2;">${val} KB</span>`;
           } else if (type === 'cpu') {
             valBadge = Number(val) > 80 ? `<span class="badge CRITICAL" style="font-size: 0.68rem; padding: 0.15rem 0.35rem;">${val}%</span>` : `<span style="font-weight: 700; color: var(--text-main);">${val}%</span>`;
           } else if (type === 'memory') {
@@ -1892,9 +1903,9 @@
             valBadge = `<span style="font-weight: 700; color: var(--text-main);">${val}</span>`;
           }
           
-          html += `<tr><td style="color: var(--text-muted); font-size: 0.76rem;">${ts}</td><td><span class="badge" style="background: var(--surface-subtle); color: var(--text-main); border: 1px solid var(--border); font-size: 0.68rem; padding: 0.15rem 0.35rem;">${entity}</span></td><td><strong style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem;">${type}</strong></td><td>${valBadge}</td><td style="color: var(--text-light); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;" title="${eid}">${eid.substring(0, 8)}...</td></tr>`;
+          html += `<tr><td style="color: var(--text-muted); font-size: 0.76rem; font-family: JetBrains Mono;">${formattedTs}</td><td><span class="badge" style="background: var(--surface-subtle); color: var(--text-main); border: 1px solid var(--border); font-size: 0.68rem; padding: 0.15rem 0.35rem;">${entity}</span></td><td><strong style="color: var(--text-muted); text-transform: uppercase; font-size: 0.7rem;">${type}</strong></td><td>${valBadge}</td><td style="color: var(--text-light); font-size: 0.7rem; font-family: 'JetBrains Mono', monospace;" title="${eid}">${eid.substring(0, 8)}...</td></tr>`;
           if (type === currentTimelineMetric && !isNaN(Number(val))) {
-            chartPoints.push({ t: Number(ts), v: Number(val) });
+            chartPoints.push({ t: Number(rawTs), v: Number(val) });
           }
         });
         html += '</tbody></table>';
