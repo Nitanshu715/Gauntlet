@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GAUNTLET — Enterprise Temporal Intelligence & Storage Engine</title>
+  <title>GAUNTLET — Enterprise Temporal Analytics & Data Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -239,7 +239,7 @@
     textarea:focus, input:focus {
       outline: none;
       border-color: var(--border-focus);
-      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
     }
 
     .btn-group {
@@ -297,7 +297,7 @@
       transition: all 0.15s ease;
     }
 
-    .preset-pill:hover {
+    .preset-pill:hover, .preset-pill.active {
       background: #e0e7ff;
       color: var(--brand-primary);
       border-color: #c7d2fe;
@@ -504,6 +504,7 @@
           <span class="preset-pill" onclick="setQuery('FIND memory FROM server-42 WHERE value >= 48 ORDER BY timestamp DESC')">Memory >= 48</span>
           <span class="preset-pill" onclick="setQuery('FIND errors FROM server-42 WHERE value > 0 ORDER BY timestamp ASC')">Errors > 0</span>
           <span class="preset-pill" onclick="setQuery('FIND deployment FROM server-42 ORDER BY timestamp ASC')">Deployments</span>
+          <span class="preset-pill" onclick="setQuery('FIND * FROM server-42 ORDER BY timestamp ASC')">All server-42 Events</span>
         </div>
 
         <input type="text" id="query-string" value='FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC' />
@@ -525,7 +526,12 @@
         <div id="temporal-diff-box" style="margin-bottom: 1.5rem;"></div>
         <div class="chart-box">
           <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
-            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">CPU Telemetry Timeline Graph (server-42)</div>
+            <div class="query-presets" style="margin-bottom: 0;">
+              <span style="font-size: 0.8rem; color: var(--text-muted); align-self: center; font-weight: 600;">Plot Metric:</span>
+              <span class="preset-pill active" id="pill-cpu" onclick="switchTimelineMetric('cpu')">CPU</span>
+              <span class="preset-pill" id="pill-memory" onclick="switchTimelineMetric('memory')">Memory</span>
+              <span class="preset-pill" id="pill-errors" onclick="switchTimelineMetric('errors')">Errors</span>
+            </div>
             <div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--brand-primary);" id="chart-legend">● CPU (%)</div>
           </div>
           <canvas id="timeline-chart" class="timeseries-chart"></canvas>
@@ -547,6 +553,9 @@
   </main>
 
   <script>
+    let currentTimelineMetric = 'cpu';
+    let cachedServerEvents = [];
+
     function switchTab(stone) {
       document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
       document.querySelectorAll('.tab-content').forEach(d => d.classList.remove('active'));
@@ -585,6 +594,23 @@
         payload = { entity: "server-42", timestamp: ts, type: "errors", value: 38, attributes: { host: "prod-node-1" } };
       }
       document.getElementById('ingest-json').value = JSON.stringify(payload, null, 2);
+    }
+
+    function switchTimelineMetric(m) {
+      currentTimelineMetric = m;
+      document.querySelectorAll('#tab-time .preset-pill').forEach(p => p.classList.remove('active'));
+      const activePill = document.getElementById(`pill-${m}`);
+      if (activePill) activePill.classList.add('active');
+      document.getElementById('chart-legend').textContent = `● ${m.toUpperCase()} (%)`;
+      
+      // Filter points
+      const points = [];
+      cachedServerEvents.forEach(r => {
+        if (r.type === m && !isNaN(Number(r.value))) {
+          points.push({ t: Number(r.timestamp), v: Number(r.value) });
+        }
+      });
+      renderChart(points.reverse());
     }
 
     async function loadStats() {
@@ -689,31 +715,29 @@
 
     async function loadTimeline() {
       try {
-        // Query server events directly via DSL for guaranteed consistency
-        const res = await fetch('/api/query', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ query: 'FIND * FROM server-42 ORDER BY timestamp DESC' })
-        });
+        const res = await fetch('/api/events?entity=server-42');
         const data = await res.json();
-        const rows = data.rows || [];
+        const events = data.events || [];
+        cachedServerEvents = events;
         
-        let html = '<table><thead><tr>' + (data.columns || []).map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+        let html = '<table><thead><tr><th>Timestamp</th><th>Entity</th><th>Metric / Type</th><th>Value</th><th>Event ID</th></tr></thead><tbody>';
         const chartPoints = [];
         
-        rows.forEach(r => {
-          const ts = r[0];
-          const entity = r[1];
-          const type = r[2];
-          const val = r[3];
-          const eid = r[4];
+        events.forEach(e => {
+          const ts = e.timestamp;
+          const entity = e.entity;
+          const type = e.type;
+          const val = e.value;
+          const eid = e.event_id;
           const valStyle = type === 'deployment' ? 'color: var(--brand-primary); font-weight: bold;' : (val > 80 ? 'color: var(--danger-text); font-weight: bold;' : '');
           
           html += `<tr><td>${ts}</td><td>${entity}</td><td><strong>${type}</strong></td><td style="${valStyle}">${val}</td><td style="color: var(--text-muted); font-size: 0.78rem;">${eid}</td></tr>`;
-          if (type === 'cpu') chartPoints.push({ t: Number(ts), v: Number(val) });
+          if (type === currentTimelineMetric && !isNaN(Number(val))) {
+            chartPoints.push({ t: Number(ts), v: Number(val) });
+          }
         });
         html += '</tbody></table>';
-        document.getElementById('timeline-table').innerHTML = rows.length ? html : '<p style="padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">No historical events recorded for server-42.</p>';
+        document.getElementById('timeline-table').innerHTML = events.length ? html : '<p style="padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">No historical events recorded for server-42.</p>';
 
         renderChart(chartPoints.reverse());
       } catch (e) {}
@@ -844,4 +868,5 @@
   </script>
 </body>
 </html>
+
 

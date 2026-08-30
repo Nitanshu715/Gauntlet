@@ -144,6 +144,12 @@ class Lexer:
                     self.col += 1
                 continue
 
+            if ch == "*":
+                tokens.append(Token(TokenType.IDENTIFIER, "*", self.line, self.col))
+                self.pos += 1
+                self.col += 1
+                continue
+
             # Strings: "string" or 'string'
             if ch in ('"', "'"):
                 quote_char = ch

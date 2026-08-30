@@ -80,10 +80,12 @@ class QueryParser:
             raise ParserError(f"Unsupported query command '{first.value}' at line {first.line}, col {first.col}")
 
     def _parse_find_query(self) -> QueryAST:
-        # Target: events, cpu, memory, etc.
+        # Target: events, cpu, memory, etc. or wildcard *
         target = "events"
-        if self._curr().type in (TokenType.IDENTIFIER, TokenType.STRING):
+        if self._curr().type in (TokenType.IDENTIFIER, TokenType.STRING) or self._curr().value == "*":
             target = str(self._advance().value)
+            if target == "*":
+                target = "events"
 
         ast = QueryAST(command="FIND", target=target)
 

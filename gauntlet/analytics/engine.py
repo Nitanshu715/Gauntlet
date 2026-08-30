@@ -56,7 +56,7 @@ class AnalyticsEngine:
         self,
         events: List[Event],
         target_metric: str,
-        z_threshold: float = 2.0
+        z_threshold: float = 1.5
     ) -> List[AnomalyRecord]:
         """Detects anomalies using dynamic baseline estimation and extracts temporal context."""
         metric_events = [e for e in events if e.type == target_metric and isinstance(e.value, (int, float))]
@@ -81,7 +81,7 @@ class AnalyticsEngine:
                     severity = "CRITICAL"
                 elif abs(z) >= 2.5:
                     severity = "HIGH"
-                elif abs(z) >= 1.8:
+                elif abs(z) >= 1.5:
                     severity = "MEDIUM"
 
                 # Find surrounding events (within +/- 300 seconds)
