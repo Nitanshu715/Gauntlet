@@ -939,6 +939,25 @@
       text-align: center;
     }
 
+    .agentic-search-row {
+      display: flex;
+      gap: 0.6rem;
+      margin-bottom: 0.75rem;
+      align-items: stretch;
+      width: 100%;
+    }
+
+    .agentic-search-row input {
+      flex: 1;
+      margin-bottom: 0;
+      min-width: 0;
+    }
+
+    .agentic-search-row button {
+      white-space: nowrap;
+      flex-shrink: 0;
+    }
+
     /* ==========================================
        RESPONSIVE MOBILE & TABLET OPTIMIZATIONS
        ========================================== */
@@ -954,6 +973,36 @@
     }
 
     @media (max-width: 768px) {
+      .agentic-search-row {
+        flex-direction: column;
+        gap: 0.5rem;
+      }
+
+      .agentic-search-row input {
+        width: 100%;
+      }
+
+      .agentic-search-row button {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .topology-map {
+        flex-direction: column;
+        gap: 0.6rem;
+        padding: 1rem;
+      }
+
+      .topo-arrow {
+        transform: rotate(90deg);
+        margin: -0.2rem 0;
+      }
+
+      .topo-node {
+        width: 100%;
+        min-width: 100%;
+      }
+
       header {
         padding: 0.5rem 0.85rem;
       }
@@ -1321,9 +1370,9 @@
             Enter any live web application (e.g. <code style="font-weight: bold; color: var(--brand);">https://swaskiee.github.io/Gauntlet/</code> for Aura Botanica Café) or external URL. GAUNTLET’s autonomous agent will fetch, ingest into binary WAL, build Bloom filters, parse AST telemetry, measure drift, and diagnose anomalies.
           </p>
 
-          <div style="display: flex; gap: 0.6rem; margin-bottom: 0.75rem;">
-            <input type="text" id="agentic-url-input" value="https://swaskiee.github.io/Gauntlet/" placeholder="https://swaskiee.github.io/Gauntlet/ or https://example.com" style="margin-bottom: 0;" />
-            <button class="btn-primary" style="padding: 0.65rem 1.4rem; white-space: nowrap;" onclick="executeAgenticCrawl()">
+          <div class="agentic-search-row">
+            <input type="text" id="agentic-url-input" value="https://swaskiee.github.io/Gauntlet/" placeholder="https://swaskiee.github.io/Gauntlet/ or https://example.com" />
+            <button class="btn-primary" onclick="executeAgenticCrawl()">
               <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5 3 19 12 5 21 5 3"></polygon></svg>
               Run 6-Phase Agentic Pipeline
             </button>
