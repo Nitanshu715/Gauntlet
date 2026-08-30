@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>GAUNTLET — Enterprise Temporal Analytics & Storage Engine</title>
+  <title>GAUNTLET — Enterprise Temporal Intelligence & Storage Engine</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -13,7 +13,7 @@
       --surface: #ffffff;
       --surface-subtle: #f1f5f9;
       --border: #e2e8f0;
-      --border-focus: #3b82f6;
+      --border-focus: #2563eb;
       
       --text-main: #0f172a;
       --text-muted: #64748b;
@@ -50,7 +50,6 @@
       flex-direction: column;
     }
 
-    /* TOP NAVIGATION */
     header {
       background: var(--surface);
       border-bottom: 1px solid var(--border);
@@ -103,7 +102,7 @@
     }
 
     .nav-item {
-      padding: 0.5rem 1.1rem;
+      padding: 0.5rem 1.15rem;
       font-size: 0.84rem;
       font-weight: 600;
       color: var(--text-muted);
@@ -315,7 +314,7 @@
 
     canvas.timeseries-chart {
       width: 100%;
-      height: 220px;
+      height: 240px;
       display: block;
     }
 
@@ -390,7 +389,7 @@
 
     .metric-pills {
       display: flex;
-      gap: 1rem;
+      gap: 1.25rem;
       font-family: 'JetBrains Mono', monospace;
       font-size: 0.8rem;
       color: var(--text-muted);
@@ -518,14 +517,20 @@
       <div class="card-panel">
         <div class="panel-header">
           <div class="panel-title">Phase V: Temporal Historical Analysis & Diffing</div>
-          <button class="btn-secondary" onclick="calculateTemporalDelta('server-42', 'cpu')">Compute Temporal Diff (1788098000 &rarr; 1788098660)</button>
+          <div class="btn-group">
+            <button class="btn-secondary" onclick="calculateTemporalDelta('server-42', 'cpu')">Compute Temporal Diff (1788098000 &rarr; 1788098660)</button>
+            <button class="btn-primary" onclick="loadTimeline()">Refresh Timeline & Chart</button>
+          </div>
         </div>
         <div id="temporal-diff-box" style="margin-bottom: 1.5rem;"></div>
         <div class="chart-box">
-          <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase; margin-bottom: 0.75rem;">CPU Telemetry Timeline Graph</div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+            <div style="font-size: 0.82rem; font-weight: 700; color: var(--text-muted); text-transform: uppercase;">CPU Telemetry Timeline Graph (server-42)</div>
+            <div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--brand-primary);" id="chart-legend">● CPU (%)</div>
+          </div>
           <canvas id="timeline-chart" class="timeseries-chart"></canvas>
         </div>
-        <div class="table-container" id="timeline-table">Loading history...</div>
+        <div class="table-container" id="timeline-table">Loading chronological history...</div>
       </div>
     </div>
 
@@ -534,7 +539,7 @@
       <div class="card-panel">
         <div class="panel-header">
           <div class="panel-title">Phase VI: Statistical Baselines & Anomaly Intelligence</div>
-          <button class="btn-primary" onclick="runDiagnostics('server-42')">Diagnose server-42</button>
+          <button class="btn-primary" onclick="runDiagnostics('server-42')">Run Diagnostic on server-42</button>
         </div>
         <div id="diagnostics-view"></div>
       </div>
@@ -555,7 +560,10 @@
       if (stone === 'space') loadStats();
       if (stone === 'reality') loadRealityInfo();
       if (stone === 'mind') runQuery();
-      if (stone === 'time') loadTimeline();
+      if (stone === 'time') {
+        setTimeout(loadTimeline, 50);
+        calculateTemporalDelta('server-42', 'cpu');
+      }
       if (stone === 'soul') runDiagnostics('server-42');
     }
 
@@ -681,18 +689,31 @@
 
     async function loadTimeline() {
       try {
-        const res = await fetch('/api/timeline?entity=server-42');
-        const d = await res.json();
-        let html = '<table><thead><tr><th>Timestamp</th><th>Entity</th><th>Metric / Type</th><th>Value</th><th>Event ID</th></tr></thead><tbody>';
+        // Query server events directly via DSL for guaranteed consistency
+        const res = await fetch('/api/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: 'FIND * FROM server-42 ORDER BY timestamp DESC' })
+        });
+        const data = await res.json();
+        const rows = data.rows || [];
         
+        let html = '<table><thead><tr>' + (data.columns || []).map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
         const chartPoints = [];
-        d.events.forEach(e => {
-          const valStyle = e.type === 'deployment' ? 'color: var(--brand-primary); font-weight: bold;' : (e.value > 80 ? 'color: var(--danger-text); font-weight: bold;' : '');
-          html += `<tr><td>${e.timestamp}</td><td>${e.entity}</td><td><strong>${e.type}</strong></td><td style="${valStyle}">${e.value}</td><td style="color: var(--text-muted); font-size: 0.78rem;">${e.event_id}</td></tr>`;
-          if (e.type === 'cpu') chartPoints.push({ t: e.timestamp, v: Number(e.value) });
+        
+        rows.forEach(r => {
+          const ts = r[0];
+          const entity = r[1];
+          const type = r[2];
+          const val = r[3];
+          const eid = r[4];
+          const valStyle = type === 'deployment' ? 'color: var(--brand-primary); font-weight: bold;' : (val > 80 ? 'color: var(--danger-text); font-weight: bold;' : '');
+          
+          html += `<tr><td>${ts}</td><td>${entity}</td><td><strong>${type}</strong></td><td style="${valStyle}">${val}</td><td style="color: var(--text-muted); font-size: 0.78rem;">${eid}</td></tr>`;
+          if (type === 'cpu') chartPoints.push({ t: Number(ts), v: Number(val) });
         });
         html += '</tbody></table>';
-        document.getElementById('timeline-table').innerHTML = html;
+        document.getElementById('timeline-table').innerHTML = rows.length ? html : '<p style="padding: 1.5rem; color: var(--text-muted); font-size: 0.85rem;">No historical events recorded for server-42.</p>';
 
         renderChart(chartPoints.reverse());
       } catch (e) {}
@@ -700,37 +721,62 @@
 
     function renderChart(points) {
       const c = document.getElementById('timeline-chart');
-      if (!c || !points.length) return;
+      if (!c) return;
       const ctx = c.getContext('2d');
-      const w = c.width = c.clientWidth;
-      const h = c.height = c.clientHeight;
+      const w = c.width = c.parentElement.clientWidth - 48;
+      const h = c.height = 240;
 
       ctx.clearRect(0, 0, w, h);
-      ctx.strokeStyle = '#2563eb';
-      ctx.lineWidth = 2.5;
+      if (!points.length) {
+        ctx.fillStyle = '#94a3b8';
+        ctx.font = '14px Inter';
+        ctx.fillText('No numeric data points available to plot.', 20, h / 2);
+        return;
+      }
 
       const minV = Math.min(...points.map(p => p.v));
       const maxV = Math.max(...points.map(p => p.v));
       const range = (maxV - minV) || 1;
 
+      // Draw grid lines
+      ctx.strokeStyle = '#f1f5f9';
+      ctx.lineWidth = 1;
+      for (let i = 0; i <= 4; i++) {
+        const y = 20 + (i / 4) * (h - 50);
+        ctx.beginPath();
+        ctx.moveTo(40, y);
+        ctx.lineTo(w - 20, y);
+        ctx.stroke();
+      }
+
       // Draw line
       ctx.beginPath();
+      ctx.strokeStyle = '#2563eb';
+      ctx.lineWidth = 3;
       points.forEach((p, idx) => {
-        const x = (idx / (points.length - 1)) * (w - 60) + 30;
-        const y = h - 30 - ((p.v - minV) / range) * (h - 60);
+        const x = (idx / (points.length - 1 || 1)) * (w - 70) + 45;
+        const y = h - 35 - ((p.v - minV) / range) * (h - 60);
         if (idx === 0) ctx.moveTo(x, y);
         else ctx.lineTo(x, y);
       });
       ctx.stroke();
 
-      // Draw points
+      // Draw points & labels
       points.forEach((p, idx) => {
-        const x = (idx / (points.length - 1)) * (w - 60) + 30;
-        const y = h - 30 - ((p.v - minV) / range) * (h - 60);
+        const x = (idx / (points.length - 1 || 1)) * (w - 70) + 45;
+        const y = h - 35 - ((p.v - minV) / range) * (h - 60);
+        
         ctx.beginPath();
-        ctx.arc(x, y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = '#2563eb';
+        ctx.arc(x, y, 5, 0, Math.PI * 2);
+        ctx.fillStyle = '#ffffff';
         ctx.fill();
+        ctx.strokeStyle = '#2563eb';
+        ctx.lineWidth = 2.5;
+        ctx.stroke();
+
+        ctx.fillStyle = '#0f172a';
+        ctx.font = '11px JetBrains Mono';
+        ctx.fillText(p.v, x - 10, y - 10);
       });
     }
 
@@ -738,7 +784,7 @@
       try {
         const res = await fetch(`/api/analytics/temporal-diff?entity=${entity}&metric=${metric}&t1=1788098000&t2=1788098660`);
         const diff = await res.json();
-        let html = `<div class="sub-card" style="border-left: 4px solid var(--brand-primary);"><div class="sub-card-title"><span>TEMPORAL DIFF: ${entity} (${metric.toUpperCase()})</span><span style="color: var(--brand-primary);">+${diff.percentage_change}% Shift</span></div><p style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.5rem;">State at t1 (${diff.t1}): <strong>${diff.val1}</strong> &rarr; State at t2 (${diff.t2}): <strong>${diff.val2}</strong> (Absolute Delta: +${diff.absolute_change})</p><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--text-muted);">Intervening Events: ${diff.intervening_events.join(' &bull; ')}</div></div>`;
+        let html = `<div class="sub-card" style="border-left: 4px solid var(--brand-primary);"><div class="sub-card-title"><span>TEMPORAL SHIFT: ${entity} (${metric.toUpperCase()})</span><span style="color: var(--brand-primary); font-weight: 800;">+${diff.percentage_change}% Shift</span></div><p style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.5rem;">Baseline at t1 (${diff.t1}): <strong>${diff.val1}</strong> &rarr; State at t2 (${diff.t2}): <strong>${diff.val2}</strong> (Gross Shift: +${diff.absolute_change})</p><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--text-muted);">Intervening Events: ${diff.intervening_events.join(' &bull; ')}</div></div>`;
         document.getElementById('temporal-diff-box').innerHTML = html;
       } catch (e) {}
     }
@@ -747,14 +793,15 @@
       try {
         const res = await fetch(`/api/analytics/profile?entity=${entity}`);
         const data = await res.json();
-        const p = data.profile || {};
+        const p = data.profile || data;
         const correlations = data.correlations || [];
 
         let html = '<div class="grid-layout">';
 
         // Metric Baselines
         html += '<div><h4 style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">Metric Baselines & Quantiles</h4>';
-        for (const [m, s] of Object.entries(p.metrics || {})) {
+        const metricsMap = p.metrics || {};
+        for (const [m, s] of Object.entries(metricsMap)) {
           html += `<div class="sub-card"><div class="sub-card-title"><span>${m.toUpperCase()}</span><span style="color: var(--text-muted); font-size: 0.75rem;">${s.count} samples</span></div><div class="metric-pills"><span>Mean: <strong>${s.mean}</strong></span><span>P95: <strong>${s.p95}</strong></span><span>StdDev: <strong>${s.stddev}</strong></span><span>Median: <strong>${s.median}</strong></span></div></div>`;
         }
 
@@ -769,9 +816,10 @@
 
         // Anomalies
         html += '<div><h4 style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">Detected Deviations & Causal Evidence</h4>';
-        if (p.recent_anomalies && p.recent_anomalies.length) {
-          p.recent_anomalies.forEach(a => {
-            html += `<div class="sub-card" style="border-left: 4px solid var(--danger-text);"><div class="sub-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.5rem;">${a.assessment}</p><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--text-muted); margin-bottom: 0.4rem;">Observed: <strong>${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Delta: +${a.deviation_pct}% | Z-Score: ${a.z_score}</div><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--brand-primary);">Causal Factors: ${a.evidence.join(' &bull; ')}</div></div>`;
+        const anomList = p.recent_anomalies || [];
+        if (anomList.length) {
+          anomList.forEach(a => {
+            html += `<div class="sub-card" style="border-left: 4px solid var(--danger-text);"><div class="sub-card-title"><span>${a.metric.toUpperCase()} SPIKE</span><span class="badge ${a.severity}">${a.severity}</span></div><p style="font-size: 0.85rem; color: var(--text-main); margin-bottom: 0.5rem;">${a.assessment}</p><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--text-muted); margin-bottom: 0.4rem;">Observed: <strong>${a.observed_value}</strong> | Expected: ${a.expected_baseline} | Delta: +${a.deviation_pct}% | Z-Score: ${a.z_score}</div><div style="font-size: 0.78rem; font-family: JetBrains Mono; color: var(--brand-primary);">Causal Factors: ${(a.evidence || []).join(' &bull; ')}</div></div>`;
           });
         } else {
           html += '<p style="color: var(--text-muted); font-size: 0.85rem;">No statistically anomalous deviations detected.</p>';
