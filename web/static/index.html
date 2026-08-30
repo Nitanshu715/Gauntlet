@@ -1071,8 +1071,8 @@
           <!-- LIVE INCIDENT STREAM -->
           <div class="content-box">
             <div class="box-header">
-              <div class="box-title">Live Telemetry Stream (server-42)</div>
-              <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;" onclick="loadTimeline()">Refresh</button>
+              <div class="box-title" id="overview-stream-title">Live Telemetry Stream (server-42)</div>
+              <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;" onclick="loadTimeline(currentLiveEntity)">Refresh</button>
             </div>
             <div class="table-wrap" id="overview-stream-table">Loading telemetry stream...</div>
           </div>
@@ -1080,8 +1080,8 @@
           <!-- DIAGNOSTIC QUICK SUMMARY -->
           <div class="content-box">
             <div class="box-header">
-              <div class="box-title">Statistical Baseline Highlights</div>
-              <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;" onclick="runDiagnostics('server-42')">Recalculate</button>
+              <div class="box-title" id="overview-diagnostics-title">Statistical Baseline Highlights (server-42)</div>
+              <button class="btn-secondary" style="padding: 0.25rem 0.6rem; font-size: 0.72rem;" onclick="runDiagnostics(currentLiveEntity)">Recalculate</button>
             </div>
             <div id="overview-diagnostics-summary">Loading diagnostics...</div>
           </div>
@@ -1849,6 +1849,12 @@
         document.getElementById('agentic-pipeline-detail').innerHTML = detailHtml;
 
         currentLiveEntity = data.entity;
+        if (document.getElementById('overview-stream-title')) {
+          document.getElementById('overview-stream-title').textContent = `Live Telemetry Stream (${data.entity})`;
+        }
+        if (document.getElementById('overview-diagnostics-title')) {
+          document.getElementById('overview-diagnostics-title').textContent = `Statistical Baseline Highlights (${data.entity})`;
+        }
         loadStats();
         loadTimeline(data.entity);
         runDiagnostics(data.entity);
