@@ -1429,26 +1429,40 @@
               <div id="prof-feedback" style="margin-top: 0.8rem; font-family: JetBrains Mono; font-size: 0.78rem;"></div>
             </div>
 
-            <!-- Right: Local Avatar Upload & Preview -->
-            <div style="background: var(--surface-subtle); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border); text-align: center;">
+            <!-- Right: Local Avatar Upload & Preview (Protected for Real Accounts) -->
+            <div id="profile-avatar-right-box" style="background: var(--surface-subtle); padding: 1.5rem; border-radius: 10px; border: 1px solid var(--border); text-align: center;">
               <h4 style="font-size: 0.82rem; font-weight: 700; text-transform: uppercase; color: var(--text-muted); margin-bottom: 1rem;">Profile Avatar Photo</h4>
               
-              <div id="avatar-preview-container" style="width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 1.25rem; background: linear-gradient(135deg, #2563eb, #7c3aed); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 800; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
+              <div id="avatar-preview-container" style="width: 90px; height: 90px; border-radius: 50%; margin: 0 auto 1.25rem; display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem; font-weight: 800; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.15);">
                 <span id="avatar-initials">N</span>
               </div>
 
-              <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">
-                Upload a custom profile photo from your local computer. It will persist automatically across page refreshes.
-              </p>
+              <!-- Unlocked State for Logged-In Users -->
+              <div id="avatar-unlocked-controls">
+                <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 1rem;">
+                  Upload a custom profile photo from your local computer. It will persist automatically across page refreshes.
+                </p>
 
-              <label class="btn-secondary" style="display: inline-flex; cursor: pointer; justify-content: center;">
-                <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)" />
-                <span>Choose Local Image File</span>
-              </label>
+                <label class="btn-secondary" style="display: inline-flex; cursor: pointer; justify-content: center;">
+                  <input type="file" id="avatar-file-input" accept="image/*" style="display: none;" onchange="handleAvatarUpload(event)" />
+                  <span>Choose Local Image File</span>
+                </label>
 
-              <button class="btn-secondary" style="margin-top: 0.5rem; justify-content: center; font-size: 0.75rem;" onclick="resetAvatar()">
-                Reset to Initials
-              </button>
+                <button class="btn-secondary" style="margin-top: 0.5rem; justify-content: center; font-size: 0.75rem;" onclick="resetAvatar()">
+                  Reset to Initials
+                </button>
+              </div>
+
+              <!-- Locked State for Demo Guest Session -->
+              <div id="avatar-locked-banner" style="display: none; background: #fff1f2; border: 1px dashed var(--rose); border-radius: 8px; padding: 1rem; margin-top: 0.5rem;">
+                <div style="font-size: 0.82rem; font-weight: 700; color: var(--rose); margin-bottom: 0.35rem;">🔒 Feature Locked in Demo Mode</div>
+                <p style="font-size: 0.74rem; color: var(--text-muted); margin-bottom: 0.8rem;">
+                  Create an Enterprise account or Sign In to upload custom profile avatars, configure workspaces, and save team settings.
+                </p>
+                <button class="btn-primary" style="width: 100%; justify-content: center; font-size: 0.78rem;" onclick="logoutUser()">
+                  Sign Up to Unlock Custom Avatar
+                </button>
+              </div>
             </div>
           </div>
         </div>
@@ -1999,6 +2013,14 @@
       document.getElementById('header-user-name').textContent = user.name;
       document.getElementById('header-workspace-name').textContent = user.org || 'Production Cluster';
 
+      const isDemo = user.email === 'demo@gauntlet.internal' || user.role === 'Evaluation Engineer';
+
+      // Controls visibility
+      if (document.getElementById('avatar-unlocked-controls') && document.getElementById('avatar-locked-banner')) {
+        document.getElementById('avatar-unlocked-controls').style.display = isDemo ? 'none' : 'block';
+        document.getElementById('avatar-locked-banner').style.display = isDemo ? 'block' : 'none';
+      }
+
       // Avatar
       updateAvatarDisplay(user);
 
@@ -2012,20 +2034,29 @@
     function updateAvatarDisplay(user) {
       const headerAvatar = document.getElementById('header-avatar');
       const avatarContainer = document.getElementById('avatar-preview-container');
-      const avatarInitials = document.getElementById('avatar-initials');
 
-      const customAvatar = user.avatar || localStorage.getItem('gauntlet_custom_avatar');
+      const isDemo = user.email === 'demo@gauntlet.internal' || user.role === 'Evaluation Engineer';
+      const customAvatar = !isDemo ? (user.avatar || localStorage.getItem('gauntlet_custom_avatar')) : null;
+
       if (customAvatar) {
         if (headerAvatar) {
-          headerAvatar.innerHTML = `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />`;
+          headerAvatar.style.background = 'transparent';
+          headerAvatar.innerHTML = `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%; display:block;" />`;
         }
         if (avatarContainer) {
-          avatarContainer.innerHTML = `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%;" />`;
+          avatarContainer.style.background = 'transparent';
+          avatarContainer.innerHTML = `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%; display:block;" />`;
         }
       } else {
         const initial = (user.name || 'N').charAt(0).toUpperCase();
-        if (headerAvatar) headerAvatar.textContent = initial;
-        if (avatarContainer) avatarContainer.innerHTML = `<span id="avatar-initials">${initial}</span>`;
+        if (headerAvatar) {
+          headerAvatar.style.background = 'linear-gradient(135deg, #2563eb, #7c3aed)';
+          headerAvatar.textContent = initial;
+        }
+        if (avatarContainer) {
+          avatarContainer.style.background = 'linear-gradient(135deg, #2563eb, #7c3aed)';
+          avatarContainer.innerHTML = `<span id="avatar-initials">${initial}</span>`;
+        }
       }
     }
 
