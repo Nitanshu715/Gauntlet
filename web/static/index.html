@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GAUNTLET — Temporal Data & Analytics Engine</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #090a0f;
+      --card-bg: #12141e;
+      --border: #1e2235;
+      --text: #f0f3fa;
+      --text-muted: #8b949e;
+      
+      --power: #a855f7;
+      --space: #3b82f6;
+      --reality: #ef4444;
+      --mind: #eab308;
+      --time: #10b981;
+      --soul: #f97316;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', -apple-system, sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      border-bottom: 1px solid var(--border);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(18, 20, 30, 0.8);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 800;
+      font-size: 1.25rem;
+      letter-spacing: 0.05em;
+    }
+
+    .brand span {
+      background: linear-gradient(135deg, var(--power), var(--space), var(--reality), var(--mind), var(--time), var(--soul));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .stones-nav {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .stone-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+      padding: 0.5rem 0.85rem;
+      border-radius: 8px;
+      font-size: 0.85rem;
+      font-weight: 600;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .stone-btn:hover, .stone-btn.active {
+      color: #fff;
+      border-color: currentColor;
+    }
+
+    .stone-btn.power.active { color: var(--power); background: rgba(168, 85, 247, 0.1); }
+    .stone-btn.space.active { color: var(--space); background: rgba(59, 130, 246, 0.1); }
+    .stone-btn.reality.active { color: var(--reality); background: rgba(239, 68, 68, 0.1); }
+    .stone-btn.mind.active { color: var(--mind); background: rgba(234, 179, 8, 0.1); }
+    .stone-btn.time.active { color: var(--time); background: rgba(16, 185, 129, 0.1); }
+    .stone-btn.soul.active { color: var(--soul); background: rgba(249, 115, 22, 0.1); }
+
+    main {
+      flex: 1;
+      padding: 2rem;
+      max-width: 1400px;
+      margin: 0 auto;
+      width: 100%;
+    }
+
+    .grid-stats {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .stat-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.25rem;
+    }
+
+    .stat-title {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-val {
+      font-size: 1.6rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .panel {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .panel-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    textarea, input, select {
+      width: 100%;
+      background: #0d0f17;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      color: var(--text);
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.9rem;
+      margin-bottom: 1rem;
+    }
+
+    button.primary-btn {
+      background: linear-gradient(135deg, #3b82f6, #6366f1);
+      color: white;
+      font-weight: 600;
+      border: none;
+      padding: 0.75rem 1.5rem;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: opacity 0.2s;
+    }
+
+    button.primary-btn:hover { opacity: 0.9; }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: 'JetBrains Mono', monospace;
+      font-size: 0.85rem;
+    }
+
+    th, td {
+      padding: 0.75rem 1rem;
+      border-bottom: 1px solid var(--border);
+      text-align: left;
+    }
+
+    th {
+      color: var(--text-muted);
+      font-weight: 600;
+      text-transform: uppercase;
+      font-size: 0.75rem;
+    }
+
+    .badge {
+      display: inline-block;
+      padding: 0.2rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    .badge.HIGH, .badge.CRITICAL { background: rgba(239, 68, 68, 0.2); color: #ef4444; }
+    .badge.MEDIUM { background: rgba(234, 179, 8, 0.2); color: #eab308; }
+    .badge.LOW { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+
+    .telemetry-tag {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-family: 'JetBrains Mono', monospace;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <span>🧤 GAUNTLET</span>
+    </div>
+    <div class="stones-nav">
+      <button class="stone-btn power active" onclick="switchTab('power')">🟣 Power</button>
+      <button class="stone-btn space" onclick="switchTab('space')">🔵 Space</button>
+      <button class="stone-btn reality" onclick="switchTab('reality')">🔴 Reality</button>
+      <button class="stone-btn mind" onclick="switchTab('mind')">🟡 Mind</button>
+      <button class="stone-btn time" onclick="switchTab('time')">🟢 Time</button>
+      <button class="stone-btn soul" onclick="switchTab('soul')">🟠 Soul</button>
+    </div>
+  </header>
+
+  <main>
+    <div class="grid-stats">
+      <div class="stat-card">
+        <div class="stat-title">Database Status</div>
+        <div class="stat-val" id="stat-status" style="color: #10b981;">HEALTHY</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Total Records</div>
+        <div class="stat-val" id="stat-records">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Disk Segments</div>
+        <div class="stat-val" id="stat-segments">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-title">Memtable Size</div>
+        <div class="stat-val" id="stat-memtable">0</div>
+      </div>
+    </div>
+
+    <!-- 🟣 POWER: Ingestion -->
+    <div id="tab-power" class="tab-content active">
+      <div class="panel">
+        <div class="panel-title">🟣 Power — Ingest Raw Event Stream</div>
+        <textarea id="ingest-input" rows="5" placeholder='{"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 94.2}'></textarea>
+        <button class="primary-btn" onclick="submitIngest()">Ingest Event</button>
+        <button class="primary-btn" style="background: #334155; margin-left: 0.5rem;" onclick="loadDemoStream()">Load Demo Dataset</button>
+        <div id="ingest-status" style="margin-top: 1rem; font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;"></div>
+      </div>
+    </div>
+
+    <!-- 🔵 SPACE: Storage & WAL -->
+    <div id="tab-space" class="tab-content">
+      <div class="panel">
+        <div class="panel-title">
+          <span>🔵 Space — Storage Segments & WAL Status</span>
+          <div>
+            <button class="primary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem;" onclick="triggerFlush()">Force Flush</button>
+            <button class="primary-btn" style="padding: 0.4rem 0.8rem; font-size: 0.8rem; background: #64748b;" onclick="triggerCompact()">Compact</button>
+          </div>
+        </div>
+        <div id="segments-table">Loading segment catalog...</div>
+      </div>
+    </div>
+
+    <!-- 🔴 REALITY: Indexing -->
+    <div id="tab-reality" class="tab-content">
+      <div class="panel">
+        <div class="panel-title">🔴 Reality — Multi-dimensional Index Inspection</div>
+        <p style="color: var(--text-muted); margin-bottom: 1rem;">Bloom filters, time intervals, and inverted entity index active across segments.</p>
+        <div id="reality-info" style="font-family: 'JetBrains Mono', monospace;">Ready.</div>
+      </div>
+    </div>
+
+    <!-- 🟡 MIND: Query Engine -->
+    <div id="tab-mind" class="tab-content">
+      <div class="panel">
+        <div class="panel-title">
+          <span>🟡 Mind — Custom Query Console</span>
+          <span class="telemetry-tag" id="query-telemetry"></span>
+        </div>
+        <input type="text" id="query-input" value='FIND cpu FROM server-42 WHERE value > 50 ORDER BY timestamp ASC' />
+        <button class="primary-btn" onclick="runQuery()">Execute Query</button>
+        <div id="query-results" style="margin-top: 1.5rem; overflow-x: auto;"></div>
+      </div>
+    </div>
+
+    <!-- 🟢 TIME & 🟠 SOUL: Analytics & Anomalies -->
+    <div id="tab-time" class="tab-content">
+      <div class="panel">
+        <div class="panel-title">🟢 Time — Temporal Historical Replay</div>
+        <div id="time-table">Querying historical event sequence...</div>
+      </div>
+    </div>
+
+    <div id="tab-soul" class="tab-content">
+      <div class="panel">
+        <div class="panel-title">🟠 Soul — Behavioral Baselines & Anomaly Intelligence</div>
+        <button class="primary-btn" onclick="fetchAnalyticsProfile('server-42')">Analyze server-42</button>
+        <div id="anomaly-results" style="margin-top: 1.5rem;"></div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    function switchTab(stone) {
+      document.querySelectorAll('.stone-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelector(`.stone-btn.${stone}`).classList.add('active');
+      document.getElementById(`tab-${stone}`).classList.add('active');
+
+      if (stone === 'space') loadStats();
+      if (stone === 'time' || stone === 'mind') runQuery();
+      if (stone === 'soul') fetchAnalyticsProfile('server-42');
+    }
+
+    async function loadStats() {
+      try {
+        const res = await fetch('/api/stats');
+        const data = await res.json();
+        document.getElementById('stat-status').textContent = data.storage.status;
+        document.getElementById('stat-records').textContent = data.storage.total_records;
+        document.getElementById('stat-segments').textContent = data.segments.length;
+        document.getElementById('stat-memtable').textContent = data.memtable_events;
+
+        let html = '<table><thead><tr><th>Segment ID</th><th>Records</th><th>Min Ts</th><th>Max Ts</th><th>Entities</th></tr></thead><tbody>';
+        data.segments.forEach(s => {
+          html += `<tr><td>${s.segment_id}</td><td>${s.record_count}</td><td>${s.min_ts}</td><td>${s.max_ts}</td><td>${s.entities.join(', ')}</td></tr>`;
+        });
+        html += '</tbody></table>';
+        document.getElementById('segments-table').innerHTML = data.segments.length ? html : '<p style="color: var(--text-muted)">No flushed segments on disk yet (in-memory WAL active).</p>';
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function submitIngest() {
+      const text = document.getElementById('ingest-input').value.trim();
+      if (!text) return;
+      try {
+        const payload = JSON.parse(text);
+        const res = await fetch('/api/ingest', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        const d = await res.json();
+        document.getElementById('ingest-status').innerHTML = `<span style="color: #10b981">✓ Ingestion Successful. Sequence #${d.sequence_num || d.ingested_count}</span>`;
+        loadStats();
+      } catch (e) {
+        document.getElementById('ingest-status').innerHTML = `<span style="color: #ef4444">Error: ${e.message}</span>`;
+      }
+    }
+
+    async function loadDemoStream() {
+      const demo = [
+        {"entity": "server-42", "timestamp": 1788098000, "type": "cpu", "value": 41.2},
+        {"entity": "server-42", "timestamp": 1788098060, "type": "memory", "value": 48.5},
+        {"entity": "server-42", "timestamp": 1788098120, "type": "cpu", "value": 40.8},
+        {"entity": "server-42", "timestamp": 1788098180, "type": "memory", "value": 49.1},
+        {"entity": "server-42", "timestamp": 1788098240, "type": "cpu", "value": 42.5},
+        {"entity": "server-42", "timestamp": 1788098300, "type": "errors", "value": 2},
+        {"entity": "server-42", "timestamp": 1788098360, "type": "cpu", "value": 39.9},
+        {"entity": "server-42", "timestamp": 1788098420, "type": "deployment", "value": "v2.8.1"},
+        {"entity": "server-42", "timestamp": 1788098480, "type": "cpu", "value": 61.4},
+        {"entity": "server-42", "timestamp": 1788098540, "type": "latency", "value": 84.0},
+        {"entity": "server-42", "timestamp": 1788098600, "type": "errors", "value": 17},
+        {"entity": "server-42", "timestamp": 1788098660, "type": "cpu", "value": 94.2},
+        {"entity": "server-42", "timestamp": 1788098720, "type": "errors", "value": 41}
+      ];
+      await fetch('/api/ingest', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(demo)
+      });
+      document.getElementById('ingest-status').innerHTML = '<span style="color: #10b981">✓ Ingested 13 Flagship Telemetry Events for server-42.</span>';
+      loadStats();
+    }
+
+    async function runQuery() {
+      const q = document.getElementById('query-input').value;
+      try {
+        const res = await fetch('/api/query', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ query: q })
+        });
+        const data = await res.json();
+        if (data.error) {
+          document.getElementById('query-results').innerHTML = `<p style="color: #ef4444">${data.error}</p>`;
+          return;
+        }
+
+        document.getElementById('query-telemetry').textContent = `${data.metadata.returned_rows} rows returned | ${data.metadata.scanned_rows} scanned | ${data.metadata.execution_time_ms} ms`;
+
+        let html = '<table><thead><tr>' + data.columns.map(c => `<th>${c}</th>`).join('') + '</tr></thead><tbody>';
+        data.rows.forEach(r => {
+          html += '<tr>' + r.map(v => `<td>${v}</td>`).join('') + '</tr>';
+        });
+        html += '</tbody></table>';
+        document.getElementById('query-results').innerHTML = html;
+        document.getElementById('time-table').innerHTML = html;
+      } catch (err) {
+        console.error(err);
+      }
+    }
+
+    async function triggerFlush() {
+      await fetch('/api/storage/flush', { method: 'POST' });
+      loadStats();
+    }
+
+    async function triggerCompact() {
+      await fetch('/api/storage/compact', { method: 'POST' });
+      loadStats();
+    }
+
+    async function fetchAnalyticsProfile(entity) {
+      try {
+        const res = await fetch(`/api/analytics/profile?entity=${entity}`);
+        const p = await res.json();
+        let html = `<div style="margin-bottom: 1rem;"><strong>Active Span:</strong> ${p.active_span_seconds}s | <strong>Total Events:</strong> ${p.total_events}</div>`;
+
+        html += '<h4 style="margin-bottom: 0.5rem;">Detected Anomalies</h4>';
+        if (p.recent_anomalies && p.recent_anomalies.length) {
+          html += '<table><thead><tr><th>Metric</th><th>Observed</th><th>Baseline</th><th>Deviation</th><th>Z-Score</th><th>Severity</th><th>Evidence</th></tr></thead><tbody>';
+          p.recent_anomalies.forEach(a => {
+            html += `<tr><td>${a.metric}</td><td>${a.observed_value}</td><td>${a.expected_baseline}</td><td>+${a.deviation_pct}%</td><td>${a.z_score}</td><td><span class="badge ${a.severity}">${a.severity}</span></td><td>${a.evidence.join(', ')}</td></tr>`;
+          });
+          html += '</tbody></table>';
+        } else {
+          html += '<p style="color: var(--text-muted)">No anomalous deviations found.</p>';
+        }
+
+        document.getElementById('anomaly-results').innerHTML = html;
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    loadStats();
+  </script>
+</body>
+</html>
