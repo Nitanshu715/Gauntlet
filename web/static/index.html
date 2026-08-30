@@ -1125,22 +1125,22 @@
       <form id="auth-form" onsubmit="handleAuthSubmit(event)">
         <div class="auth-form-group" id="group-name" style="display: none;">
           <label class="auth-label">Full Name</label>
-          <input type="text" id="auth-name" class="auth-input" placeholder="e.g. Nitanshu Tak" />
+          <input type="text" id="auth-name" class="auth-input" placeholder="e.g. John Doe" />
         </div>
 
         <div class="auth-form-group">
           <label class="auth-label">Work Email / User ID</label>
-          <input type="email" id="auth-email" class="auth-input" required placeholder="name@company.com" value="nitanshu@gauntlet.io" />
+          <input type="email" id="auth-email" class="auth-input" required placeholder="name@company.com" />
         </div>
 
         <div class="auth-form-group" id="group-pass">
           <label class="auth-label">Password</label>
-          <input type="password" id="auth-pass" class="auth-input" placeholder="••••••••••••" value="gauntlet_enterprise" />
+          <input type="password" id="auth-pass" class="auth-input" placeholder="••••••••••••" />
         </div>
 
         <div class="auth-form-group" id="group-role" style="display: none;">
           <label class="auth-label">Cluster Role</label>
-          <input type="text" id="auth-role" class="auth-input" placeholder="Lead Platform Architect" value="Lead Platform Architect" />
+          <input type="text" id="auth-role" class="auth-input" placeholder="e.g. Platform Architect" />
         </div>
 
         <button type="submit" id="auth-submit-btn" class="btn-primary" style="width: 100%; justify-content: center; padding: 0.8rem; font-size: 0.9rem; margin-top: 0.5rem;">
@@ -1180,8 +1180,8 @@
       
       <!-- USER ACCOUNT & PROFILE -->
       <button class="user-profile-btn" onclick="openProfileModal()">
-        <div class="user-avatar" id="header-avatar">N</div>
-        <span id="header-user-name">Nitanshu Tak</span>
+        <div class="user-avatar" id="header-avatar">U</div>
+        <span id="header-user-name">Guest User</span>
         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"></polyline></svg>
       </button>
     </div>
@@ -2487,7 +2487,7 @@
           avatarContainer.innerHTML = `<img src="${customAvatar}" style="width:100%; height:100%; object-fit:cover; border-radius:50%; display:block;" />`;
         }
       } else {
-        const initial = (user.name || 'N').charAt(0).toUpperCase();
+        const initial = (user.name || 'User').charAt(0).toUpperCase();
         if (headerAvatar) {
           headerAvatar.style.background = 'linear-gradient(135deg, #2563eb, #7c3aed)';
           headerAvatar.textContent = initial;
