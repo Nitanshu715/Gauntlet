@@ -76,40 +76,41 @@
 
     /* SINGLE UNIFIED TRANSPARENT CLICKABLE BRAND LOGO BUTTON */
     .brand-logo-btn {
-      background: transparent;
-      border: none;
-      padding: 0.2rem 0.4rem;
+      background: var(--surface-subtle);
+      border: 1px solid var(--border);
+      padding: 0.35rem 0.85rem;
       cursor: pointer;
       display: flex;
       align-items: center;
       gap: 0.65rem;
-      border-radius: 8px;
+      border-radius: 10px;
+      box-shadow: var(--shadow-xs);
       transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
     }
 
     .brand-logo-btn:hover {
-      background: rgba(37, 99, 235, 0.06);
-      transform: scale(1.03);
+      background: var(--brand-subtle);
+      border-color: #93c5fd;
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(37, 99, 235, 0.12);
     }
 
     .brand-logo-btn:active {
-      transform: scale(0.97);
+      transform: scale(0.96);
     }
 
     .brand-logo-img {
-      height: 38px;
+      height: 28px;
       width: auto;
-      max-width: 140px;
       object-fit: contain;
       display: block;
       background: transparent !important;
-      filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.08));
     }
 
     .brand-logo-text {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 900;
-      letter-spacing: -0.04em;
+      letter-spacing: -0.03em;
       color: var(--text-main);
       font-family: 'Inter', sans-serif;
     }
