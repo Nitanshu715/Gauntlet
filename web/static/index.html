@@ -215,10 +215,10 @@
 
     /* STICKY & COLLAPSIBLE SIDEBAR */
     aside.sidebar {
-      width: 250px;
+      width: 265px;
       background: var(--surface);
       border-right: 1px solid var(--border);
-      padding: 1.25rem 0.75rem;
+      padding: 1.25rem 0.6rem;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
@@ -227,6 +227,7 @@
       top: 49px;
       height: calc(100vh - 49px);
       overflow-y: auto;
+      overflow-x: hidden;
       transition: width 0.25s cubic-bezier(0.4, 0, 0.2, 1), padding 0.25s cubic-bezier(0.4, 0, 0.2, 1), transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       z-index: 90;
     }
@@ -257,35 +258,35 @@
     }
 
     .sidebar-section {
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.25rem;
     }
 
     .sidebar-heading {
-      font-size: 0.68rem;
+      font-size: 0.65rem;
       font-weight: 700;
       color: var(--text-light);
       text-transform: uppercase;
       letter-spacing: 0.08em;
-      padding: 0 0.6rem 0.5rem;
+      padding: 0 0.5rem 0.4rem;
       white-space: nowrap;
     }
 
     .sidebar-menu {
       display: flex;
       flex-direction: column;
-      gap: 0.2rem;
+      gap: 0.15rem;
     }
 
     .sidebar-btn {
       display: flex;
       align-items: center;
       justify-content: space-between;
-      padding: 0.5rem 0.75rem;
+      padding: 0.45rem 0.55rem;
       border-radius: 6px;
       border: none;
       background: transparent;
       color: var(--text-muted);
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       font-weight: 600;
       cursor: pointer;
       text-align: left;
@@ -308,24 +309,30 @@
     .sidebar-btn-left {
       display: flex;
       align-items: center;
-      gap: 0.6rem;
+      gap: 0.55rem;
+      overflow: hidden;
+      text-overflow: ellipsis;
     }
 
-    .dot-tag {
-      width: 7px;
-      height: 7px;
-      border-radius: 50%;
+    .sidebar-icon {
+      width: 16px;
+      height: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
     }
 
     .sidebar-badge {
       font-family: 'JetBrains Mono', monospace;
-      font-size: 0.68rem;
-      padding: 0.1rem 0.35rem;
+      font-size: 0.64rem;
+      padding: 0.1rem 0.3rem;
       border-radius: 4px;
       background: var(--surface-subtle);
       color: var(--text-muted);
       font-weight: 600;
+      flex-shrink: 0;
+      margin-left: 0.35rem;
     }
 
     .sidebar-btn.active .sidebar-badge {
@@ -868,27 +875,57 @@
           <div class="sidebar-heading">Observability Hub</div>
           <div class="sidebar-menu">
             <button class="sidebar-btn overview active" onclick="switchView('overview')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--brand);"></span>Live Topology & Hub</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #2563eb;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polygon points="12 2 2 7 12 12 22 7 12 2"></polygon><polyline points="2 17 12 22 22 17"></polyline><polyline points="2 12 12 17 22 12"></polyline></svg>
+                </span>
+                <span>Live Topology & Hub</span>
+              </span>
               <span class="sidebar-badge">CORE</span>
             </button>
             <button class="sidebar-btn metrics-hub" onclick="switchView('metrics-hub')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: #2563eb;"></span>Multi-Metric Graphs</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #3b82f6;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg>
+                </span>
+                <span>Multi-Metric Graphs</span>
+              </span>
               <span class="sidebar-badge">CHARTS</span>
             </button>
             <button class="sidebar-btn time" onclick="switchView('time')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--emerald);"></span>Temporal Waveforms</span>
-              <span class="sidebar-badge">PHASE 5</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #059669;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline></svg>
+                </span>
+                <span>Temporal Waveforms</span>
+              </span>
+              <span class="sidebar-badge">TIME</span>
             </button>
             <button class="sidebar-btn soul" onclick="switchView('soul')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--amber);"></span>Anomalies & Baselines</span>
-              <span class="sidebar-badge">PHASE 6</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #d97706;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path><line x1="12" y1="9" x2="12" y2="13"></line><line x1="12" y1="17" x2="12.01" y2="17"></line></svg>
+                </span>
+                <span>Anomalies & Baselines</span>
+              </span>
+              <span class="sidebar-badge">SOUL</span>
             </button>
             <button class="sidebar-btn mind" onclick="switchView('mind')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--violet);"></span>Query Planner IDE</span>
-              <span class="sidebar-badge">PHASE 4</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #7c3aed;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                </span>
+                <span>Query Planner IDE</span>
+              </span>
+              <span class="sidebar-badge">MIND</span>
             </button>
             <button class="sidebar-btn summary" onclick="switchView('summary')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: #10b981;"></span>Executive Summary & SLA</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #10b981;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path><polyline points="14 2 14 8 20 8"></polyline><line x1="16" y1="13" x2="8" y2="13"></line><line x1="16" y1="17" x2="8" y2="17"></line><polyline points="10 9 9 9 8 9"></polyline></svg>
+                </span>
+                <span>Executive Summary & SLA</span>
+              </span>
               <span class="sidebar-badge">REPORT</span>
             </button>
           </div>
@@ -898,15 +935,30 @@
           <div class="sidebar-heading">Storage & Ingestion</div>
           <div class="sidebar-menu">
             <button class="sidebar-btn power" onclick="switchView('power')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--rose);"></span>Ingestion Pipeline</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #e11d48;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"></path></svg>
+                </span>
+                <span>Ingestion Pipeline</span>
+              </span>
               <span class="sidebar-badge">WAL</span>
             </button>
             <button class="sidebar-btn space" onclick="switchView('space')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--cyan);"></span>Segment Catalog (.gt)</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #0891b2;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><ellipse cx="12" cy="5" rx="9" ry="3"></ellipse><path d="M21 12c0 1.66-4 3-9 3s-9-1.34-9-3"></path><path d="M3 5v14c0 1.66 4 3 9 3s9-1.34 9-3V5"></path></svg>
+                </span>
+                <span>Segment Catalog (.gt)</span>
+              </span>
               <span class="sidebar-badge">DISK</span>
             </button>
             <button class="sidebar-btn reality" onclick="switchView('reality')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--violet);"></span>Bloom Filter Indexes</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #8b5cf6;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+                </span>
+                <span>Bloom Filter Indexes</span>
+              </span>
               <span class="sidebar-badge">INDEX</span>
             </button>
           </div>
@@ -916,15 +968,30 @@
           <div class="sidebar-heading">Diagnostics & Chaos</div>
           <div class="sidebar-menu">
             <button class="sidebar-btn simulator" onclick="switchView('simulator')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--rose);"></span>Incident Chaos Lab</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #f43f5e;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="8" x2="12" y2="12"></line><line x1="12" y1="16" x2="12.01" y2="16"></line></svg>
+                </span>
+                <span>Incident Chaos Lab</span>
+              </span>
               <span class="sidebar-badge">LAB</span>
             </button>
             <button class="sidebar-btn hex" onclick="switchView('hex')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: var(--text-muted);"></span>Binary Hex Inspector</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #64748b;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><rect x="4" y="4" width="16" height="16" rx="2" ry="2"></rect><rect x="9" y="9" width="6" height="6"></rect><line x1="9" y1="1" x2="9" y2="4"></line><line x1="15" y1="1" x2="15" y2="4"></line><line x1="9" y1="20" x2="9" y2="23"></line><line x1="15" y1="20" x2="15" y2="23"></line><line x1="20" y1="9" x2="23" y2="9"></line><line x1="20" y1="14" x2="23" y2="14"></line><line x1="1" y1="9" x2="4" y2="9"></line><line x1="1" y1="14" x2="4" y2="14"></line></svg>
+                </span>
+                <span>Binary Hex Inspector</span>
+              </span>
               <span class="sidebar-badge">BYTE</span>
             </button>
             <button class="sidebar-btn profile" onclick="switchView('profile')">
-              <span class="sidebar-btn-left"><span class="dot-tag" style="background: #6366f1;"></span>Profile & Avatar</span>
+              <span class="sidebar-btn-left">
+                <span class="sidebar-icon" style="color: #6366f1;">
+                  <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path><circle cx="12" cy="7" r="4"></circle></svg>
+                </span>
+                <span>Profile & Avatar</span>
+              </span>
               <span class="sidebar-badge">ACCOUNT</span>
             </button>
           </div>
