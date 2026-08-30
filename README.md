@@ -1,7 +1,6 @@
 <p align="center">
-  <img src="Logo.png" alt="GAUNTLET Logo" width="280"/>
+  <img src="Logo.png" alt="GAUNTLET Logo" width="320"/>
 </p>
-
 <p align="center">
   <strong>Temporal Data & Analytics Engine</strong><br/>
   <em>Forge Data. Find Truth.</em>
