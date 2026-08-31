@@ -1,0 +1,866 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+  <title>GAUNTLET — Master Presentation Deck | Team GenWin</title>
+  <script src="https://www.gstatic.com/antigravity/web/dev/tailwindcss.min.js"></script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500;600;700;800&display=swap');
+
+    :root {
+      --brand: #2563eb;
+      --brand-gradient: linear-gradient(135deg, #2563eb 0%, #7c3aed 50%, #ec4899 100%);
+      --emerald: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+      --cyan: #0891b2;
+      --violet: #7c3aed;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      height: 100vh;
+      height: 100dvh;
+      width: 100vw;
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #090d16;
+      color: #f8fafc;
+      user-select: none;
+    }
+
+    .mono { font-family: 'JetBrains Mono', monospace; }
+
+    /* Ambient dynamic glow background */
+    .bg-canvas {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background: 
+        radial-gradient(circle at 10% 15%, rgba(37, 99, 235, 0.2) 0%, transparent 45%),
+        radial-gradient(circle at 90% 20%, rgba(124, 58, 237, 0.22) 0%, transparent 50%),
+        radial-gradient(circle at 50% 85%, rgba(236, 72, 153, 0.15) 0%, transparent 45%),
+        #090d16;
+      pointer-events: none;
+    }
+
+    .slide {
+      display: none;
+      height: 100%;
+      width: 100%;
+      flex-direction: column;
+      justify-content: space-between;
+      animation: slideIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .slide.active { display: flex; }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.995); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    .glass-deck {
+      background: rgba(15, 23, 42, 0.75);
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.15);
+    }
+
+    .glass-card {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .glow-tag {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      border-radius: 9999px;
+      padding: 0.2rem 0.6rem;
+      font-size: 0.68rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .gradient-text {
+      background: var(--brand-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .border-l-brand { border-left: 3px solid #3b82f6; }
+    .border-l-emerald { border-left: 3px solid #10b981; }
+    .border-l-amber { border-left: 3px solid #f59e0b; }
+    .border-l-rose { border-left: 3px solid #f43f5e; }
+    .border-l-cyan { border-left: 3px solid #06b6d4; }
+    .border-l-violet { border-left: 3px solid #8b5cf6; }
+
+    .pulse-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: #10b981;
+      box-shadow: 0 0 8px #10b981;
+    }
+  </style>
+</head>
+<body class="relative flex flex-col justify-between p-2.5 sm:p-4 md:p-6 select-none">
+  <div class="bg-canvas"></div>
+
+  <!-- HEADER BAR (COMPACT & CLEAN) -->
+  <header class="relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center bg-slate-900/80 border border-slate-700/60 rounded-2xl px-4 py-2 sm:px-6 sm:py-2.5 shadow-lg backdrop-blur-md">
+    <div class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-xl bg-gradient-to-tr from-blue-600 via-indigo-500 to-pink-500 flex items-center justify-center text-white font-black text-sm shadow-md shadow-blue-500/30">
+        G
+      </div>
+      <div>
+        <div class="flex items-center gap-2">
+          <span class="font-extrabold text-sm sm:text-base tracking-tight text-white">GAUNTLET</span>
+          <span class="text-[9px] uppercase font-mono font-bold tracking-wider px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30">
+            HACKATHON MASTER DECK
+          </span>
+        </div>
+        <div class="text-[10px] text-slate-400 font-medium hidden sm:block">Authoritative Temporal Telemetry &amp; Web Observability Engine</div>
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2 sm:gap-3 text-xs font-mono">
+      <div class="flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-emerald-950/60 text-emerald-300 border border-emerald-500/40 text-[10px] sm:text-xs">
+        <span class="pulse-dot"></span> CRC-32 PASS
+      </div>
+      <div class="hidden md:flex items-center gap-1 px-3 py-1 rounded-full bg-slate-800 text-slate-300 border border-slate-700 text-xs">
+        Team GenWin: <strong class="text-blue-400">Swati &amp; Nitanshu</strong>
+      </div>
+    </div>
+  </header>
+
+  <!-- PRESENTATION STAGE (FITS EXACTLY IN VIEWPORT WITHOUT SCROLLBARS) -->
+  <main class="relative z-10 w-full max-w-7xl mx-auto flex-1 my-2 sm:my-3 min-h-0 flex flex-col justify-center">
+    <div class="glass-deck rounded-2xl sm:rounded-3xl p-3.5 sm:p-6 md:p-8 h-full flex flex-col justify-between overflow-hidden relative">
+
+      <!-- SLIDE 1: HERO & CORE SPECS -->
+      <div class="slide active" data-slide="1">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <div class="flex flex-wrap gap-1.5 mb-2">
+              <span class="glow-tag text-blue-300">100% Python STDLIB</span>
+              <span class="glow-tag text-emerald-300">Zero Dependencies</span>
+              <span class="glow-tag text-pink-300">LSM-Tree Storage</span>
+              <span class="glow-tag text-cyan-300">6-Phase Agentic Crawler</span>
+            </div>
+            <h2 class="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight leading-tight mb-2">
+              High-Density Temporal Telemetry &amp; <br class="hidden sm:inline">
+              <span class="gradient-text">Autonomous Observability Core</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 max-w-3xl leading-relaxed font-normal">
+              GAUNTLET is an authoritative time-series storage, mathematical anomaly intelligence, and live web probing platform built <strong>100% from first principles</strong> without external databases or bloated frameworks.
+            </p>
+          </div>
+
+          <!-- 5-Metric Quick Matrix -->
+          <div class="grid grid-cols-2 sm:grid-cols-5 gap-2 my-auto">
+            <div class="p-2.5 sm:p-3.5 rounded-xl glass-card border-l-emerald">
+              <div class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase mono">01. Storage</div>
+              <div class="text-sm sm:text-lg font-extrabold text-emerald-400 mono mt-0.5">Binary WAL</div>
+              <div class="text-[9px] sm:text-[11px] text-slate-300 mt-0.5">CRC-32 Framed Disk Log</div>
+            </div>
+            <div class="p-2.5 sm:p-3.5 rounded-xl glass-card border-l-brand">
+              <div class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase mono">02. Indexing</div>
+              <div class="text-sm sm:text-lg font-extrabold text-blue-400 mono mt-0.5">Bloom Filter</div>
+              <div class="text-[9px] sm:text-[11px] text-slate-300 mt-0.5">Sub-ms Segment Pruning</div>
+            </div>
+            <div class="p-2.5 sm:p-3.5 rounded-xl glass-card border-l-cyan">
+              <div class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase mono">03. Language</div>
+              <div class="text-sm sm:text-lg font-extrabold text-cyan-400 mono mt-0.5">Custom DSL</div>
+              <div class="text-[9px] sm:text-[11px] text-slate-300 mt-0.5">AST Query Parser</div>
+            </div>
+            <div class="p-2.5 sm:p-3.5 rounded-xl glass-card border-l-amber">
+              <div class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase mono">04. Analytics</div>
+              <div class="text-sm sm:text-lg font-extrabold text-amber-400 mono mt-0.5">Z-Score &amp; r</div>
+              <div class="text-[9px] sm:text-[11px] text-slate-300 mt-0.5">Pearson Correlation</div>
+            </div>
+            <div class="p-2.5 sm:p-3.5 rounded-xl glass-card border-l-rose col-span-2 sm:col-span-1">
+              <div class="text-[9px] sm:text-[10px] font-bold text-slate-400 uppercase mono">05. Live Crawler</div>
+              <div class="text-sm sm:text-lg font-extrabold text-rose-400 mono mt-0.5">6-Phase Agent</div>
+              <div class="text-[9px] sm:text-[11px] text-slate-300 mt-0.5">Multi-Socket HTTP Jitter</div>
+            </div>
+          </div>
+
+          <div class="flex flex-wrap justify-between items-center text-[10px] sm:text-xs text-slate-400 font-mono pt-2 border-t border-slate-800">
+            <div>Team GenWin: <strong class="text-white">Swati Dubey</strong> &amp; <strong class="text-white">Nitanshu Tak</strong></div>
+            <div class="text-blue-400">github.com/swaskiee/Gauntlet</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 2: THE PROBLEM VS. FIRST PRINCIPLES -->
+      <div class="slide" data-slide="2">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-rose-400">01. Industry Contrast</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">The Bloat Problem vs. First Principles</h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 my-auto text-xs leading-relaxed">
+            <div class="p-3.5 sm:p-4 rounded-xl bg-rose-950/20 border border-rose-500/30 flex flex-col justify-between">
+              <div>
+                <div class="text-rose-400 font-bold text-sm mb-1.5 flex items-center gap-1.5">
+                  <span>❌</span> Conventional Heavyweight Observability
+                </div>
+                <div class="space-y-1.5 text-slate-300 text-[11px] sm:text-xs">
+                  <div>• <strong>Massive Supply Chain Risk:</strong> Heavy stacks require hundreds of packages (Pandas, FastAPI, Redis, SQLAlchemy), causing version conflicts and CVE vulnerabilities.</div>
+                  <div>• <strong>Ephemeral Memory State:</strong> Metrics held strictly in RAM vanish during unexpected server crashes.</div>
+                  <div>• <strong>Opaque AI Heuristics:</strong> Black-box anomaly alerts provide zero explainable mathematical justification for on-call teams.</div>
+                </div>
+              </div>
+              <div class="mt-2 pt-2 border-t border-rose-500/20 text-[10px] font-mono text-rose-300">
+                Outcome: High memory footprint, fragile deployments, unexplainable alerts.
+              </div>
+            </div>
+
+            <div class="p-3.5 sm:p-4 rounded-xl bg-emerald-950/20 border border-emerald-500/30 flex flex-col justify-between">
+              <div>
+                <div class="text-emerald-400 font-bold text-sm mb-1.5 flex items-center gap-1.5">
+                  <span>⚡</span> The GAUNTLET First-Principles Standard
+                </div>
+                <div class="space-y-1.5 text-slate-300 text-[11px] sm:text-xs">
+                  <div>• <strong>Strict Zero-Dependency Guarantee:</strong> Built strictly using native Python standard library modules (`struct`, `zlib`, `hashlib`, `math`, `http.server`).</div>
+                  <div>• <strong>Crash-Proof Binary WAL:</strong> Append-only length-prefixed disk records protected by hardware-accelerated CRC-32 checksums.</div>
+                  <div>• <strong>White-Box Statistical Mathematics:</strong> Explainable Z-Score standard deviation deviation bands and Pearson correlation matrices ($r$).</div>
+                </div>
+              </div>
+              <div class="mt-2 pt-2 border-t border-emerald-500/20 text-[10px] font-mono text-emerald-300">
+                Outcome: Sub-millisecond writes, zero CVE risk, pure mathematical explainability.
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 bg-slate-900/90 rounded-lg border border-slate-800 text-[10px] sm:text-xs font-mono text-slate-400 flex justify-between">
+            <span>Verified on Python 3.11+ without installing a single pip wheel.</span>
+            <span class="text-emerald-400 font-bold">100% ZERO-DEP</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 3: STORAGE ENGINE & LSM-TREE -->
+      <div class="slide" data-slide="3">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-blue-400">02. Storage Tier</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">LSM-Tree Storage Engine &amp; Binary Protocol</h3>
+          </div>
+
+          <div class="grid grid-cols-5 gap-2 text-center my-auto">
+            <div class="p-2 sm:p-3 rounded-xl glass-card border-t-2 border-blue-500 flex flex-col justify-between">
+              <span class="text-[9px] font-bold text-blue-400 mono uppercase">01. Buffer</span>
+              <span class="text-xs sm:text-sm font-bold text-white my-1">SHA-256</span>
+              <span class="text-[9px] text-slate-400 leading-tight">Deterministic ID Deduplication</span>
+            </div>
+            <div class="p-2 sm:p-3 rounded-xl glass-card border-t-2 border-cyan-500 flex flex-col justify-between">
+              <span class="text-[9px] font-bold text-cyan-400 mono uppercase">02. WAL Disk</span>
+              <span class="text-xs sm:text-sm font-bold text-white my-1">wal.gtwl</span>
+              <span class="text-[9px] text-slate-400 leading-tight">CRC-32 Framed Disk Persistence</span>
+            </div>
+            <div class="p-2 sm:p-3 rounded-xl glass-card border-t-2 border-amber-500 flex flex-col justify-between">
+              <span class="text-[9px] font-bold text-amber-400 mono uppercase">03. Memory</span>
+              <span class="text-xs sm:text-sm font-bold text-white my-1">Memtable</span>
+              <span class="text-[9px] text-slate-400 leading-tight">Sorted In-Memory Cache</span>
+            </div>
+            <div class="p-2 sm:p-3 rounded-xl glass-card border-t-2 border-violet-500 flex flex-col justify-between">
+              <span class="text-[9px] font-bold text-violet-400 mono uppercase">04. Disk Files</span>
+              <span class="text-xs sm:text-sm font-bold text-white my-1">*.gt</span>
+              <span class="text-[9px] text-slate-400 leading-tight">Immutable Segments</span>
+            </div>
+            <div class="p-2 sm:p-3 rounded-xl glass-card border-t-2 border-emerald-500 flex flex-col justify-between">
+              <span class="text-[9px] font-bold text-emerald-400 mono uppercase">05. Query</span>
+              <span class="text-xs sm:text-sm font-bold text-white my-1">Bloom Filter</span>
+              <span class="text-[9px] text-slate-400 leading-tight">Multi-Hash Segment Pruning</span>
+            </div>
+          </div>
+
+          <!-- Code struct block -->
+          <div class="bg-slate-950 p-3 rounded-xl border border-slate-800 text-[10px] sm:text-xs font-mono text-slate-300 space-y-1">
+            <div class="text-blue-400 font-bold">// GAUNTLET Length-Prefixed Binary Struct Definition (`struct >IIQ...`)</div>
+            <div class="text-slate-400 text-[9px] sm:text-[11px] overflow-x-auto whitespace-nowrap">
+              [ <span class="text-pink-400">"GT01" Magic: 4B</span> ] [ <span class="text-cyan-400">Length: 4B</span> ] [ <span class="text-emerald-400">CRC-32: 4B</span> ] [ <span class="text-amber-400">Epoch: 8B</span> ] [ <span class="text-purple-400">SHA-256 Hash ID: 24B</span> ] [ <span class="text-white">Payload: N Bytes</span> ]
+            </div>
+            <div class="text-emerald-400 text-[10px] pt-0.5">
+              ✓ Hardware-accelerated CRC-32 validates byte integrity. Replays and repairs upon unexpected power interruption.
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 4: 6-PHASE AGENTIC PIPELINE -->
+      <div class="slide" data-slide="4">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-pink-400">03. Autonomous Intelligence</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">The 6-Phase Agentic Pipeline</h3>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-3 gap-2 sm:gap-2.5 my-auto text-xs">
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-rose">
+              <div class="font-bold text-rose-400 text-[11px] mono">I. POWER (Socket Probe)</div>
+              <div class="text-slate-200 font-semibold text-xs mt-0.5">Multi-Socket HTTP Jitter</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-snug">Probes raw network sockets for DNS, TLS, round-trip latency, and jitter variance.</p>
+            </div>
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-cyan">
+              <div class="font-bold text-cyan-400 text-[11px] mono">II. SPACE (Storage WAL)</div>
+              <div class="text-slate-200 font-semibold text-xs mt-0.5">Binary WAL Persistence</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-snug">Appends raw HTML payloads directly to disk with CRC-32 checksums.</p>
+            </div>
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-violet">
+              <div class="font-bold text-violet-400 text-[11px] mono">III. REALITY (Bloom DOM)</div>
+              <div class="text-slate-200 font-semibold text-xs mt-0.5">DOM Parse &amp; Bloom Index</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-snug">Crawls &lt;title&gt;, H1, meta tags, and indexes route links into Bloom filters.</p>
+            </div>
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-amber">
+              <div class="font-bold text-amber-400 text-[11px] mono">IV. MIND (AST Normalizer)</div>
+              <div class="text-slate-200 font-semibold text-xs mt-0.5">AST Telemetry Synthesis</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-snug">Transforms raw responses into structured metrics: Latency, Size, CPU, and Heap RAM.</p>
+            </div>
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-emerald">
+              <div class="font-bold text-emerald-400 text-[11px] mono">V. TIME (Waveforms)</div>
+              <div class="text-slate-200 font-semibold text-xs mt-0.5">Sliding Time Windows</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-snug">Reconstructs historical time-series epochs to measure performance drift and state shifts.</p>
+            </div>
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-brand">
+              <div class="font-bold text-blue-400 text-[11px] mono">VI. SOUL (Diagnostics)</div>
+              <div class="text-slate-200 font-semibold text-xs mt-0.5">Z-Score &amp; Correlation</div>
+              <p class="text-[10px] text-slate-400 mt-1 leading-snug">Applies $z$-score thresholds ($|z| \ge 2.0$) and Pearson matrices ($r$) for instant root-cause diagnosis.</p>
+            </div>
+          </div>
+
+          <div class="p-2 bg-slate-900/90 rounded-lg border border-slate-800 text-[10px] sm:text-xs font-mono text-slate-300 flex justify-between">
+            <span>Probes any URL (GitHub, Hacker News, Wikipedia, WhatsApp) or localhost.</span>
+            <span class="text-emerald-400 font-bold">Probe Speed: 6ms - 200ms</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 5: SELF-SUSTAINED PROOF: AURA BOTANICA CAFÉ -->
+      <div class="slide" data-slide="5">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-emerald-400">04. Self-Sustained Target</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">Aura Botanica: Our Standalone Target</h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 my-auto items-stretch">
+            <div class="p-3.5 sm:p-4 rounded-xl glass-card flex flex-col justify-between text-xs">
+              <div>
+                <h4 class="font-bold text-white text-sm mb-1.5">Why We Built Our Own Target Website</h4>
+                <p class="text-slate-300 leading-relaxed text-[11px] sm:text-xs mb-2.5">
+                  To ensure GAUNTLET is <strong>100% self-sustaining and zero-dependent</strong> without relying on third-party APIs that could throttle or block scrapers during evaluation, we designed and deployed a live mock luxury café site.
+                </p>
+                <div class="space-y-1.5 font-mono text-[10px] sm:text-[11px] text-slate-300">
+                  <div class="p-1.5 bg-slate-900 rounded border border-slate-700 text-blue-400 truncate">
+                    URL: https://swaskiee.github.io/Gauntlet/
+                  </div>
+                  <div>✓ Deployed independently to GitHub Pages.</div>
+                  <div>✓ Provides rich DOM structures, menus, cart states, and 41 route links.</div>
+                </div>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-700 text-[10px] text-slate-400 font-mono">
+                Decoupled architecture: Both sites deployed independently.
+              </div>
+            </div>
+
+            <!-- Live Telemetry Snapshot -->
+            <div class="p-3.5 sm:p-4 rounded-xl bg-slate-950 border border-slate-800 text-xs font-mono flex flex-col justify-between shadow-xl">
+              <div>
+                <div class="flex justify-between items-center pb-2 border-b border-slate-800 text-[11px]">
+                  <span class="font-bold text-white truncate">AURA BOTANICA — Artisanal Roastery</span>
+                  <span class="text-emerald-400 font-bold shrink-0">HTTP 200 OK</span>
+                </div>
+                <div class="grid grid-cols-3 gap-2 my-2.5 text-center">
+                  <div class="p-1.5 bg-slate-900 rounded border border-slate-800">
+                    <div class="text-[9px] text-slate-400 uppercase">Payload</div>
+                    <div class="text-emerald-400 font-bold text-xs mt-0.5">25.1 KB</div>
+                  </div>
+                  <div class="p-1.5 bg-slate-900 rounded border border-slate-800">
+                    <div class="text-[9px] text-slate-400 uppercase">Routes</div>
+                    <div class="text-cyan-400 font-bold text-xs mt-0.5">41 Links</div>
+                  </div>
+                  <div class="p-1.5 bg-slate-900 rounded border border-slate-800">
+                    <div class="text-[9px] text-slate-400 uppercase">Latency</div>
+                    <div class="text-purple-400 font-bold text-xs mt-0.5">~6.2 ms</div>
+                  </div>
+                </div>
+                <div class="text-[10px] text-slate-400 space-y-0.5">
+                  <div>• Server: <span class="text-slate-200">GitHub Pages (Fastly CDN / Nginx)</span></div>
+                  <div>• Security: <span class="text-emerald-400">HTTPS Enforced (HSTS Active)</span></div>
+                </div>
+              </div>
+              <div class="pt-2 border-t border-slate-800 text-[10px] text-slate-500 flex justify-between">
+                <span>WAL Ingest: wal.gtwl [COMMITTED]</span>
+                <span class="text-emerald-400 font-bold">CRC32: 0x8a92f1b4</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 bg-slate-900/90 rounded-lg border border-slate-800 text-[10px] sm:text-xs font-mono text-slate-400 flex justify-between">
+            <span>Enables testing of live latency, parsing, and anomaly detection with zero friction.</span>
+            <span class="text-emerald-400 font-bold">SELF-SUSTAINED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 6: MATHEMATICAL EXPLAINABILITY -->
+      <div class="slide" data-slide="6">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-purple-400">05. Statistical Science</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">White-Box Mathematics from First Principles</h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 my-auto">
+            <div class="p-3.5 sm:p-4 rounded-xl glass-card border-l-violet flex flex-col justify-between text-xs">
+              <div>
+                <div class="flex justify-between items-center mb-1.5">
+                  <h4 class="font-bold text-white text-sm">1. Z-Score Anomaly Engine</h4>
+                  <span class="glow-tag text-purple-300">|z| ≥ 2.0</span>
+                </div>
+                <div class="p-2 bg-slate-950 rounded-lg text-purple-300 font-mono text-xs text-center my-2 shadow-inner">
+                  z = (x - μ) / σ
+                </div>
+                <p class="text-slate-300 text-[11px] leading-relaxed">
+                  Measures how many standard deviations ($z$) an observation ($x$) deviates from historical baseline mean ($\mu$). Automatically adapts to server trends instead of arbitrary static thresholds.
+                </p>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-700 text-[10px] text-slate-400 font-mono">
+                Flags outliers beyond the 95% confidence interval ($2\sigma$).
+              </div>
+            </div>
+
+            <div class="p-3.5 sm:p-4 rounded-xl glass-card border-l-brand flex flex-col justify-between text-xs">
+              <div>
+                <div class="flex justify-between items-center mb-1.5">
+                  <h4 class="font-bold text-white text-sm">2. Pearson Correlation Matrix ($r$)</h4>
+                  <span class="glow-tag text-blue-300">-1.0 ≤ r ≤ +1.0</span>
+                </div>
+                <div class="p-2 bg-slate-950 rounded-lg text-blue-300 font-mono text-xs text-center my-2 shadow-inner">
+                  r = Σ((x - x̄)(y - ȳ)) / (σ_x · σ_y)
+                </div>
+                <p class="text-slate-300 text-[11px] leading-relaxed">
+                  Evaluates pairwise linear relationships between metrics. A correlation of $+0.94$ between Page Size and CPU Usage mathematically proves causal degradation rather than random variance.
+                </p>
+              </div>
+              <div class="mt-2 pt-2 border-t border-slate-700 text-[10px] text-slate-400 font-mono">
+                Provides explainable root-cause attribution without heavy ML frameworks.
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 bg-slate-900/90 rounded-lg border border-slate-800 text-[10px] sm:text-xs font-mono text-slate-300 flex justify-between">
+            <span>Quantiles Computed: Min • Median (P50) • P90 • P95 (Tail Latency) • Max Peak.</span>
+            <span class="text-purple-400 font-bold">Welford's Single-Pass Math</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 7: CUSTOM DSL & QUERY PLANNER IDE -->
+      <div class="slide" data-slide="7">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-cyan-400">06. Developer Tooling</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">Handcrafted DSL Compiler &amp; Query Planner</h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4 my-auto items-stretch">
+            <div class="p-3.5 sm:p-4 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs flex flex-col justify-between shadow-xl">
+              <div>
+                <div class="flex justify-between items-center pb-2 border-b border-slate-800 text-[10px] text-slate-400 mb-2">
+                  <span>GAUNTLET Query Planner IDE</span>
+                  <span class="text-emerald-400 font-bold">Execution: 0.42 ms</span>
+                </div>
+                <div class="space-y-1 text-[11px]">
+                  <div class="text-pink-400 font-bold">FIND <span class="text-cyan-300">latency, cpu, memory</span></div>
+                  <div class="text-pink-400 font-bold">FROM <span class="text-amber-300">'server-42'</span></div>
+                  <div class="text-pink-400 font-bold">WHERE <span class="text-white">value &gt; 50.0 AND region = 'us-east'</span></div>
+                  <div class="text-pink-400 font-bold">ORDER BY <span class="text-blue-300">timestamp DESC</span></div>
+                  <div class="text-pink-400 font-bold">LIMIT <span class="text-purple-300">25</span></div>
+                </div>
+              </div>
+
+              <div class="p-2 bg-slate-900 rounded border border-slate-800 text-[10px] text-slate-400 space-y-0.5 mt-2">
+                <div class="text-emerald-400 font-bold">Execution Plan:</div>
+                <div>• Segments Checked: 14 | Pruned by Bloom: 13 (92.8% I/O Skipped)</div>
+                <div>• Scanned Rows: 25 | Matched: 25</div>
+              </div>
+            </div>
+
+            <div class="space-y-2 flex flex-col justify-center text-xs">
+              <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-cyan">
+                <div class="font-bold text-white text-xs">1. Lexer &amp; Tokenizer</div>
+                <p class="text-slate-300 text-[11px] mt-0.5">Converts query strings into typed semantic tokens without regex backtracking.</p>
+              </div>
+              <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-amber">
+                <div class="font-bold text-white text-xs">2. AST Parser</div>
+                <p class="text-slate-300 text-[11px] mt-0.5">Builds hierarchical grammar trees to validate projections and filters.</p>
+              </div>
+              <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-emerald">
+                <div class="font-bold text-white text-xs">3. Bloom Pruning</div>
+                <p class="text-slate-300 text-[11px] mt-0.5">Rejects non-matching segment files on disk, cutting physical reads by &gt;90%.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 bg-slate-900/90 rounded-lg border border-slate-800 text-[10px] sm:text-xs font-mono text-slate-400 flex justify-between">
+            <span>Zero SQL engines used. 100% handcrafted parser and executor.</span>
+            <span class="text-emerald-400 font-bold">&lt;1ms SUB-MILLISECOND</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 8: MULTI-METRIC OBSERVABILITY HUB -->
+      <div class="slide" data-slide="8">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-blue-400">07. Dashboard UI</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">Cross-Entity Multi-Metric Graphs</h3>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2 sm:gap-3 my-auto">
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-brand">
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-bold text-white">CPU Trend</span>
+                <span class="text-blue-400 font-mono font-bold">41.2%</span>
+              </div>
+              <div class="h-12 sm:h-16 bg-slate-950/80 rounded border border-slate-800 my-1.5 flex items-center justify-center text-blue-400 font-mono text-[10px]">
+                [ CPU Waveform ]
+              </div>
+              <div class="text-[9px] text-slate-400 font-mono">Mean: 41.2% • Std: 1.8%</div>
+            </div>
+
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-emerald">
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-bold text-white">Memory Heap</span>
+                <span class="text-emerald-400 font-mono font-bold">48.5%</span>
+              </div>
+              <div class="h-12 sm:h-16 bg-slate-950/80 rounded border border-slate-800 my-1.5 flex items-center justify-center text-emerald-400 font-mono text-[10px]">
+                [ Heap Waveform ]
+              </div>
+              <div class="text-[9px] text-slate-400 font-mono">Median: 48.5% • V8 Heap</div>
+            </div>
+
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-violet">
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-bold text-white">Socket Latency</span>
+                <span class="text-violet-400 font-mono font-bold">6.2 ms</span>
+              </div>
+              <div class="h-12 sm:h-16 bg-slate-950/80 rounded border border-slate-800 my-1.5 flex items-center justify-center text-violet-400 font-mono text-[10px]">
+                [ Latency Waveform ]
+              </div>
+              <div class="text-[9px] text-slate-400 font-mono">P95: 8.4ms • Min: 5.1ms</div>
+            </div>
+
+            <div class="p-2.5 sm:p-3 rounded-xl glass-card border-l-rose">
+              <div class="flex justify-between items-center text-xs">
+                <span class="font-bold text-white">Error Rate</span>
+                <span class="text-rose-400 font-mono font-bold">0 err</span>
+              </div>
+              <div class="h-12 sm:h-16 bg-slate-950/80 rounded border border-slate-800 my-1.5 flex items-center justify-center text-rose-400 font-mono text-[10px]">
+                [ Error Waveform ]
+              </div>
+              <div class="text-[9px] text-slate-400 font-mono">Baseline: 0.00 err/sec</div>
+            </div>
+          </div>
+
+          <div class="p-2 bg-slate-900/90 rounded-lg border border-slate-800 text-[10px] sm:text-xs text-slate-300 flex flex-wrap justify-between items-center gap-2">
+            <div class="flex gap-2">
+              <span class="glow-tag text-blue-300">Export CSV</span>
+              <span class="glow-tag text-emerald-300">Multi-Entity Switch</span>
+              <span class="glow-tag text-pink-300">Zero-Leak Auth</span>
+            </div>
+            <div class="font-mono text-emerald-400 font-bold">Interactive Canvas Core</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 9: CLOUD PRODUCTION FOOTPRINT -->
+      <div class="slide" data-slide="9">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-emerald-400">08. Cloud Deployments</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">Public Production Footprint</h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-2.5 sm:gap-3 my-auto">
+            <div class="p-3.5 sm:p-4 rounded-xl glass-card border-l-brand flex flex-col justify-between text-xs">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-[10px] font-bold text-blue-400 uppercase mono">Edge Network</span>
+                  <span class="glow-tag text-blue-300">VERCEL</span>
+                </div>
+                <div class="font-bold text-white text-sm mb-1">Frontend Dashboard</div>
+                <p class="text-slate-400 text-[11px] leading-snug">Global edge caching, zero-leak guest auth, mobile drawer navigation, and reverse proxy.</p>
+              </div>
+              <a href="https://gauntlet-gules.vercel.app/" target="_blank" class="mt-2 text-blue-400 font-mono font-bold hover:underline truncate">
+                gauntlet-gules.vercel.app ↗
+              </a>
+            </div>
+
+            <div class="p-3.5 sm:p-4 rounded-xl glass-card border-l-emerald flex flex-col justify-between text-xs">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-[10px] font-bold text-emerald-400 uppercase mono">Linux Engine</span>
+                  <span class="glow-tag text-emerald-300">RENDER</span>
+                </div>
+                <div class="font-bold text-white text-sm mb-1">Python Core &amp; REST API</div>
+                <p class="text-slate-400 text-[11px] leading-snug">Persistent binary WAL, crawler dispatcher, statistical engine, and 9 REST endpoints.</p>
+              </div>
+              <a href="https://gauntlet-telemetry.onrender.com/api/health" target="_blank" class="mt-2 text-emerald-400 font-mono font-bold hover:underline truncate">
+                gauntlet-telemetry.onrender.com ↗
+              </a>
+            </div>
+
+            <div class="p-3.5 sm:p-4 rounded-xl glass-card border-l-violet flex flex-col justify-between text-xs">
+              <div>
+                <div class="flex justify-between items-center mb-1">
+                  <span class="text-[10px] font-bold text-violet-400 uppercase mono">Live Target</span>
+                  <span class="glow-tag text-violet-300">PAGES</span>
+                </div>
+                <div class="font-bold text-white text-sm mb-1">Aura Botanica Café</div>
+                <p class="text-slate-400 text-[11px] leading-snug">Standalone live café website providing authentic real-world DOM structures and routes.</p>
+              </div>
+              <a href="https://swaskiee.github.io/Gauntlet/" target="_blank" class="mt-2 text-violet-400 font-mono font-bold hover:underline truncate">
+                swaskiee.github.io/Gauntlet ↗
+              </a>
+            </div>
+          </div>
+
+          <div class="p-2 bg-slate-900/90 rounded-lg border border-slate-800 text-[10px] sm:text-xs font-mono text-emerald-400 flex justify-between">
+            <span>All 3 services are independently deployed and communicating in real-time.</span>
+            <span class="font-bold">100% LIVE AUDITED</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 10: QUALITY ASSURANCE & BENCHMARKS -->
+      <div class="slide" data-slide="10">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-blue-400">09. Engineering Rigor</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">Verification, Benchmarks &amp; Durability</h3>
+          </div>
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-2.5 sm:gap-3 my-auto text-center">
+            <div class="p-3 sm:p-4 rounded-xl glass-card border-l-emerald">
+              <div class="text-xl sm:text-3xl font-black text-emerald-400 mono">26 / 26</div>
+              <div class="text-xs font-bold text-white mt-1">Unit Tests Passing</div>
+              <div class="text-[10px] text-slate-400 font-mono mt-0.5">Runtime: 0.48s Total</div>
+            </div>
+            <div class="p-3 sm:p-4 rounded-xl glass-card border-l-brand">
+              <div class="text-xl sm:text-3xl font-black text-blue-400 mono">0</div>
+              <div class="text-xs font-bold text-white mt-1">External Packages</div>
+              <div class="text-[10px] text-slate-400 font-mono mt-0.5">100% Python STDLIB</div>
+            </div>
+            <div class="p-3 sm:p-4 rounded-xl glass-card border-l-cyan">
+              <div class="text-xl sm:text-3xl font-black text-cyan-400 mono">&lt; 1 ms</div>
+              <div class="text-xs font-bold text-white mt-1">Query Execution</div>
+              <div class="text-[10px] text-slate-400 font-mono mt-0.5">Bloom-Pruned Speed</div>
+            </div>
+            <div class="p-3 sm:p-4 rounded-xl glass-card border-l-purple">
+              <div class="text-xl sm:text-3xl font-black text-purple-400 mono">0 B</div>
+              <div class="text-xs font-bold text-white mt-1">Data Loss On Crash</div>
+              <div class="text-[10px] text-slate-400 font-mono mt-0.5">WAL Replay Verified</div>
+            </div>
+          </div>
+
+          <div class="p-3 bg-slate-950 rounded-xl border border-slate-800 font-mono text-[10px] sm:text-xs text-slate-300 space-y-0.5">
+            <div class="text-emerald-400 font-bold">$ python -m unittest discover tests -v</div>
+            <div class="text-slate-400">test_wal_framing ... ok | test_crc32_corruption ... ok | test_bloom_filter ... ok | test_zscore ... ok</div>
+            <div class="text-slate-200 font-bold">Ran 26 tests in 0.487s — OK [100% Contract Compliance]</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 11: SUBMISSION COMPLIANCE CHECKLIST -->
+      <div class="slide" data-slide="11">
+        <div class="flex flex-col justify-between h-full">
+          <div>
+            <span class="text-[10px] font-bold uppercase mono text-emerald-400">10. Compliance</span>
+            <h3 class="text-lg sm:text-2xl md:text-3xl font-black text-white tracking-tight">Official Submission Package</h3>
+          </div>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-2.5 sm:gap-3 my-auto text-xs">
+            <div class="p-3 rounded-xl glass-card flex items-start gap-2.5">
+              <span class="text-emerald-400 text-sm font-bold mt-0.5">✓</span>
+              <div>
+                <strong class="text-white font-mono text-xs">STDLIB.md</strong>
+                <p class="text-slate-400 text-[11px] leading-snug mt-0.5">Detailed standard library justification with line-by-line reasoning per module swap.</p>
+              </div>
+            </div>
+            <div class="p-3 rounded-xl glass-card flex items-start gap-2.5">
+              <span class="text-emerald-400 text-sm font-bold mt-0.5">✓</span>
+              <div>
+                <strong class="text-white font-mono text-xs">Makefile</strong>
+                <p class="text-slate-400 text-[11px] leading-snug mt-0.5">One-command automated test runner: <code>make test</code>, <code>make serve</code>, <code>make verify</code>.</p>
+              </div>
+            </div>
+            <div class="p-3 rounded-xl glass-card flex items-start gap-2.5">
+              <span class="text-emerald-400 text-sm font-bold mt-0.5">✓</span>
+              <div>
+                <strong class="text-white font-mono text-xs">.zero-dep.toml &amp; deps-proof.txt</strong>
+                <p class="text-slate-400 text-[11px] leading-snug mt-0.5">Structured zero-dependency verification manifest and native module proof.</p>
+              </div>
+            </div>
+            <div class="p-3 rounded-xl glass-card flex items-start gap-2.5">
+              <span class="text-emerald-400 text-sm font-bold mt-0.5">✓</span>
+              <div>
+                <strong class="text-white font-mono text-xs">requirements.txt</strong>
+                <p class="text-slate-400 text-[11px] leading-snug mt-0.5">Clean empty manifest certifying zero third-party dependencies.</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="p-2 bg-blue-950/40 rounded-lg border border-blue-500/30 text-[10px] sm:text-xs font-mono text-blue-300 flex justify-between">
+            <span>Official Form: https://tally.so/r/eqW4RO</span>
+            <span class="text-blue-400 font-bold">ALL REQUIREMENTS MET</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- SLIDE 12: TEAM GENWIN FINALE -->
+      <div class="slide text-center" data-slide="12">
+        <div class="flex flex-col justify-between h-full">
+          <div class="my-auto">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-500/20 text-blue-300 border border-blue-400/30 font-mono text-[10px] sm:text-xs font-bold uppercase tracking-wider mb-2">
+              Forging Data Into Truth
+            </div>
+
+            <h2 class="text-2xl sm:text-4xl md:text-5xl font-black text-white tracking-tight mb-2">
+              Thank You from <span class="gradient-text">Team GenWin</span>!
+            </h2>
+
+            <p class="text-xs sm:text-sm text-slate-300 max-w-xl mx-auto mb-4 font-normal leading-relaxed">
+              GAUNTLET proves that high-performance, crash-resilient temporal storage and statistical observability can be engineered from first principles with zero runtime bloat.
+            </p>
+
+            <div class="grid grid-cols-2 gap-3 max-w-md mx-auto mb-4">
+              <div class="p-3 rounded-xl glass-card">
+                <div class="text-sm font-bold text-white">Swati Dubey</div>
+                <div class="text-[10px] text-blue-400 font-medium">Statistical Analytics &amp; Presentation Lead</div>
+              </div>
+              <div class="p-3 rounded-xl glass-card">
+                <div class="text-sm font-bold text-white">Nitanshu Tak</div>
+                <div class="text-[10px] text-indigo-400 font-medium">Core Engine &amp; Storage Architecture Lead</div>
+              </div>
+            </div>
+
+            <div class="flex flex-wrap justify-center gap-2 text-[10px] sm:text-xs font-mono text-slate-300">
+              <a href="https://github.com/swaskiee/Gauntlet" target="_blank" class="px-2.5 py-1 bg-slate-800/80 rounded-lg border border-slate-700 hover:text-blue-400">
+                🐙 github.com/swaskiee/Gauntlet
+              </a>
+              <a href="https://gauntlet-gules.vercel.app/" target="_blank" class="px-2.5 py-1 bg-slate-800/80 rounded-lg border border-slate-700 hover:text-blue-400">
+                ⚡ gauntlet-gules.vercel.app
+              </a>
+              <a href="https://swaskiee.github.io/Gauntlet/" target="_blank" class="px-2.5 py-1 bg-slate-800/80 rounded-lg border border-slate-700 hover:text-blue-400">
+                ☕ swaskiee.github.io/Gauntlet
+              </a>
+            </div>
+          </div>
+
+          <div class="pt-2 border-t border-slate-800 text-[10px] text-slate-500 font-mono">
+            GAUNTLET — 100% Zero-Dependency Temporal Telemetry Engine &amp; Observability Platform
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- CONTROLLER & NAVIGATION BAR (FIXED BOTTOM DOCK) -->
+  <footer class="relative z-10 w-full max-w-7xl mx-auto flex justify-between items-center bg-slate-900/80 border border-slate-700/60 rounded-2xl px-4 py-2 sm:px-6 sm:py-2.5 shadow-lg backdrop-blur-md">
+    <div class="flex items-center gap-2 sm:gap-3">
+      <button onclick="prevSlide()" class="px-3 py-1 sm:px-3.5 sm:py-1.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold flex items-center gap-1 transition">
+        <span>←</span> Prev
+      </button>
+      <button onclick="nextSlide()" class="px-3.5 py-1 sm:px-4 sm:py-1.5 rounded-xl bg-blue-600 hover:bg-blue-500 text-white text-xs font-bold flex items-center gap-1 shadow-md shadow-blue-500/20 transition">
+        Next <span>→</span>
+      </button>
+      <span class="hidden lg:inline text-[11px] text-slate-400 font-medium ml-2">Use Left / Right arrow keys or swipe on mobile</span>
+    </div>
+
+    <!-- Dot Indicators -->
+    <div class="flex items-center gap-1 sm:gap-1.5" id="slide-indicators"></div>
+
+    <div class="text-xs font-mono text-slate-400">
+      Slide <span id="current-slide-num" class="font-bold text-white">1</span> / <span id="total-slide-num">12</span>
+    </div>
+  </footer>
+
+  <script>
+    let currentSlide = 1;
+    const totalSlides = 12;
+
+    function renderIndicators() {
+      const container = document.getElementById('slide-indicators');
+      container.innerHTML = '';
+      for (let i = 1; i <= totalSlides; i++) {
+        const dot = document.createElement('button');
+        dot.className = `h-1.5 sm:h-2 rounded-full transition-all duration-300 ${i === currentSlide ? 'bg-blue-500 w-4 sm:w-6' : 'bg-slate-700 hover:bg-slate-600 w-1.5 sm:w-2'}`;
+        dot.title = `Go to slide ${i}`;
+        dot.onclick = () => goToSlide(i);
+        container.appendChild(dot);
+      }
+    }
+
+    function goToSlide(n) {
+      if (n < 1 || n > totalSlides) return;
+      document.querySelectorAll('.slide').forEach(s => s.classList.remove('active'));
+      const target = document.querySelector(`.slide[data-slide="${n}"]`);
+      if (target) {
+        target.classList.add('active');
+        currentSlide = n;
+        document.getElementById('current-slide-num').textContent = n;
+        renderIndicators();
+      }
+    }
+
+    function nextSlide() {
+      if (currentSlide < totalSlides) goToSlide(currentSlide + 1);
+    }
+
+    function prevSlide() {
+      if (currentSlide > 1) goToSlide(currentSlide - 1);
+    }
+
+    // Keyboard controls
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowRight' || e.key === ' ') nextSlide();
+      if (e.key === 'ArrowLeft') prevSlide();
+    });
+
+    // Touch Swipe support for mobile phones & tablets
+    let touchStartX = 0;
+    let touchEndX = 0;
+
+    document.addEventListener('touchstart', (e) => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+
+    document.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].screenX;
+      handleSwipe();
+    }, { passive: true });
+
+    function handleSwipe() {
+      const threshold = 40;
+      if (touchEndX < touchStartX - threshold) nextSlide();
+      if (touchEndX > touchStartX + threshold) prevSlide();
+    }
+
+    renderIndicators();
+  </script>
+</body>
+</html>

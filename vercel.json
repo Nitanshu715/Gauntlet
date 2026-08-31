@@ -6,6 +6,10 @@
       "destination": "https://gauntlet-telemetry.onrender.com/api/:path*"
     },
     {
+      "source": "/deck",
+      "destination": "/web/static/deck.html"
+    },
+    {
       "source": "/static/:path*",
       "destination": "/web/static/:path*"
     },
